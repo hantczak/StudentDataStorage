@@ -1,6 +1,6 @@
-package com.example.demo.database;
+package com.example.demo.dao;
 
-import com.example.demo.student.Student;
+import com.example.demo.dao.entity.Student;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ public interface StudentRepository {
     List<Student> getAllStudents();
     Student getStudent(long studentId);
     void addStudent(Student student);
-    void updateStudentData(long studentId,Student student);
-    void deleteStudent(long studentId);
+    boolean updateStudentData(long studentId,Student student);
+    boolean deleteStudent(long studentId);
     Map<Long,Student> getMap();
 }
