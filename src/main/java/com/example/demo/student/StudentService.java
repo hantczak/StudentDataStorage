@@ -43,7 +43,15 @@ public class StudentService {
             return student;
         }
     }
-    public void addStudent(Student student){studentRepository.addStudent(student);}
-    public void updateStudentData(long studentId,Student student){studentRepository.updateStudentData(studentId,student);}
-    public void deleteStudent(long studentId){studentRepository.deleteStudent(studentId);}
+    public void addStudent(Student student){
+        studentRepository.addStudent(student);
+    }
+    public void updateStudentData(long studentId,Student student){
+
+        studentRepository.updateStudentData(studentId,student);
+    }
+    public void deleteStudent(long studentId){
+
+        studentRepository.deleteStudent(studentId);
+    }
 }

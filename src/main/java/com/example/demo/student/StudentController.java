@@ -24,15 +24,27 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudent(@RequestParam int index){
+    public List<Student> getStudent(@RequestParam int studentId){
         List<Student> student = new ArrayList<>();
-        student.add(studentService.getStudent(index).get(0));
+        student.add(studentService.getStudent(studentId).get(0));
         return student;
     }
 
     @PostMapping
     public boolean addStudent(@RequestBody Student student){
         studentService.addStudent(student);
+        return true;
     }
 
+    @PutMapping
+    public boolean updateStudentData(@RequestParam long studentId,@RequestBody Student student){
+        studentService.updateStudentData(studentId,student);
+        return true;
+    }
+
+    @DeleteMapping
+    public boolean addStudent(@RequestParam int index){
+        studentService.deleteStudent(index);
+        return true;
+    }
 }
