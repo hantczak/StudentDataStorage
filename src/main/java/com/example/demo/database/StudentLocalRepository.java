@@ -38,4 +38,8 @@ public class StudentLocalRepository implements StudentRepository {
     public void deleteStudent(long studentId) {
         studentsMap.remove(studentId);
     }
+
+    public Map<Long,Student> getMap(){
+        return this.studentsMap;
+    }
 }
