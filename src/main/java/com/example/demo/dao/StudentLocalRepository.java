@@ -1,9 +1,12 @@
-package com.example.demo.database;
+package com.example.demo.dao;
 
-import com.example.demo.student.Student;
+import com.example.demo.dao.entity.Student;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
@@ -30,16 +33,27 @@ public class StudentLocalRepository implements StudentRepository {
     }
 
     @Override
-    public void updateStudentData(long studentId, Student student) {
-        studentsMap.put(studentId, student);
+    public boolean updateStudentData(long studentId, Student student) {
+        if (studentsMap.containsKey(studentId)){
+            studentsMap.put(student.getId(), student);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override
-    public void deleteStudent(long studentId) {
-        studentsMap.remove(studentId);
+    public boolean deleteStudent(long studentId) {
+        if(studentsMap.containsKey(studentId)){
+            studentsMap.remove(studentId);
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
-    public Map<Long,Student> getMap(){
+    public Map<Long, Student> getMap() {
         return this.studentsMap;
     }
 }
