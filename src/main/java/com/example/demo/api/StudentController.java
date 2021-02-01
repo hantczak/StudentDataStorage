@@ -22,6 +22,16 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    @GetMapping("/studentId/{studentId}")
+    public ResponseEntity<Student> getStudentByIdPath(@PathVariable int studentId) {
+        Optional<Student> student = studentService.getStudent(studentId);
+        if (student.isPresent()) {
+            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<Student>> getAllStudents() {
 
@@ -38,7 +48,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
         return new ResponseEntity<>(true,HttpStatus.OK);
