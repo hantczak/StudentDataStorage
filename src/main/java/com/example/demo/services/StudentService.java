@@ -25,7 +25,7 @@ public class StudentService {
     public Optional<Student> getStudent(long id) {
 
         Optional<Student> firstFoundByIndex;
-        firstFoundByIndex = Optional.ofNullable(studentRepository.getMap().getOrDefault(id, null));
+        firstFoundByIndex = Optional.ofNullable(studentRepository.getStudent(id));
         return firstFoundByIndex;
     }
 

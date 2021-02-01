@@ -11,5 +11,4 @@ public interface StudentRepository {
     void addStudent(Student student);
     boolean updateStudentData(long studentId,Student student);
     boolean deleteStudent(long studentId);
-    Map<Long,Student> getMap();
 }

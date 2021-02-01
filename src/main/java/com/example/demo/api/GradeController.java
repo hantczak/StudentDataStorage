@@ -1,0 +1,76 @@
+package com.example.demo.api;
+
+import com.example.demo.dao.entity.Grade;
+import com.example.demo.dao.entity.Student;
+import com.example.demo.services.GradeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(path = "api/grades")
+public class GradeController {
+
+    private final GradeService gradeService;
+
+    @Autowired
+    public GradeController(GradeService gradeService) {
+        this.gradeService = gradeService;
+    }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Grade>> getAllGrades() {
+        return new ResponseEntity<>(gradeService.getAllGrades(), HttpStatus.OK);
+    }
+
+    @GetMapping("/id/{studentId}")
+    public ResponseEntity<List<Grade>> getStudentGradesByIdPath(@PathVariable long studentId) {
+        List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
+        if (!studentGradeList.isEmpty()) {
+            return new ResponseEntity<>(studentGradeList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Grade>> getStudentGrades(@RequestParam long studentId) {
+        List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
+        if (!studentGradeList.isEmpty()) {
+            return new ResponseEntity<>(studentGradeList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Boolean> addGrade(@RequestBody Grade grade) {
+        gradeService.addGrade(grade);
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade, @RequestParam int oldGradeValue) {
+        boolean ifUpdated = gradeService.updateGrade(updatedGrade, oldGradeValue);
+        if (ifUpdated) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteGrade(@RequestBody Grade grade){
+        boolean ifDeleted=gradeService.deleteGrade(grade);
+        if(ifDeleted){
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+        }
+    }
+}

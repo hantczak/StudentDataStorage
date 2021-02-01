@@ -1,6 +1,7 @@
 package com.example.demo.dao.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Student {
@@ -10,6 +11,23 @@ public class Student {
     private String email;
     private LocalDate dob;
     private Integer age;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id.equals(student.id) &&
+                name.equals(student.name) &&
+                email.equals(student.email) &&
+                dob.equals(student.dob) &&
+                age.equals(student.age);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, dob, age);
+    }
 
     public Student() {
     }

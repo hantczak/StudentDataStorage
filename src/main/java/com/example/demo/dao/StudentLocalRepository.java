@@ -24,7 +24,7 @@ public class StudentLocalRepository implements StudentRepository {
     @Override
     public Student getStudent(long studentId) {
 
-        return studentsMap.get(studentId);
+        return studentsMap.getOrDefault(studentId,null);
     }
 
     @Override
@@ -50,10 +50,5 @@ public class StudentLocalRepository implements StudentRepository {
         }else {
             return false;
         }
-
-    }
-
-    public Map<Long, Student> getMap() {
-        return this.studentsMap;
     }
 }
