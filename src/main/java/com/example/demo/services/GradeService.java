@@ -36,4 +36,7 @@ public class GradeService {
         return gradeRepository.deleteGrade(grade);
     }
 
+    public void deleteStudentGrades(long studentId) {
+        gradeRepository.deleteStudentGrades(studentId);
+    }
 }

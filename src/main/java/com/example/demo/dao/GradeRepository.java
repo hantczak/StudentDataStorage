@@ -10,4 +10,5 @@ public interface GradeRepository {
     public void addGrade(Grade grade);
     public boolean updateGrade(Grade updatedGrade,int oldGradeValue);
     public boolean deleteGrade(Grade grade);
+    public void deleteStudentGrades(long studentId);
 }

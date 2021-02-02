@@ -5,20 +5,20 @@ import com.example.demo.dao.entity.Student;
 import java.util.List;
 
 public class StudentResponse {
-    private List<Student> studentList;
+    private List<Student> students;
     private int studentCount;
 
-    public StudentResponse(List<Student> studentList){
-        this.studentList=studentList;
-        this.studentCount=studentList.size();
+    public StudentResponse(List<Student> students){
+        this.students = students;
+        this.studentCount= students.size();
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public int getStudentCount() {

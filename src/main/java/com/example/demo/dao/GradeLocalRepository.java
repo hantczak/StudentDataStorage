@@ -47,6 +47,7 @@ public class GradeLocalRepository implements GradeRepository {
                     .filter(grade -> grade.getGradeValue() == oldGradeValue)
                     .findFirst();
             gradeToBeUpdated.ifPresent(grade -> {
+                deleteGrade(grade);
                 gradeRegister.get(grade.getStudentId()).remove(grade);
                 addGrade(updatedGrade);
             });
@@ -70,5 +71,10 @@ public class GradeLocalRepository implements GradeRepository {
             }
         }
         return false;
+    }
+
+    @Override
+    public void deleteStudentGrades(long studentId) {
+        gradeRegister.remove(studentId);
     }
 }
