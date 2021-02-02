@@ -64,7 +64,7 @@ public class StudentController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> addStudent(@RequestParam int studentId) {
+    public ResponseEntity<Boolean> deleteStudent(@RequestParam int studentId) {
         boolean ifDeleted = studentService.deleteStudent(studentId);
         if(ifDeleted){
             return new ResponseEntity<>(true, HttpStatus.OK);
