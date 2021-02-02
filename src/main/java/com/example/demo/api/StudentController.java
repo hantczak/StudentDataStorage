@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,9 +32,9 @@ public class StudentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Student>> getAllStudents() {
+    public ResponseEntity<StudentResponse> getAllStudents() {
 
-        return new ResponseEntity<>(studentService.getAllStudents(),HttpStatus.OK);
+        return new ResponseEntity<>(new StudentResponse(studentService.getAllStudents()),HttpStatus.OK);
     }
 
     @GetMapping

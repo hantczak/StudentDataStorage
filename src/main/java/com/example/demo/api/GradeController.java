@@ -1,7 +1,6 @@
 package com.example.demo.api;
 
 import com.example.demo.dao.entity.Grade;
-import com.example.demo.dao.entity.Student;
 import com.example.demo.services.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/grades")
@@ -24,25 +22,25 @@ public class GradeController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<Grade>> getAllGrades() {
-        return new ResponseEntity<>(gradeService.getAllGrades(), HttpStatus.OK);
+    public ResponseEntity<GradeResponse> getAllGrades() {
+        return new ResponseEntity<>(new GradeResponse(gradeService.getAllGrades()), HttpStatus.OK);
     }
 
     @GetMapping("/id/{studentId}")
-    public ResponseEntity<List<Grade>> getStudentGradesByIdPath(@PathVariable long studentId) {
+    public ResponseEntity<GradeResponse> getStudentGradesByIdPath(@PathVariable long studentId) {
         List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
         if (!studentGradeList.isEmpty()) {
-            return new ResponseEntity<>(studentGradeList, HttpStatus.OK);
+            return new ResponseEntity<>(new GradeResponse(studentGradeList), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<Grade>> getStudentGrades(@RequestParam long studentId) {
+    public ResponseEntity<GradeResponse> getStudentGrades(@RequestParam long studentId) {
         List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
         if (!studentGradeList.isEmpty()) {
-            return new ResponseEntity<>(studentGradeList, HttpStatus.OK);
+            return new ResponseEntity<>(new GradeResponse(studentGradeList), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
