@@ -28,8 +28,8 @@ public class GradeService {
         gradeRepository.addGrade(grade);
     }
 
-    public boolean updateGrade(Grade updatedGrade, int oldGradeValue) {
-        return gradeRepository.updateGrade(updatedGrade, oldGradeValue);
+    public boolean updateGrade(Grade updatedGrade, int oldGradeValue,int oldGradeWeight) {
+        return gradeRepository.updateGrade(updatedGrade, oldGradeValue,oldGradeWeight);
     }
 
     public boolean deleteGrade(Grade grade) {

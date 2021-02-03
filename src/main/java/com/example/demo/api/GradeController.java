@@ -53,8 +53,10 @@ public class GradeController {
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade, @RequestParam int oldGradeValue) {
-        boolean ifUpdated = gradeService.updateGrade(updatedGrade, oldGradeValue);
+    public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade,
+                                               @RequestParam(value = "value") int oldGradeValue,
+                                               @RequestParam(value = "weight",defaultValue = "1") int oldGradeWeight) {
+        boolean ifUpdated = gradeService.updateGrade(updatedGrade, oldGradeValue,oldGradeWeight);
         if (ifUpdated) {
             return new ResponseEntity<>(true, HttpStatus.OK);
         } else {

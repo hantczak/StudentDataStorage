@@ -17,7 +17,7 @@ public class GradeLocalRepository implements GradeRepository {
     public List<Grade> getAllGrades() {
         List<Grade> allGradesList = new ArrayList<>();
         gradeRegister.values().stream()
-                .forEach(list -> list.forEach(grade -> allGradesList.add(grade)));
+                .forEach(list -> allGradesList.addAll(list));
         return allGradesList;
     }
 
@@ -40,11 +40,11 @@ public class GradeLocalRepository implements GradeRepository {
     }
 
     @Override
-    public boolean updateGrade(Grade updatedGrade, int oldGradeValue) {
+    public boolean updateGrade(Grade updatedGrade, int oldGradeValue, int oldGradeWeight) {
         if (gradeRegister.containsKey(updatedGrade.getStudentId())) {
 
             Optional<Grade> gradeToBeUpdated = gradeRegister.get(updatedGrade.getStudentId()).stream()
-                    .filter(grade -> grade.getGradeValue() == oldGradeValue)
+                    .filter(grade -> grade.getGradeValue() == oldGradeValue&&grade.getGradeWeight()==oldGradeWeight)
                     .findFirst();
             gradeToBeUpdated.ifPresent(grade -> {
                 deleteGrade(grade);
@@ -61,14 +61,7 @@ public class GradeLocalRepository implements GradeRepository {
     @Override
     public boolean deleteGrade(Grade gradeToBeDeleted) {
         if (gradeRegister.containsKey(gradeToBeDeleted.getStudentId())) {
-
-            Optional<Grade> existingGrade = gradeRegister.get(gradeToBeDeleted.getStudentId()).stream()
-                    .filter(grade -> grade.getGradeValue() == gradeToBeDeleted.getGradeValue())
-                    .findFirst();
-            existingGrade.ifPresent(grade -> gradeRegister.get(grade.getStudentId()).remove(grade));
-            if (existingGrade.isPresent()) {
-                return true;
-            }
+            gradeRegister.get(gradeToBeDeleted.getStudentId()).remove(gradeToBeDeleted);
         }
         return false;
     }
