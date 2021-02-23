@@ -8,7 +8,7 @@ public class Student {
     private Long id;
     private String name;
     private String email;
-    private LocalDate dob;
+    private LocalDate dateOfBirth;
     private Integer age;
     private Gender gender;
 
@@ -20,25 +20,25 @@ public class Student {
         return id.equals(student.id) &&
                 name.equals(student.name) &&
                 email.equals(student.email) &&
-                dob.equals(student.dob) &&
+                dateOfBirth.equals(student.dateOfBirth) &&
                 age.equals(student.age);
     }
 
     public Student() {
     }
 
-    public Student(Long id, String name, String email, LocalDate dob, Integer age) {
+    public Student(Long id, String name, String email, LocalDate dateOfBirth, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.dob = dob;
+        this.dateOfBirth = dateOfBirth;
         this.age = age;
     }
 
-    public Student(String name, String email, LocalDate dob, Integer age) {
+    public Student(String name, String email, LocalDate dateOfBirth, Integer age) {
         this.name = name;
         this.email = email;
-        this.dob = dob;
+        this.dateOfBirth = dateOfBirth;
         this.age = age;
     }
 
@@ -54,8 +54,8 @@ public class Student {
         return email;
     }
 
-    public LocalDate getDob() {
-        return dob;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public Integer getAge() {
@@ -74,8 +74,8 @@ public class Student {
         this.email = email;
     }
 
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setAge(Integer age) {

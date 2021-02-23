@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/students")
+@RequestMapping(path = "/students")
 
 public class StudentController {
 
-    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
     private final StudentService studentService;
 
-    @GetMapping("/studentId/{studentId}")
-    public ResponseEntity<Student> getStudentByIdPath(@PathVariable int studentId) {
+    @GetMapping("/{ID}")
+    public ResponseEntity<Student> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
             return new ResponseEntity<>(student.get(), HttpStatus.OK);
@@ -31,14 +30,14 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<StudentResponse> getAllStudents() {
 
         return new ResponseEntity<>(new StudentResponse(studentService.getAllStudents()),HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<Student> getStudent(@RequestParam int studentId) {
+    @GetMapping("/byId")
+    public ResponseEntity<Student> getStudent(@RequestParam(value="ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
             return new ResponseEntity<>(student.get(), HttpStatus.OK);
@@ -47,7 +46,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
         return new ResponseEntity<>(true,HttpStatus.OK);

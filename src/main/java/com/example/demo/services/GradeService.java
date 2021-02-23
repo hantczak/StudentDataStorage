@@ -10,8 +10,7 @@ import java.util.List;
 @Service
 public class GradeService {
     private GradeRepository gradeRepository;
-
-    @Autowired
+    
     public GradeService(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;
     }
@@ -28,12 +27,12 @@ public class GradeService {
         gradeRepository.addGrade(grade);
     }
 
-    public boolean updateGrade(Grade updatedGrade, int oldGradeValue,int oldGradeWeight) {
-        return gradeRepository.updateGrade(updatedGrade, oldGradeValue,oldGradeWeight);
+    public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
+        return gradeRepository.updateGrade(updatedGrade, oldGradeId);
     }
 
-    public boolean deleteGrade(Grade grade) {
-        return gradeRepository.deleteGrade(grade);
+    public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
+        return gradeRepository.deleteGrade(studentId,gradeToBeDeletedId);
     }
 
     public void deleteStudentGrades(long studentId) {

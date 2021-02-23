@@ -5,10 +5,10 @@ import com.example.demo.dao.entity.Grade;
 import java.util.List;
 
 public interface GradeRepository {
-    public List<Grade> getAllGrades();
-    public List<Grade> getStudentGrades(long studentId);
-    public void addGrade(Grade grade);
-    public boolean updateGrade(Grade updatedGrade,int oldGradeValue, int oldGradeWeight);
-    public boolean deleteGrade(Grade grade);
-    public void deleteStudentGrades(long studentId);
+    List<Grade> getAllGrades();
+    List<Grade> getStudentGrades(long studentId);
+    void addGrade(Grade grade);
+    boolean updateGrade(Grade updatedGrade,int oldGradeId);
+    boolean deleteGrade(long studentId, int gradeToBeDeletedId);
+    void deleteStudentGrades(long studentId);
 }

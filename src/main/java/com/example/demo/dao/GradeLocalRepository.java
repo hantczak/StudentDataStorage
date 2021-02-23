@@ -7,16 +7,12 @@ import java.util.*;
 
 @Repository
 public class GradeLocalRepository implements GradeRepository {
-    private Map<Long, List<Grade>> gradeRegister;
-
-    public GradeLocalRepository() {
-        this.gradeRegister = new HashMap<>();
-    }
+    private Map<Long, List<Grade>> studentIdToGrade = new HashMap<>();
 
     @Override
     public List<Grade> getAllGrades() {
         List<Grade> allGradesList = new ArrayList<>();
-        gradeRegister.values().stream()
+        studentIdToGrade.values().stream()
                 .forEach(list -> allGradesList.addAll(list));
         return allGradesList;
     }
@@ -24,31 +20,30 @@ public class GradeLocalRepository implements GradeRepository {
     @Override
     public List<Grade> getStudentGrades(long studentId) {
         List<Grade> studentGradeList;
-        studentGradeList = gradeRegister.getOrDefault(studentId, List.of());
+        studentGradeList = studentIdToGrade.getOrDefault(studentId, Collections.emptyList());
         return studentGradeList;
     }
 
     @Override
     public void addGrade(Grade grade) {
-        if (gradeRegister.containsKey(grade.getStudentId())) {
-            this.gradeRegister.get(grade.getStudentId()).add(grade);
+        if (studentIdToGrade.containsKey(grade.getStudentId())) {
+            studentIdToGrade.get(grade.getStudentId()).add(grade);
         } else {
             List<Grade> newStudentGradeList = new ArrayList<>();
             newStudentGradeList.add(grade);
-            this.gradeRegister.put(grade.getStudentId(), newStudentGradeList);
+            studentIdToGrade.put(grade.getStudentId(), newStudentGradeList);
         }
     }
 
     @Override
-    public boolean updateGrade(Grade updatedGrade, int oldGradeValue, int oldGradeWeight) {
-        if (gradeRegister.containsKey(updatedGrade.getStudentId())) {
+    public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
+        if (studentIdToGrade.containsKey(updatedGrade.getStudentId())) {
 
-            Optional<Grade> gradeToBeUpdated = gradeRegister.get(updatedGrade.getStudentId()).stream()
-                    .filter(grade -> grade.getGradeValue() == oldGradeValue&&grade.getGradeWeight()==oldGradeWeight)
+            Optional<Grade> gradeToBeUpdated = studentIdToGrade.get(updatedGrade.getStudentId()).stream()
+                    .filter(grade -> grade.getGradeId() == oldGradeId)
                     .findFirst();
             gradeToBeUpdated.ifPresent(grade -> {
-                deleteGrade(grade);
-                gradeRegister.get(grade.getStudentId()).remove(grade);
+                deleteGrade(updatedGrade.getStudentId(),oldGradeId);
                 addGrade(updatedGrade);
             });
             if (gradeToBeUpdated.isPresent()) {
@@ -59,15 +54,18 @@ public class GradeLocalRepository implements GradeRepository {
     }
 
     @Override
-    public boolean deleteGrade(Grade gradeToBeDeleted) {
-        if (gradeRegister.containsKey(gradeToBeDeleted.getStudentId())) {
-            gradeRegister.get(gradeToBeDeleted.getStudentId()).remove(gradeToBeDeleted);
+    public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
+        List<Grade> gradeList = studentIdToGrade.get(studentId);
+        if (gradeList!=null) {
+            gradeList.removeIf(grade -> grade.getGradeId() == gradeToBeDeletedId);
+            return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
     public void deleteStudentGrades(long studentId) {
-        gradeRegister.remove(studentId);
+        studentIdToGrade.remove(studentId);
     }
 }

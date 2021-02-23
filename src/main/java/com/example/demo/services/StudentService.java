@@ -1,9 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.dao.GradeRepository;
 import com.example.demo.dao.StudentRepository;
 import com.example.demo.dao.entity.Student;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +12,16 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final GradeService gradeService;
 
-    @Autowired
-    public StudentService(StudentRepository studentRepository,GradeService gradeService) {
+    public StudentService(StudentRepository studentRepository, GradeService gradeService) {
         this.studentRepository = studentRepository;
         this.gradeService = gradeService;
     }
 
     public List<Student> getAllStudents() {
-
         return studentRepository.getAllStudents();
     }
 
     public Optional<Student> getStudent(long id) {
-
         Optional<Student> firstFoundByIndex;
         firstFoundByIndex = Optional.ofNullable(studentRepository.getStudent(id));
         return firstFoundByIndex;
@@ -42,7 +37,7 @@ public class StudentService {
 
     public boolean deleteStudentAndHisGrades(long studentId) {
         boolean ifDeleted = studentRepository.deleteStudent(studentId);
-        if(ifDeleted){
+        if (ifDeleted) {
             gradeService.deleteStudentGrades(studentId);
         }
         return ifDeleted;
