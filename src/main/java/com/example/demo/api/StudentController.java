@@ -7,70 +7,69 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/students")
+@RequestMapping(path = "/students")
 
 public class StudentController {
 
-    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
     private final StudentService studentService;
 
-    @GetMapping("/studentId/{studentId}")
-    public ResponseEntity<Student> getStudentByIdPath(@PathVariable int studentId) {
+    @GetMapping("/{ID}")
+    public ResponseEntity<Student> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
-            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+            return ResponseEntity.ok(student.get());
+                    //new ResponseEntity<>(student.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Student>> getAllStudents() {
-
-        return new ResponseEntity<>(studentService.getAllStudents(),HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Student> getStudent(@RequestParam int studentId) {
+    public ResponseEntity<StudentResponse> getAllStudents() {
+
+        return new ResponseEntity<>(new StudentResponse(studentService.getAllStudents()),HttpStatus.OK);
+    }
+
+    @GetMapping("/byId")
+    public ResponseEntity<Student> getStudent(@RequestParam(value="ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
-            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+            return ResponseEntity.ok(student.get());
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
-        return new ResponseEntity<>(true,HttpStatus.OK);
+        return ResponseEntity.ok(true);
     }
 
     @PutMapping
     public ResponseEntity<Boolean> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
         boolean ifUpdated = studentService.updateStudentData(studentId, student);
         if (ifUpdated) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         }else {
-            return new ResponseEntity<>(true,HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping
-    public ResponseEntity<Boolean> addStudent(@RequestParam int studentId) {
-        boolean ifDeleted = studentService.deleteStudent(studentId);
+    public ResponseEntity<Boolean> deleteStudentAndHisGrades(@RequestParam int studentId) {
+        boolean ifDeleted = studentService.deleteStudentAndHisGrades(studentId);
         if(ifDeleted){
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         }else {
-            return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 }

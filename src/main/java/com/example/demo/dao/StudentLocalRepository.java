@@ -23,7 +23,6 @@ public class StudentLocalRepository implements StudentRepository {
 
     @Override
     public Student getStudent(long studentId) {
-
         return studentsMap.get(studentId);
     }
 
@@ -34,26 +33,16 @@ public class StudentLocalRepository implements StudentRepository {
 
     @Override
     public boolean updateStudentData(long studentId, Student student) {
-        if (studentsMap.containsKey(studentId)){
-            studentsMap.put(student.getId(), student);
-            return true;
-        }else {
-            return false;
+        Student oldStudent = null;
+        if (studentsMap.containsKey(studentId)) {
+            oldStudent = studentsMap.put(student.getId(), student);
         }
+        return oldStudent != null;
     }
 
     @Override
     public boolean deleteStudent(long studentId) {
-        if(studentsMap.containsKey(studentId)){
-            studentsMap.remove(studentId);
-            return true;
-        }else {
-            return false;
-        }
-
-    }
-
-    public Map<Long, Student> getMap() {
-        return this.studentsMap;
+        Student removedStudent = studentsMap.remove(studentId);
+        return removedStudent != null;
     }
 }
