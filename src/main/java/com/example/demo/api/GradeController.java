@@ -21,16 +21,16 @@ public class GradeController {
 
     @GetMapping("/grades")
     public ResponseEntity<GradeResponse> getAllGrades() {
-        return new ResponseEntity<>(new GradeResponse(gradeService.getAllGrades()), HttpStatus.OK);
+        return ResponseEntity.ok(new GradeResponse(gradeService.getAllGrades()));
     }
 
     @GetMapping("/students/{studentId}/grades")
     public ResponseEntity<GradeResponse> getStudentGradesByIdPath(@PathVariable long studentId) {
         List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
         if (!studentGradeList.isEmpty()) {
-            return new ResponseEntity<>(new GradeResponse(studentGradeList), HttpStatus.OK);
+            return ResponseEntity.ok(new GradeResponse(studentGradeList));
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -38,16 +38,16 @@ public class GradeController {
     public ResponseEntity<GradeResponse> getStudentGrades(@RequestParam long studentId) {
         List<Grade> studentGradeList = gradeService.getStudentGrades(studentId);
         if (!studentGradeList.isEmpty()) {
-            return new ResponseEntity<>(new GradeResponse(studentGradeList), HttpStatus.OK);
+            return ResponseEntity.ok(new GradeResponse(studentGradeList));
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/grades")
     public ResponseEntity<Boolean> addGrade(@RequestBody Grade grade) {
         gradeService.addGrade(grade);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        return ResponseEntity.ok(true);
     }
 
     @PutMapping("/grades")
@@ -55,9 +55,9 @@ public class GradeController {
                                                @RequestParam(value = "gradeId") int oldGradeId) {
         boolean ifUpdated = gradeService.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         } else {
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -66,9 +66,9 @@ public class GradeController {
                                                @RequestParam(value = "gradeId") int gradeId) {
         boolean ifDeleted = gradeService.deleteGrade(studentId,gradeId);
         if (ifDeleted) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         } else {
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 }

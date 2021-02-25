@@ -24,9 +24,10 @@ public class StudentController {
     public ResponseEntity<Student> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
-            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+            return ResponseEntity.ok(student.get());
+                    //new ResponseEntity<>(student.get(), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -40,25 +41,25 @@ public class StudentController {
     public ResponseEntity<Student> getStudent(@RequestParam(value="ID") int studentId) {
         Optional<Student> student = studentService.getStudent(studentId);
         if (student.isPresent()) {
-            return new ResponseEntity<>(student.get(), HttpStatus.OK);
+            return ResponseEntity.ok(student.get());
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
     public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
         studentService.addStudent(student);
-        return new ResponseEntity<>(true,HttpStatus.OK);
+        return ResponseEntity.ok(true);
     }
 
     @PutMapping
     public ResponseEntity<Boolean> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
         boolean ifUpdated = studentService.updateStudentData(studentId, student);
         if (ifUpdated) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         }else {
-            return new ResponseEntity<>(true,HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -66,9 +67,9 @@ public class StudentController {
     public ResponseEntity<Boolean> deleteStudentAndHisGrades(@RequestParam int studentId) {
         boolean ifDeleted = studentService.deleteStudentAndHisGrades(studentId);
         if(ifDeleted){
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            return ResponseEntity.ok(true);
         }else {
-            return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 }
