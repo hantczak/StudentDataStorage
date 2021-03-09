@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.api.GradeFacade;
 import com.example.demo.dao.StudentRepository;
 import com.example.demo.dao.entity.Student;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,11 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
-    private final GradeService gradeService;
+    private final GradeFacade gradeFacade;
 
-    public StudentService(StudentRepository studentRepository, GradeService gradeService) {
+    public StudentService(StudentRepository studentRepository, GradeFacade gradeFacade) {
         this.studentRepository = studentRepository;
-        this.gradeService = gradeService;
+        this.gradeFacade = gradeFacade;
     }
 
     public List<Student> getAllStudents() {
@@ -38,7 +39,7 @@ public class StudentService {
     public boolean deleteStudentAndHisGrades(long studentId) {
         boolean ifDeleted = studentRepository.deleteStudent(studentId);
         if (ifDeleted) {
-            gradeService.deleteStudentGrades(studentId);
+            gradeFacade.deleteStudentGrades(studentId);
         }
         return ifDeleted;
     }
