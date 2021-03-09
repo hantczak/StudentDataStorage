@@ -10,7 +10,7 @@ public enum GradeScale {
 
     private int gradeValue;
 
-    private GradeScale(int gradeValue) {
+    GradeScale(int gradeValue) {
         this.gradeValue = gradeValue;
     }
 
