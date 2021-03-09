@@ -1,6 +1,6 @@
 package com.example.demo.api;
 
-public enum SortType {
+public enum StudentSortTypes {
     NAME_ASC,
     NAME_DSC,
     AGE_ASC,

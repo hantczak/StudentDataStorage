@@ -33,9 +33,9 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") SortType sortType) {
+    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") StudentSortTypes studentSortTypes) {
 
-        return new ResponseEntity<>(new StudentResponse(studentSortService.getSortedStudents(sortType)), HttpStatus.OK);
+        return new ResponseEntity<>(new StudentResponse(studentSortService.getSortedStudents(studentSortTypes)), HttpStatus.OK);
     }
 
     @GetMapping("/byId")

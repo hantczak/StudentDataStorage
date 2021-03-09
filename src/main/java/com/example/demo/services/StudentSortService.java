@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.api.InvalidSortTypeException;
-import com.example.demo.api.SortType;
+import com.example.demo.api.StudentSortTypes;
 import com.example.demo.dao.StudentRepository;
 import com.example.demo.dao.entity.Student;
 import org.springframework.stereotype.Service;
@@ -19,30 +19,28 @@ public class StudentSortService {
         this.studentRepository = studentRepository;
     }
 
-    public List<Student> getSortedStudents(SortType sortType) {
-        List<Student> sortedList = studentRepository.getAllStudents().stream()
-                .sorted(getComparator(sortType))
+    public List<Student> getSortedStudents(StudentSortTypes studentSortTypes) {
+        return studentRepository.getAllStudents().stream()
+                .sorted(getComparator(studentSortTypes))
                 .collect(Collectors.toList());
-        return sortedList;
     }
 
-    public Comparator<Student> getComparator(SortType sortType) {
-        Comparator<Student> comparator;
-        switch (sortType) {
+    public Comparator<Student> getComparator(StudentSortTypes studentSortTypes) {
+        switch (studentSortTypes) {
             case NAME_ASC:
-                return comparator = Comparator.comparing(Student::getName);
+                return Comparator.comparing(Student::getName);
             case NAME_DSC:
-                return comparator = Comparator.comparing(Student::getName).reversed();
+                return Comparator.comparing(Student::getName).reversed();
             case AGE_ASC:
-                return comparator = Comparator.comparing(Student::getAge);
+                return Comparator.comparing(Student::getAge);
             case AGE_DSC:
-                return comparator = Comparator.comparing(Student::getAge).reversed();
+                return Comparator.comparing(Student::getAge).reversed();
             default:
                 StringBuilder availableSortTypes = new StringBuilder();
-                Arrays.stream(SortType.values())
+                Arrays.stream(StudentSortTypes.values())
                         .forEach(type -> {
                             availableSortTypes.append(type);
-                            availableSortTypes.append(" ");
+                            availableSortTypes.append(", ");
                         });
 
                 throw new InvalidSortTypeException("Available values: " + availableSortTypes);
