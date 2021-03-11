@@ -13,17 +13,17 @@ import java.util.Optional;
 @RequestMapping(path = "/students")
 
 public class StudentController {
-    private final StudentService studentService;
-    private final StudentSortService studentSortService;
 
-    public StudentController(StudentService studentService,StudentSortService studentSortService) {
-        this.studentService = studentService;
-        this.studentSortService=studentSortService;
+    private final StudentFacade studentFacade;
+
+
+    public StudentController(StudentFacade studentFacade) {
+        this.studentFacade = studentFacade;
     }
 
     @GetMapping("/{ID}")
     public ResponseEntity<Student> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
-        Optional<Student> student = studentService.getStudent(studentId);
+        Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
             return ResponseEntity.ok(student.get());
             //new ResponseEntity<>(student.get(), HttpStatus.OK);
@@ -33,14 +33,14 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") StudentSortTypes studentSortTypes) {
+    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") StudentSortTypes studentSortType) {
 
-        return new ResponseEntity<>(new StudentResponse(studentSortService.getSortedStudents(studentSortTypes)), HttpStatus.OK);
+        return new ResponseEntity<>(new StudentResponse(studentFacade.getSortedStudents(studentSortType)), HttpStatus.OK);
     }
 
     @GetMapping("/byId")
     public ResponseEntity<Student> getStudent(@RequestParam(value = "ID") int studentId) {
-        Optional<Student> student = studentService.getStudent(studentId);
+        Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
             return ResponseEntity.ok(student.get());
         } else {
@@ -50,13 +50,13 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
-        studentService.addStudent(student);
+        studentFacade.addStudent(student);
         return ResponseEntity.ok(true);
     }
 
     @PutMapping
     public ResponseEntity<Boolean> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
-        boolean ifUpdated = studentService.updateStudentData(studentId, student);
+        boolean ifUpdated = studentFacade.updateStudentData(studentId, student);
         if (ifUpdated) {
             return ResponseEntity.ok(true);
         } else {
@@ -66,7 +66,7 @@ public class StudentController {
 
     @DeleteMapping
     public ResponseEntity<Boolean> deleteStudentAndHisGrades(@RequestParam int studentId) {
-        boolean ifDeleted = studentService.deleteStudentAndHisGrades(studentId);
+        boolean ifDeleted = studentFacade.deleteStudentAndHisGrades(studentId);
         if (ifDeleted) {
             return ResponseEntity.ok(true);
         } else {

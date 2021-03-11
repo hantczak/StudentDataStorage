@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentSortService {
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    StudentSortService(StudentRepository studentRepository) {
+    public StudentSortService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
