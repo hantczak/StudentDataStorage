@@ -1,8 +1,8 @@
-package com.example.demo.api;
+package com.example.demo.student.infrastructure.api;
 
-import com.example.demo.dao.entity.Student;
-import com.example.demo.services.StudentService;
-import com.example.demo.services.StudentSortService;
+import com.example.demo.student.domain.StudentFacade;
+import com.example.demo.student.domain.StudentSortTypes;
+import com.example.demo.student.domain.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

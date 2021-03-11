@@ -1,6 +1,6 @@
-package com.example.demo.api;
+package com.example.demo.student.infrastructure.api;
 
-import com.example.demo.dao.entity.Student;
+import com.example.demo.student.domain.Student;
 
 import java.util.List;
 

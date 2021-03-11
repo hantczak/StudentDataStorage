@@ -1,7 +1,5 @@
-package com.example.demo.api;
+package com.example.demo.student.domain;
 
-import com.example.demo.services.StudentService;
-import com.example.demo.services.StudentSortService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

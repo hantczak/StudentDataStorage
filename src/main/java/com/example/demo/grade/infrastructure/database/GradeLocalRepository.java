@@ -1,6 +1,7 @@
-package com.example.demo.dao;
+package com.example.demo.grade.infrastructure.database;
 
-import com.example.demo.dao.entity.Grade;
+import com.example.demo.grade.domain.GradeRepository;
+import com.example.demo.grade.domain.Grade;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

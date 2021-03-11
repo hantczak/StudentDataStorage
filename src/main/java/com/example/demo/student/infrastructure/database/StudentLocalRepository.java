@@ -1,6 +1,7 @@
-package com.example.demo.dao;
+package com.example.demo.student.infrastructure.database;
 
-import com.example.demo.dao.entity.Student;
+import com.example.demo.student.domain.StudentRepository;
+import com.example.demo.student.domain.Student;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

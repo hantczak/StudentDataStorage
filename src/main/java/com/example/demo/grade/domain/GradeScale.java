@@ -1,4 +1,4 @@
-package com.example.demo.dao.entity;
+package com.example.demo.grade.domain;
 
 public enum GradeScale {
     FAIL(1),

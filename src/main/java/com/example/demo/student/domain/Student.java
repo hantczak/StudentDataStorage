@@ -1,4 +1,4 @@
-package com.example.demo.dao.entity;
+package com.example.demo.student.domain;
 
 import java.time.LocalDate;
 
@@ -11,18 +11,6 @@ public class Student {
     private LocalDate dateOfBirth;
     private Integer age;
     private Gender gender;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return id.equals(student.id) &&
-                name.equals(student.name) &&
-                email.equals(student.email) &&
-                dateOfBirth.equals(student.dateOfBirth) &&
-                age.equals(student.age);
-    }
 
     public Student() {
     }

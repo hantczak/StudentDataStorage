@@ -1,9 +1,5 @@
-package com.example.demo.services;
+package com.example.demo.student.domain;
 
-import com.example.demo.api.InvalidSortTypeException;
-import com.example.demo.api.StudentSortTypes;
-import com.example.demo.dao.StudentRepository;
-import com.example.demo.dao.entity.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -43,7 +39,7 @@ public class StudentSortService {
                             availableSortTypes.append(", ");
                         });
 
-                throw new InvalidSortTypeException("Available values: " + availableSortTypes);
+                throw new InvalidStudentSortTypeException("Available values: " + availableSortTypes);
         }
     }
 }

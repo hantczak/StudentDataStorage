@@ -1,8 +1,4 @@
-package com.example.demo.api;
-
-import com.example.demo.dao.entity.Student;
-import com.example.demo.services.StudentService;
-import com.example.demo.services.StudentSortService;
+package com.example.demo.student.domain;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,6 @@
-package com.example.demo.services;
+package com.example.demo.student.domain;
 
-import com.example.demo.api.GradeFacade;
-import com.example.demo.dao.StudentRepository;
-import com.example.demo.dao.entity.Student;
+import com.example.demo.grade.domain.GradeFacade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
