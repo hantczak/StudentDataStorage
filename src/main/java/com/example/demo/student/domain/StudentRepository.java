@@ -1,6 +1,4 @@
-package com.example.demo.dao;
-
-import com.example.demo.dao.entity.Student;
+package com.example.demo.student.domain;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
-package com.example.demo.services;
+package com.example.demo.grade.domain;
 
-import com.example.demo.dao.GradeRepository;
-import com.example.demo.dao.entity.Grade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

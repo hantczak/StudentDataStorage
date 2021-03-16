@@ -1,6 +1,4 @@
-package com.example.demo.dao;
-
-import com.example.demo.dao.entity.Grade;
+package com.example.demo.grade.domain;
 
 import java.util.List;
 

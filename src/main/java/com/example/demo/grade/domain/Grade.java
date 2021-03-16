@@ -1,4 +1,4 @@
-package com.example.demo.dao.entity;
+package com.example.demo.grade.domain;
 
 import java.time.LocalDate;
 import java.util.Objects;

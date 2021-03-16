@@ -1,8 +1,8 @@
-package com.example.demo.api;
+package com.example.demo.grade.infrastructure.api;
 
-import com.example.demo.dao.entity.Grade;
-import com.example.demo.services.GradeService;
-import com.example.demo.services.GradeSortService;
+import com.example.demo.grade.domain.GradeFacade;
+import com.example.demo.grade.domain.GradeSortTypes;
+import com.example.demo.grade.domain.Grade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

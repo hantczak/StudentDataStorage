@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.grade.domain;
 
 public enum GradeSortTypes {
     VALUE_ASC,

@@ -1,8 +1,4 @@
-package com.example.demo.api;
-
-import com.example.demo.dao.entity.Grade;
-import com.example.demo.services.GradeService;
-import com.example.demo.services.GradeSortService;
+package com.example.demo.grade.domain;
 
 import java.util.List;
 

@@ -1,9 +1,5 @@
-package com.example.demo.services;
+package com.example.demo.grade.domain;
 
-import com.example.demo.api.GradeSortTypes;
-import com.example.demo.api.InvalidSortTypeException;
-import com.example.demo.dao.GradeRepository;
-import com.example.demo.dao.entity.Grade;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -48,7 +44,7 @@ public class GradeSortService {
                             sortTypes.append(value);
                             sortTypes.append(", ");
                         });
-                throw new InvalidSortTypeException("Available sort types: " + sortTypes);
+                throw new InvalidGradeSortTypeException(",available sort types: " + sortTypes);
         }
 
     }
