@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,10 +23,10 @@ public class StudentController {
     }
 
     @GetMapping("/{ID}")
-    public ResponseEntity<Student> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
+    public ResponseEntity<StudentDto> getStudentByIdPath(@PathVariable(value = "ID") int studentId) {
         Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
-            return ResponseEntity.ok(student.get());
+            return ResponseEntity.ok(StudentMapper.toDto(student.get()));
             //new ResponseEntity<>(student.get(), HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
@@ -34,15 +35,15 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") StudentSortTypes studentSortType) {
-
-        return new ResponseEntity<>(new StudentResponse(studentFacade.getSortedStudents(studentSortType)), HttpStatus.OK);
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType));
+        return new ResponseEntity<>(new StudentResponse(studentDtoList), HttpStatus.OK);
     }
 
     @GetMapping("/byId")
-    public ResponseEntity<Student> getStudent(@RequestParam(value = "ID") int studentId) {
+    public ResponseEntity<StudentDto> getStudent(@RequestParam(value = "ID") int studentId) {
         Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
-            return ResponseEntity.ok(student.get());
+            return ResponseEntity.ok(StudentMapper.toDto(student.get()));
         } else {
             return ResponseEntity.notFound().build();
         }

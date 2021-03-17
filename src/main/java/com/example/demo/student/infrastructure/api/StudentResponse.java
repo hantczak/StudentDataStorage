@@ -5,19 +5,19 @@ import com.example.demo.student.domain.Student;
 import java.util.List;
 
 public class StudentResponse {
-    private List<Student> students;
+    private List<StudentDto> students;
     private int studentCount;
 
-    public StudentResponse(List<Student> students){
+    public StudentResponse(List<StudentDto> students){
         this.students = students;
         this.studentCount= students.size();
     }
 
-    public List<Student> getStudents() {
+    public List<StudentDto> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(List<StudentDto> students) {
         this.students = students;
     }
 
