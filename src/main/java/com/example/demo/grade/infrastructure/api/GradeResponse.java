@@ -5,19 +5,19 @@ import com.example.demo.grade.domain.Grade;
 import java.util.List;
 
 public class GradeResponse {
-    private List<Grade> gradeList;
+    private List<GradeDto> gradeList;
     private int gradeCount;
 
-    public GradeResponse(List<Grade> gradeList) {
+    public GradeResponse(List<GradeDto> gradeList) {
         this.gradeList = gradeList;
         this.gradeCount = gradeList.size();
     }
 
-    public List<Grade> getGradeList() {
+    public List<GradeDto> getGradeList() {
         return gradeList;
     }
 
-    public void setGradeList(List<Grade> gradeList) {
+    public void setGradeList(List<GradeDto> gradeList) {
         this.gradeList = gradeList;
     }
 
