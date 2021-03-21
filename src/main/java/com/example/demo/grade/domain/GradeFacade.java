@@ -1,14 +1,18 @@
 package com.example.demo.grade.domain;
 
+import com.example.demo.average.domain.StudentAverageService;
+
 import java.util.List;
 
 public class GradeFacade {
     private final GradeService gradeService;
     private final GradeSortService gradeSortService;
+    private final StudentAverageService studentAverageService;
 
-    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService){
+    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService,StudentAverageService studentAverageService){
         this.gradeService = gradeService;
         this.gradeSortService=gradeSortService;
+        this.studentAverageService = studentAverageService;
     }
 
     public List<Grade> getAllGradesSorted(GradeSortTypes gradeSortType) {
