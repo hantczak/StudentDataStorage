@@ -1,14 +1,14 @@
-package com.example.demo.student.domain;
+package com.example.demo.student.infrastructure.api;
 
+import com.example.demo.student.domain.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
 @Getter
-public class Student {
-
+@AllArgsConstructor
+public class StudentDto {
     private Long id;
     private String name;
     private String email;
@@ -16,5 +16,3 @@ public class Student {
     private Integer age;
     private Gender gender;
 }
-
-

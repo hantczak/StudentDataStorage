@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -21,7 +22,8 @@ public class GradeController {
 
     @GetMapping("/grades")
     public ResponseEntity<GradeResponse> getAllGrades(@RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") GradeSortTypes gradeSortType) {
-        return ResponseEntity.ok(new GradeResponse(gradeFacade.getAllGradesSorted(gradeSortType)));
+        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(gradeFacade.getAllGradesSorted(gradeSortType));
+        return ResponseEntity.ok(new GradeResponse(gradeDtoList));
     }
 
     @GetMapping("/students/{studentId}/grades")
@@ -29,7 +31,8 @@ public class GradeController {
                                                                   @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") GradeSortTypes gradeSortType) {
         List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType);
         if (!studentGradeList.isEmpty()) {
-            return ResponseEntity.ok(new GradeResponse(studentGradeList));
+            List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
+            return ResponseEntity.ok(new GradeResponse(gradeDtoList));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -40,7 +43,8 @@ public class GradeController {
                                                           @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") GradeSortTypes gradeSortType) {
         List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId,gradeSortType);
         if (!studentGradeList.isEmpty()) {
-            return ResponseEntity.ok(new GradeResponse(studentGradeList));
+            List<GradeDto> studentGradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
+            return ResponseEntity.ok(new GradeResponse(studentGradeDtoList));
         } else {
             return ResponseEntity.notFound().build();
         }
