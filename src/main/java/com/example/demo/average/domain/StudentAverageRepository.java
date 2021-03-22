@@ -2,7 +2,7 @@ package com.example.demo.average.domain;
 
 import java.util.List;
 
-public interface AverageRepository {
+public interface StudentAverageRepository {
 
     List<StudentAverage> getAllAverages();
     StudentAverage getStudentAverage(long studentId);

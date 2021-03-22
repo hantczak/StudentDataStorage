@@ -1,15 +1,22 @@
 package com.example.demo.student.domain;
 
+import com.example.demo.average.domain.StudentAverageFacade;
+import com.example.demo.grade.domain.GradeFacade;
+
 import java.util.List;
 import java.util.Optional;
 
 public class StudentFacade {
     private final StudentSortService studentSortService;
     private final StudentService studentService;
+    private final StudentAverageFacade studentAverageFacade;
+    private final GradeFacade gradeFacade;
 
-    public StudentFacade(StudentService studentService, StudentSortService studentSortService){
+    public StudentFacade(StudentService studentService, StudentSortService studentSortService,StudentAverageFacade studentAverageFacade,GradeFacade gradeFacade){
         this.studentService=studentService;
         this.studentSortService=studentSortService;
+        this.studentAverageFacade = studentAverageFacade;
+        this.gradeFacade = gradeFacade;
     }
 
     public List<Student> getSortedStudents(StudentSortTypes studentSortType){
@@ -35,7 +42,12 @@ public class StudentFacade {
     }
 
     public boolean deleteStudentAndHisGrades(long studentId) {
-        return studentService.deleteStudentAndHisGrades(studentId);
+        boolean ifSuccessful =  studentService.deleteStudentAndHisGrades(studentId);
+        if(ifSuccessful) {
+            gradeFacade.deleteStudentGrades(studentId);
+            studentAverageFacade.deleteAverage(studentId);
+        }
+        return ifSuccessful;
     }
 }
 

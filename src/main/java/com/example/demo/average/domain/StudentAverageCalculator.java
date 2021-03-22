@@ -4,7 +4,7 @@ import com.example.demo.grade.domain.Grade;
 
 import java.util.List;
 
-public class AverageCalculator {
+public class StudentAverageCalculator {
 
     public static StudentAverage createAverage(List<Grade> gradeList) {
         double gradeSum = gradeList.stream()

@@ -13,4 +13,8 @@ public class Grade{
     private final long studentId;
     private final LocalDate insertionDate;
     private final int gradeWeight;
+
+    public int getGradeValue(){
+        return gradeScale.getGradeValue();
+    }
 }
