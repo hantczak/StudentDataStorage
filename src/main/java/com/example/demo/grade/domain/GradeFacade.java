@@ -1,20 +1,19 @@
 package com.example.demo.grade.domain;
 
 import com.example.demo.average.domain.StudentAverageFacade;
-import com.example.demo.average.domain.StudentAverageService;
-import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
 public class GradeFacade {
     private final GradeService gradeService;
     private final GradeSortService gradeSortService;
-    private final StudentAverageFacade studentAverageFacade;
+    private final GradeUpdateService gradeUpdateService;
 
-    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService, StudentAverageFacade studentAverageFacade) {
+    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService, StudentAverageFacade studentAverageFacade, GradeUpdateService gradeUpdateService) {
         this.gradeService = gradeService;
         this.gradeSortService = gradeSortService;
-        this.studentAverageFacade = studentAverageFacade;
+//        this.studentAverageFacade = studentAverageFacade;
+        this.gradeUpdateService = gradeUpdateService;
     }
 
     public List<Grade> getAllGradesSorted(GradeSortTypes gradeSortType) {
@@ -25,20 +24,22 @@ public class GradeFacade {
         return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortTypes);
     }
 
+    public void addListener(GradeAddedListener listener) {
+        gradeService.addListener(listener);
+    }
+
     public void addGrade(Grade grade) {
         gradeService.addGrade(grade);
-        studentAverageFacade.updateAverage(grade.getStudentId());
+        //
     }
 
     public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
-        boolean ifSuccessful = gradeService.updateGrade(updatedGrade, oldGradeId);
-        studentAverageFacade.updateAverage(updatedGrade.getStudentId());
-        return ifSuccessful;
+       return gradeUpdateService.updateGrade(updatedGrade, oldGradeId);
     }
 
     public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
         boolean ifSuccessful = gradeService.deleteGrade(studentId, gradeToBeDeletedId);
-        studentAverageFacade.updateAverage(gradeToBeDeletedId);
+//        studentAverageFacade.updateAverage(gradeToBeDeletedId);
         return ifSuccessful;
     }
 

@@ -1,5 +1,7 @@
 package com.example.demo.average.domain;
 
+import com.example.demo.grade.domain.Grade;
+import com.example.demo.grade.domain.GradeAddedListener;
 import com.example.demo.grade.domain.GradeFacade;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,9 @@ import java.util.Optional;
 
 import static com.example.demo.grade.domain.GradeSortTypes.VALUE_ASC;
 
-@Service
-public class StudentAverageService {
-    StudentAverageRepository studentAverageRepository;
-    GradeFacade gradeFacade;
+public class StudentAverageService implements GradeAddedListener {
+    private final StudentAverageRepository studentAverageRepository;
+    private final GradeFacade gradeFacade;
 
     StudentAverageService(StudentAverageRepository studentAverageRepository,@Lazy GradeFacade gradeFacade) {
         this.studentAverageRepository = studentAverageRepository;
@@ -29,12 +30,25 @@ public class StudentAverageService {
         return studentAverageOptional;
     }
 
-    boolean updateAverage(long studentId) {
-        StudentAverage updatedAverage = StudentAverageCalculator.createAverage(gradeFacade.getSortedGradesForOneStudent(studentId,VALUE_ASC));
-        return studentAverageRepository.updateAverage(updatedAverage);
-    }
-
     boolean deleteAverage(long studentId) {
         return studentAverageRepository.deleteAverage(studentId);
+    }
+
+    private StudentAverage createAverage(List<Grade> gradeList) {
+        double gradeSum = gradeList.stream()
+                .mapToDouble(grade->grade.getGradeWeight()*grade.getGradeScale().getGradeValue())
+                .sum();
+        return new StudentAverage(gradeSum/gradeList.size(),gradeList.get(0).getStudentId());
+    }
+
+    @Override
+    public void onAdd(Grade grade) {
+        updateAverage(grade.getStudentId());
+    }
+
+    private boolean updateAverage(long studentId) {
+        List<Grade> grades = gradeFacade.getSortedGradesForOneStudent(studentId, VALUE_ASC);
+        StudentAverage updatedAverage = createAverage(grades);
+        return studentAverageRepository.updateAverage(updatedAverage);
     }
 }

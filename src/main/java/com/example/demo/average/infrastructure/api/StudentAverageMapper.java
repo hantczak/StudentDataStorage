@@ -8,11 +8,9 @@ import java.util.stream.Collectors;
 public class StudentAverageMapper {
 
     public static List<StudentAverageDto> StudentAverageListToStudentAverageDtoList(List<StudentAverage> studentAverages) {
-
-        List<StudentAverageDto> studentAverageDtoList = studentAverages.stream()
+        return studentAverages.stream()
                 .map(StudentAverageMapper::toDto)
                 .collect(Collectors.toList());
-        return studentAverageDtoList;
     }
 
     public static StudentAverageDto toDto(StudentAverage studentAverage) {

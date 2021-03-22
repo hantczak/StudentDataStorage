@@ -20,10 +20,6 @@ public class StudentAverageFacade {
         return studentAverageService.getStudentAverage(studentId);
     }
 
-    public boolean updateAverage(long studentId) {
-        return studentAverageService.updateAverage(studentId);
-    }
-
     public boolean deleteAverage(long studentId) {
         return studentAverageService.deleteAverage(studentId);
     }
