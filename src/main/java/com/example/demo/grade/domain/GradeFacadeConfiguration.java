@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 public class GradeFacadeConfiguration {
 
     @Bean
-    GradeFacade gradeFacade(GradeService gradeService, GradeSortService gradeSortService, StudentAverageFacade studentAverageFacade){
-        return new GradeFacade(gradeService,gradeSortService,studentAverageFacade);
+    GradeFacade gradeFacade(GradeRepository gradeRepository){
+        GradeService gradeService = new GradeService(gradeRepository);
+        GradeSortService gradeSortService = new GradeSortService(gradeRepository);
+        return new GradeFacade(gradeService,gradeSortService);
     }
 }

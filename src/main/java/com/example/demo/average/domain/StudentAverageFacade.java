@@ -8,7 +8,7 @@ import java.util.Optional;
 public class StudentAverageFacade {
     private final StudentAverageService studentAverageService;
 
-   public StudentAverageFacade(@Lazy StudentAverageService studentAverageService) {
+   public StudentAverageFacade(StudentAverageService studentAverageService) {
        this.studentAverageService = studentAverageService;
     }
 
@@ -18,10 +18,6 @@ public class StudentAverageFacade {
 
     public Optional<StudentAverage> getStudentAverage(long studentId) {
         return studentAverageService.getStudentAverage(studentId);
-    }
-
-    public boolean updateAverage(long studentId) {
-        return studentAverageService.updateAverage(studentId);
     }
 
     public boolean deleteAverage(long studentId) {

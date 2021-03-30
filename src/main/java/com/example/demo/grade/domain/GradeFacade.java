@@ -1,20 +1,14 @@
 package com.example.demo.grade.domain;
 
-import com.example.demo.average.domain.StudentAverageFacade;
-import com.example.demo.average.domain.StudentAverageService;
-import org.springframework.context.annotation.Lazy;
-
 import java.util.List;
 
 public class GradeFacade {
     private final GradeService gradeService;
     private final GradeSortService gradeSortService;
-    private final StudentAverageFacade studentAverageFacade;
 
-    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService, StudentAverageFacade studentAverageFacade) {
+    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService) {
         this.gradeService = gradeService;
         this.gradeSortService = gradeSortService;
-        this.studentAverageFacade = studentAverageFacade;
     }
 
     public List<Grade> getAllGradesSorted(GradeSortTypes gradeSortType) {
@@ -25,25 +19,27 @@ public class GradeFacade {
         return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortTypes);
     }
 
+    public List<Grade> getStudentGrades(long studentId){
+        return gradeService.getStudentGrades(studentId);
+    }
+
     public void addGrade(Grade grade) {
         gradeService.addGrade(grade);
-        studentAverageFacade.updateAverage(grade.getStudentId());
     }
 
     public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
-        boolean ifSuccessful = gradeService.updateGrade(updatedGrade, oldGradeId);
-        studentAverageFacade.updateAverage(updatedGrade.getStudentId());
-        return ifSuccessful;
+        return gradeService.updateGrade(updatedGrade, oldGradeId);
     }
 
     public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
-        boolean ifSuccessful = gradeService.deleteGrade(studentId, gradeToBeDeletedId);
-        studentAverageFacade.updateAverage(gradeToBeDeletedId);
-        return ifSuccessful;
+        return gradeService.deleteGrade(studentId, gradeToBeDeletedId);
     }
 
     public void deleteStudentGrades(long studentId) {
         gradeService.deleteStudentGrades(studentId);
     }
 
+    public void addListener(GradeModifiedListener gradeModifiedListener) {
+        gradeService.addListener(gradeModifiedListener);
+    }
 }
