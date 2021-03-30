@@ -1,6 +1,5 @@
 package com.example.demo.student.domain;
 
-import com.example.demo.grade.domain.GradeFacade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +8,9 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
-    private final GradeFacade gradeFacade;
 
-    public StudentService(StudentRepository studentRepository, GradeFacade gradeFacade) {
+    public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-        this.gradeFacade = gradeFacade;
     }
 
     public List<Student> getAllStudents() {
@@ -35,10 +32,6 @@ public class StudentService {
     }
 
     public boolean deleteStudentAndHisGrades(long studentId) {
-        boolean ifDeleted = studentRepository.deleteStudent(studentId);
-        if (ifDeleted) {
-            gradeFacade.deleteStudentGrades(studentId);
-        }
-        return ifDeleted;
+        return studentRepository.deleteStudent(studentId);
     }
 }

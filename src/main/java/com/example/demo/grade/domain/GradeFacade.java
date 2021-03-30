@@ -6,9 +6,9 @@ public class GradeFacade {
     private final GradeService gradeService;
     private final GradeSortService gradeSortService;
 
-    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService){
+    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService) {
         this.gradeService = gradeService;
-        this.gradeSortService=gradeSortService;
+        this.gradeSortService = gradeSortService;
     }
 
     public List<Grade> getAllGradesSorted(GradeSortTypes gradeSortType) {
@@ -16,7 +16,11 @@ public class GradeFacade {
     }
 
     public List<Grade> getSortedGradesForOneStudent(long studentId, GradeSortTypes gradeSortTypes) {
-        return gradeSortService.getSortedGradesForOneStudent(studentId,gradeSortTypes);
+        return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortTypes);
+    }
+
+    public List<Grade> getStudentGrades(long studentId){
+        return gradeService.getStudentGrades(studentId);
     }
 
     public void addGrade(Grade grade) {
@@ -28,11 +32,14 @@ public class GradeFacade {
     }
 
     public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
-        return gradeService.deleteGrade(studentId,gradeToBeDeletedId);
+        return gradeService.deleteGrade(studentId, gradeToBeDeletedId);
     }
 
     public void deleteStudentGrades(long studentId) {
         gradeService.deleteStudentGrades(studentId);
     }
 
+    public void addListener(GradeModifiedListener gradeModifiedListener) {
+        gradeService.addListener(gradeModifiedListener);
+    }
 }

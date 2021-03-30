@@ -1,7 +1,5 @@
 package com.example.demo.grade.infrastructure.api;
 
-import com.example.demo.grade.domain.Grade;
-
 import java.util.List;
 
 public class GradeResponse {
