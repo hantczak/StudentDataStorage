@@ -1,17 +1,18 @@
 package com.example.demo.grade.domain;
 
-import org.springframework.stereotype.Service;
+import com.example.demo.student.domain.StudentDeletedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class GradeService {
+public class GradeService implements StudentDeletedListener {
     private GradeRepository gradeRepository;
     private List<GradeModifiedListener> listeners = new ArrayList<>();
+    private GradeValidator gradeValidator;
 
-    public GradeService(GradeRepository gradeRepository) {
+    public GradeService(GradeRepository gradeRepository,GradeValidator gradeValidator) {
         this.gradeRepository = gradeRepository;
+        this.gradeValidator = gradeValidator;
     }
 
     public List<Grade> getAllGrades() {
@@ -23,6 +24,7 @@ public class GradeService {
     }
 
     public void addGrade(Grade grade) {
+        gradeValidator.validateGrade(grade);
         gradeRepository.addGrade(grade);
         listeners.forEach(listener -> listener.onAdd(grade));
     }
@@ -39,11 +41,16 @@ public class GradeService {
         return ifDeleted;
     }
 
-    public void deleteStudentGrades(long studentId) {
+    public void addListener(GradeModifiedListener gradeModifiedListener) {
+        listeners.add(gradeModifiedListener);
+    }
+
+    private void deleteStudentGrades(long studentId) {
         gradeRepository.deleteStudentGrades(studentId);
     }
 
-    public void addListener(GradeModifiedListener gradeModifiedListener) {
-        listeners.add(gradeModifiedListener);
+    @Override
+    public void onStudentDelete(long studentId) {
+        deleteStudentGrades(studentId);
     }
 }
