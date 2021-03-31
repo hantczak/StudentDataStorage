@@ -11,7 +11,8 @@ public class StudentFacadeConfiguration {
 
     @Bean
     StudentFacade studentFacade(StudentLocalRepository studentLocalRepository, StudentSortService studentSortService){
-        StudentService studentService = new StudentService(studentLocalRepository);
+        StudentValidator studentValidator = new StudentValidator();
+        StudentService studentService = new StudentService(studentLocalRepository,studentValidator);
         return new StudentFacade(studentService,studentSortService);
     }
 }

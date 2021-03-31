@@ -9,11 +9,13 @@ import java.util.Optional;
 
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final StudentValidator studentValidator;
 
     private final List<StudentDeletedListener> listeners = new ArrayList<>();
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, StudentValidator studentValidator) {
         this.studentRepository = studentRepository;
+        this.studentValidator = studentValidator;
     }
 
     public List<Student> getAllStudents() {
@@ -27,10 +29,12 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
+        studentValidator.validateStudent(student);
         studentRepository.addStudent(student);
     }
 
     public boolean updateStudentData(long studentId, Student student) {
+        studentValidator.validateStudent(student);
         return studentRepository.updateStudentData(studentId, student);
     }
 
