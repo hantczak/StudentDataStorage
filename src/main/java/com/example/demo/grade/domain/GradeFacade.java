@@ -35,10 +35,6 @@ public class GradeFacade {
         return gradeService.deleteGrade(studentId, gradeToBeDeletedId);
     }
 
-    public void deleteStudentGrades(long studentId) {
-        gradeService.deleteStudentGrades(studentId);
-    }
-
     public void addListener(GradeModifiedListener gradeModifiedListener) {
         gradeService.addListener(gradeModifiedListener);
     }

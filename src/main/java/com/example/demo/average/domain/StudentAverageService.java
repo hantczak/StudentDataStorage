@@ -3,12 +3,13 @@ package com.example.demo.average.domain;
 import com.example.demo.grade.domain.Grade;
 import com.example.demo.grade.domain.GradeFacade;
 import com.example.demo.grade.domain.GradeModifiedListener;
+import com.example.demo.student.domain.StudentDeletedListener;
 
 import java.util.List;
 import java.util.Optional;
 
 
-public class StudentAverageService implements GradeModifiedListener {
+public class StudentAverageService implements GradeModifiedListener, StudentDeletedListener {
     StudentAverageRepository studentAverageRepository;
     GradeFacade gradeFacade;
 
@@ -17,17 +18,17 @@ public class StudentAverageService implements GradeModifiedListener {
         this.gradeFacade = gradeFacade;
     }
 
-    List<StudentAverage> getAllAverages() {
+    public List<StudentAverage> getAllAverages() {
         return studentAverageRepository.getAllAverages();
     }
 
-    Optional<StudentAverage> getStudentAverage(long studentId) {
+    public Optional<StudentAverage> getStudentAverage(long studentId) {
         Optional<StudentAverage> studentAverageOptional;
         studentAverageOptional = Optional.ofNullable(studentAverageRepository.getStudentAverage(studentId));
         return studentAverageOptional;
     }
 
-    boolean updateAverage(long studentId) {
+    private boolean updateAverage(long studentId) {
         return studentAverageRepository.updateAverage(createAverage(gradeFacade.getStudentGrades(studentId)));
     }
 
@@ -50,10 +51,18 @@ public class StudentAverageService implements GradeModifiedListener {
         updateAverage(grade.getStudentId());
     }
 
-    public static StudentAverage createAverage(List<Grade> gradeList) {
+    @Override
+    public void onStudentDelete(long studentId) {
+        deleteAverage(studentId);
+    }
+
+    private static StudentAverage createAverage(List<Grade> gradeList) {
         double gradeSum = gradeList.stream()
                 .mapToDouble(grade -> grade.getGradeWeight() * grade.getGradeScale().getGradeValue())
                 .sum();
-        return new StudentAverage(gradeSum / gradeList.size(), gradeList.get(0).getStudentId());
+        double gradeWeightsSum = gradeList.stream()
+                .mapToDouble(grade->grade.getGradeWeight())
+                .sum();
+        return new StudentAverage(gradeSum / gradeWeightsSum, gradeList.get(0).getStudentId());
     }
 }

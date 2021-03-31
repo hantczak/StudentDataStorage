@@ -9,17 +9,14 @@ import java.util.Optional;
 public class StudentFacade {
     private final StudentSortService studentSortService;
     private final StudentService studentService;
-    private final StudentAverageFacade studentAverageFacade;
-    private final GradeFacade gradeFacade;
 
-    public StudentFacade(StudentService studentService, StudentSortService studentSortService,StudentAverageFacade studentAverageFacade,GradeFacade gradeFacade){
-        this.studentService=studentService;
-        this.studentSortService=studentSortService;
-        this.studentAverageFacade = studentAverageFacade;
-        this.gradeFacade = gradeFacade;
+    public StudentFacade(StudentService studentService, StudentSortService studentSortService) {
+        this.studentService = studentService;
+        this.studentSortService = studentSortService;
+
     }
 
-    public List<Student> getSortedStudents(StudentSortTypes studentSortType){
+    public List<Student> getSortedStudents(StudentSortTypes studentSortType) {
         return studentSortService.getSortedStudents(studentSortType);
     }
 
@@ -42,12 +39,11 @@ public class StudentFacade {
     }
 
     public boolean deleteStudentAndHisGrades(long studentId) {
-        boolean ifSuccessful =  studentService.deleteStudentAndHisGrades(studentId);
-        if(ifSuccessful) {
-            gradeFacade.deleteStudentGrades(studentId);
-            studentAverageFacade.deleteAverage(studentId);
-        }
-        return ifSuccessful;
+        return studentService.deleteStudentAndHisGrades(studentId);
+    }
+
+    public void addListener(StudentDeletedListener studentDeletedListener){
+        studentService.addListener(studentDeletedListener);
     }
 }
 

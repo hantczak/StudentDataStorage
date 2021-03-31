@@ -1,13 +1,13 @@
 package com.example.demo.grade.infrastructure.api;
 
+import com.example.demo.grade.domain.Grade;
 import com.example.demo.grade.domain.GradeFacade;
 import com.example.demo.grade.domain.GradeSortTypes;
-import com.example.demo.grade.domain.Grade;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
@@ -15,6 +15,7 @@ public class GradeController {
 
     private final GradeFacade gradeFacade;
 
+    @Lazy
     public GradeController(GradeFacade gradeFacade) {
         this.gradeFacade = gradeFacade;
     }

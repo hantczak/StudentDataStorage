@@ -1,8 +1,9 @@
 package com.example.demo.student.infrastructure.api;
 
+import com.example.demo.student.domain.Student;
 import com.example.demo.student.domain.StudentFacade;
 import com.example.demo.student.domain.StudentSortTypes;
-import com.example.demo.student.domain.Student;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class StudentController {
 
     private final StudentFacade studentFacade;
 
-
+    @Lazy
     public StudentController(StudentFacade studentFacade) {
         this.studentFacade = studentFacade;
     }
