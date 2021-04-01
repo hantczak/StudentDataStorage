@@ -1,6 +1,6 @@
 package com.example.demo.grade.domain;
 
-public enum GradeSortTypes {
+public enum GradeSortType {
     VALUE_ASC,
     VALUE_DSC,
     INSERTION_DATE_ASC,

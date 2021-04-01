@@ -19,12 +19,17 @@ public class GradeValidator {
         if (student.isEmpty()){
             errors.add("Student with given ID does not exist. Please choose another one.");
         }
-        if(grade.getGradeWeight()>=3){
+        if(grade.getGradeWeight()>3){
             errors.add("Max value of grade weight is 3. Please provide appropriate grade weight value.");
         }
         if(grade.getInsertionDate().getYear()<2015){
-            errors.add("School exists since 2015 year. Grade cannot be introduced with older year.");
+            errors.add("School exists since 2015 year. Grade cannot be introduced with lower year value.");
         }
+
+        if(grade.getGradeId()<=0){
+            errors.add("Grade ID has to be bigger than 0. Please input a valid ID.");
+        }
+
         if(!errors.isEmpty()){
             throw new InvalidGradeException(errors);
         }

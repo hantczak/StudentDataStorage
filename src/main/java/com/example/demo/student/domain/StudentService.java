@@ -1,8 +1,5 @@
 package com.example.demo.student.domain;
 
-import com.example.demo.average.domain.StudentAverageFacade;
-import com.example.demo.grade.domain.GradeFacade;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

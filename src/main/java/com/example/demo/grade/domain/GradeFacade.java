@@ -11,12 +11,12 @@ public class GradeFacade {
         this.gradeSortService = gradeSortService;
     }
 
-    public List<Grade> getAllGradesSorted(GradeSortTypes gradeSortType) {
+    public List<Grade> getAllGradesSorted(String gradeSortType) {
         return gradeSortService.getAllGradesSorted(gradeSortType);
     }
 
-    public List<Grade> getSortedGradesForOneStudent(long studentId, GradeSortTypes gradeSortTypes) {
-        return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortTypes);
+    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType) {
+        return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortType);
     }
 
     public List<Grade> getStudentGrades(long studentId){
