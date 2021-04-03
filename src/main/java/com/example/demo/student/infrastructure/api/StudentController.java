@@ -2,7 +2,7 @@ package com.example.demo.student.infrastructure.api;
 
 import com.example.demo.student.domain.Student;
 import com.example.demo.student.domain.StudentFacade;
-import com.example.demo.student.domain.StudentSortTypes;
+import com.example.demo.student.domain.StudentSortType;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") StudentSortTypes studentSortType) {
+    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String studentSortType) {
         List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType));
         return new ResponseEntity<>(new StudentResponse(studentDtoList), HttpStatus.OK);
     }

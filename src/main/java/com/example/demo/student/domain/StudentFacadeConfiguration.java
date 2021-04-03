@@ -1,7 +1,5 @@
 package com.example.demo.student.domain;
 
-import com.example.demo.average.domain.StudentAverageFacade;
-import com.example.demo.grade.domain.GradeFacade;
 import com.example.demo.student.infrastructure.database.StudentLocalRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +8,18 @@ import org.springframework.context.annotation.Configuration;
 public class StudentFacadeConfiguration {
 
     @Bean
-    StudentFacade studentFacade(StudentLocalRepository studentLocalRepository, StudentSortService studentSortService){
+    public StudentFacade studentFacade() {
+        StudentRepository studentLocalRepository = new StudentLocalRepository();
         StudentValidator studentValidator = new StudentValidator();
-        StudentService studentService = new StudentService(studentLocalRepository,studentValidator);
-        return new StudentFacade(studentService,studentSortService);
+        StudentSortService studentSortService = new StudentSortService(studentLocalRepository);
+        StudentService studentService = new StudentService(studentLocalRepository, studentValidator);
+        return new StudentFacade(studentService, studentSortService);
+    }
+
+   public StudentFacade studentFacade(StudentRepository studentLocalRepository) {
+        StudentValidator studentValidator = new StudentValidator();
+        StudentSortService studentSortService = new StudentSortService(studentLocalRepository);
+        StudentService studentService = new StudentService(studentLocalRepository, studentValidator);
+        return new StudentFacade(studentService, studentSortService);
     }
 }
