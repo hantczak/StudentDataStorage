@@ -2,19 +2,59 @@ package hantczak.studentDataStorage.student.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Entity
+@Table(
+        name = "student",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "student_email_unique",
+                        columnNames = "email"
+                )
+        }
+)
 public class Student {
 
+    @Id
+    @Column(
+            name="id",
+            updatable = false
+    )
     private Long id;
+    @Column(
+            name = "name",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String name;
+    @Column(
+            name = "email",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String email;
+    @Column(
+            name = "date_of_birth",
+            columnDefinition = "date"
+    )
     private LocalDate dateOfBirth;
+    @Column(
+            name = "age"
+    )
     private Integer age;
+    @Column(
+            name = "gender",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private Gender gender;
 
     @Override

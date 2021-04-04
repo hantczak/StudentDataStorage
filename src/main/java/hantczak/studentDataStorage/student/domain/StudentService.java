@@ -20,9 +20,7 @@ public class StudentService {
     }
 
     public Optional<Student> getStudent(long id) {
-        Optional<Student> firstFoundByIndex;
-        firstFoundByIndex = Optional.ofNullable(studentRepository.getStudent(id));
-        return firstFoundByIndex;
+        return studentRepository.getStudent(id);
     }
 
     public void addStudent(Student student) {

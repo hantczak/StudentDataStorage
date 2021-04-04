@@ -20,7 +20,7 @@ class GradeFacadeTest {
 
     @BeforeEach
     void init() {
-        studentFacade = new StudentFacadeConfiguration().studentFacade();
+        studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
         gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
     }
 
@@ -61,7 +61,7 @@ class GradeFacadeTest {
         @DisplayName("Should return empty list of grades")
         void shouldReturnEmptyListOfGrades() {
             //given
-            StudentFacade studentFacade = new StudentFacadeConfiguration().studentFacade();
+            StudentFacade studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
             GradeFacade gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);
@@ -173,7 +173,7 @@ class GradeFacadeTest {
         @DisplayName("Should return empty list of grades")
         void shouldReturnEmptyListOfGrades() {
             //given
-            StudentFacade studentFacade = new StudentFacadeConfiguration().studentFacade();
+            StudentFacade studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
             GradeFacade gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);

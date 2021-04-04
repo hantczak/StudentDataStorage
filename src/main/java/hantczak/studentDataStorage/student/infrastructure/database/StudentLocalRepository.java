@@ -1,16 +1,11 @@
 package hantczak.studentDataStorage.student.infrastructure.database;
 
-import hantczak.studentDataStorage.student.domain.StudentRepository;
 import hantczak.studentDataStorage.student.domain.Student;
-import org.springframework.stereotype.Repository;
+import hantczak.studentDataStorage.student.domain.StudentRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
 public class StudentLocalRepository implements StudentRepository {
 
     private final Map<Long, Student> studentsMap = new HashMap<>();
@@ -23,8 +18,10 @@ public class StudentLocalRepository implements StudentRepository {
     }
 
     @Override
-    public Student getStudent(long studentId) {
-        return studentsMap.get(studentId);
+    public Optional<Student> getStudent(long studentId) {
+        Optional<Student> studentOptional;
+        studentOptional = Optional.ofNullable(studentsMap.get(studentId));
+        return studentOptional;
     }
 
     @Override

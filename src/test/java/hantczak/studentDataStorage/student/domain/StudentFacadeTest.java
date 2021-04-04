@@ -22,7 +22,7 @@ class StudentFacadeTest {
 
     @BeforeEach
     void init() {
-        studentFacade = new StudentFacadeConfiguration().studentFacade();
+        studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
     }
 
     @Nested
@@ -57,7 +57,7 @@ class StudentFacadeTest {
         @DisplayName("Should return empty list of students")
         void shouldReturnEmptyListOfStudents() {
             //given
-            StudentFacade studentFacade = new StudentFacadeConfiguration().studentFacade();
+            StudentFacade studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
 
             //when
 
