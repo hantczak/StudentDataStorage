@@ -26,6 +26,7 @@ public class Student {
     @Id
     @Column(
             name="id",
+            nullable = false,
             updatable = false
     )
     private Long id;
@@ -43,6 +44,7 @@ public class Student {
     private String email;
     @Column(
             name = "date_of_birth",
+            nullable = false,
             columnDefinition = "date"
     )
     private LocalDate dateOfBirth;

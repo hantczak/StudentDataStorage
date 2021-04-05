@@ -27,11 +27,11 @@ public class GradeFacade {
         gradeService.addGrade(grade);
     }
 
-    public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
+    public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
         return gradeService.updateGrade(updatedGrade, oldGradeId);
     }
 
-    public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
+    public boolean deleteGrade(long studentId, long gradeToBeDeletedId) {
         return gradeService.deleteGrade(studentId, gradeToBeDeletedId);
     }
 

@@ -29,14 +29,14 @@ public class GradeService implements StudentDeletedListener {
         listeners.forEach(listener -> listener.onAdd(grade));
     }
 
-    public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
+    public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
         boolean ifUpdated = gradeRepository.updateGrade(updatedGrade, oldGradeId);
         listeners.forEach(listener -> listener.onAdd(updatedGrade));
         return ifUpdated;
     }
 
-    public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
-        boolean ifDeleted = gradeRepository.deleteGrade(studentId, gradeToBeDeletedId);
+    public boolean deleteGrade(long studentId, long gradeToBeDeletedId) {
+        boolean ifDeleted = gradeRepository.deleteGrade(gradeToBeDeletedId);
         listeners.forEach(listener -> listener.onDelete(studentId));
         return ifDeleted;
     }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GradeSortService {
-    private GradeRepository gradeRepository;
+    private final GradeRepository gradeRepository;
 
     public GradeSortService(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;

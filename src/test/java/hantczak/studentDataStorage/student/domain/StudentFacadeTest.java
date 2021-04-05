@@ -306,7 +306,7 @@ class StudentFacadeTest {
         @DisplayName("deleteStudent call should result in deleting his grades and his average.")
         void deleteStudentShouldDeleteGradesAndAverage() {
             //given
-            GradeFacade gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
+            GradeFacade gradeFacade = new GradeFacadeConfiguration().buildOnInMemoryRepo(studentFacade);
             StudentAverageFacade studentAverageFacade = new StudentAverageFacadeConfiguration().studentAverageFacade(gradeFacade, studentFacade);
 
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);

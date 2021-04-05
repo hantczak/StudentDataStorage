@@ -2,18 +2,17 @@ package hantczak.studentDataStorage.student.infrastructure.database;
 
 import hantczak.studentDataStorage.student.domain.Student;
 import hantczak.studentDataStorage.student.domain.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-
+@Transactional
 public class StudentPostgreSQLRepository implements StudentRepository {
 
-    @Autowired
-    private final StudentPostgreSQLDBAccessInterface database;
+    private final StudentPostgreSQLRepositoryInterface database;
 
-    public StudentPostgreSQLRepository(StudentPostgreSQLDBAccessInterface database) {
+    public StudentPostgreSQLRepository(StudentPostgreSQLRepositoryInterface database) {
         this.database = database;
     }
 

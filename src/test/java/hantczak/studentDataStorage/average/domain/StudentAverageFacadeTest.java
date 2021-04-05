@@ -23,7 +23,7 @@ class StudentAverageFacadeTest {
     @BeforeEach
     void init() {
         studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
-        gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
+        gradeFacade = new GradeFacadeConfiguration().buildOnInMemoryRepo(studentFacade);
         studentAverageFacade = new StudentAverageFacadeConfiguration().studentAverageFacade(gradeFacade, studentFacade);
     }
 

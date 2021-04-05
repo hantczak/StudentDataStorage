@@ -2,71 +2,63 @@ package hantczak.studentDataStorage.grade.infrastructure.database;
 
 import hantczak.studentDataStorage.grade.domain.GradeRepository;
 import hantczak.studentDataStorage.grade.domain.Grade;
+import hantczak.studentDataStorage.student.domain.Student;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class GradeLocalRepository implements GradeRepository {
-    private Map<Long, List<Grade>> studentIdToGrade = new HashMap<>();
+    private Map<Long, Grade> gradeMap = new HashMap<>();
 
     @Override
     public List<Grade> getAllGrades() {
-        List<Grade> allGradesList = new ArrayList<>();
-        studentIdToGrade.values().stream()
-                .forEach(list -> allGradesList.addAll(list));
-        return allGradesList;
+        List<Grade> gradeList = gradeMap.values().stream()
+                .collect(Collectors.toCollection(ArrayList::new));
+        return gradeList;
     }
 
     @Override
     public List<Grade> getStudentGrades(long studentId) {
         List<Grade> studentGradeList;
-        studentGradeList = studentIdToGrade.getOrDefault(studentId, Collections.emptyList());
+        studentGradeList = gradeMap.values().stream()
+                .filter(grade -> grade.getStudentId() == studentId)
+                .collect(Collectors.toList());
         return studentGradeList;
     }
 
     @Override
     public void addGrade(Grade grade) {
-        if (studentIdToGrade.containsKey(grade.getStudentId())) {
-            studentIdToGrade.get(grade.getStudentId()).add(grade);
-        } else {
-            List<Grade> newStudentGradeList = new ArrayList<>();
-            newStudentGradeList.add(grade);
-            studentIdToGrade.put(grade.getStudentId(), newStudentGradeList);
-        }
+        gradeMap.put(grade.getGradeId(), grade);
     }
 
     @Override
-    public boolean updateGrade(Grade updatedGrade, int oldGradeId) {
-        if (studentIdToGrade.containsKey(updatedGrade.getStudentId())) {
-
-            Optional<Grade> gradeToBeUpdated = studentIdToGrade.get(updatedGrade.getStudentId()).stream()
-                    .filter(grade -> grade.getGradeId() == oldGradeId)
-                    .findFirst();
-            gradeToBeUpdated.ifPresent(grade -> {
-                deleteGrade(updatedGrade.getStudentId(),oldGradeId);
-                addGrade(updatedGrade);
-            });
-            if (gradeToBeUpdated.isPresent()) {
-                return true;
-            }
+    public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
+        Grade oldGrade = null;
+        if (gradeMap.containsKey(oldGradeId)) {
+            oldGrade = gradeMap.put(updatedGrade.getGradeId(), updatedGrade);
         }
-        return false;
+        return oldGrade != null;
     }
 
     @Override
-    public boolean deleteGrade(long studentId, int gradeToBeDeletedId) {
-        List<Grade> gradeList = studentIdToGrade.get(studentId);
-        if (gradeList!=null) {
-            gradeList.removeIf(grade -> grade.getGradeId() == gradeToBeDeletedId);
-            return true;
-        } else {
-            return false;
-        }
+    public boolean deleteGrade(long gradeToBeDeletedId) {
+        Grade removedGrade = gradeMap.remove(gradeToBeDeletedId);
+        return removedGrade != null;
     }
+
 
     @Override
     public void deleteStudentGrades(long studentId) {
-        studentIdToGrade.remove(studentId);
+        List<Long> markedForRemoval = new ArrayList<>();
+        gradeMap.values().stream()
+                .forEach(grade -> {
+                    if (grade.getStudentId() == studentId) {
+                        markedForRemoval.add(grade.getGradeId());
+                    }
+                });
+        markedForRemoval.stream()
+                .forEach(grade -> gradeMap.remove(grade));
     }
 }

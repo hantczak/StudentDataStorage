@@ -1,7 +1,7 @@
 package hantczak.studentDataStorage.student.domain;
 
 import hantczak.studentDataStorage.student.infrastructure.database.StudentLocalRepository;
-import hantczak.studentDataStorage.student.infrastructure.database.StudentPostgreSQLDBAccessInterface;
+import hantczak.studentDataStorage.student.infrastructure.database.StudentPostgreSQLRepositoryInterface;
 import hantczak.studentDataStorage.student.infrastructure.database.StudentPostgreSQLRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class StudentFacadeConfiguration {
 
     @Bean
-    public StudentFacade studentFacade(StudentPostgreSQLDBAccessInterface repository) {
-        StudentRepository studentPostgreSQLRepository = new StudentPostgreSQLRepository(repository);
+    public StudentFacade studentFacade(StudentPostgreSQLRepositoryInterface database) {
+        StudentRepository studentPostgreSQLRepository = new StudentPostgreSQLRepository(database);
         StudentValidator studentValidator = new StudentValidator();
         StudentSortService studentSortService = new StudentSortService(studentPostgreSQLRepository);
         StudentService studentService = new StudentService(studentPostgreSQLRepository, studentValidator);

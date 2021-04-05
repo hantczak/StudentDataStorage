@@ -58,7 +58,7 @@ public class GradeController {
 
     @PutMapping("/grades")
     public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade,
-                                               @RequestParam(value = "gradeId") int oldGradeId) {
+                                               @RequestParam(value = "gradeId") long oldGradeId) {
         boolean ifUpdated = gradeFacade.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
             return ResponseEntity.ok(true);

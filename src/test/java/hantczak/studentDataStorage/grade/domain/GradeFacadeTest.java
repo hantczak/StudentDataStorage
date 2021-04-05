@@ -21,7 +21,7 @@ class GradeFacadeTest {
     @BeforeEach
     void init() {
         studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
-        gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
+        gradeFacade = new GradeFacadeConfiguration().buildOnInMemoryRepo(studentFacade);
     }
 
     @Nested
@@ -42,7 +42,7 @@ class GradeFacadeTest {
             gradeFacade.addGrade(grade1);
             grade2 = new Grade(2, GradeScale.EXCELLENT, 2L, LocalDate.parse("2021-01-01"), 1);
             gradeFacade.addGrade(grade2);
-            grade3 = new Grade(2, GradeScale.FAIL, 1L, LocalDate.parse("2019-01-01"), 1);
+            grade3 = new Grade(3, GradeScale.FAIL, 1L, LocalDate.parse("2019-01-01"), 1);
             gradeFacade.addGrade(grade3);
         }
 
@@ -62,7 +62,7 @@ class GradeFacadeTest {
         void shouldReturnEmptyListOfGrades() {
             //given
             StudentFacade studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
-            GradeFacade gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
+            GradeFacade gradeFacade = new GradeFacadeConfiguration().buildOnInMemoryRepo(studentFacade);
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);
 
@@ -153,7 +153,7 @@ class GradeFacadeTest {
             gradeFacade.addGrade(grade1);
             grade2 = new Grade(2, GradeScale.EXCELLENT, 1L, LocalDate.parse("2021-01-01"), 1);
             gradeFacade.addGrade(grade2);
-            grade3 = new Grade(2, GradeScale.FAIL, 1L, LocalDate.parse("2019-01-01"), 1);
+            grade3 = new Grade(3, GradeScale.FAIL, 1L, LocalDate.parse("2019-01-01"), 1);
             gradeFacade.addGrade(grade3);
         }
 
@@ -174,7 +174,7 @@ class GradeFacadeTest {
         void shouldReturnEmptyListOfGrades() {
             //given
             StudentFacade studentFacade = new StudentFacadeConfiguration().buildOnInMemoryRepo();
-            GradeFacade gradeFacade = new GradeFacadeConfiguration().gradeFacade(studentFacade);
+            GradeFacade gradeFacade = new GradeFacadeConfiguration().buildOnInMemoryRepo(studentFacade);
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);
 

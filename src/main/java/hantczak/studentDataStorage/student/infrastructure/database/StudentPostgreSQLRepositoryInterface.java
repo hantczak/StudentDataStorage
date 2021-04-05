@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentPostgreSQLDBAccessInterface extends JpaRepository<Student,Long> {
+public interface StudentPostgreSQLRepositoryInterface extends JpaRepository<Student,Long> {
 
 }

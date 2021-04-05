@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 public class GradeDto {
-    private final int gradeId;
+    private final long gradeId;
     private final GradeScale gradeScale;
     private final long studentId;
     private final LocalDate insertionDate;
