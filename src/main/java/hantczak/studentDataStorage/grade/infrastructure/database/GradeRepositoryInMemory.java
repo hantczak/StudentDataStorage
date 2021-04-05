@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class GradeLocalRepository implements GradeRepository {
+public class GradeRepositoryInMemory implements GradeRepository {
     private Map<Long, Grade> gradeMap = new HashMap<>();
 
     @Override

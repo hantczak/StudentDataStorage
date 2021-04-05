@@ -18,8 +18,8 @@ public class StudentAverageRepositoryInMemory implements StudentAverageRepositor
         return averageList;
     }
 
-    public StudentAverage getStudentAverage(long studentId) {
-        return studentIdToAverageMap.get(studentId);
+    public Optional<StudentAverage> getStudentAverage(long studentId) {
+        return Optional.ofNullable(studentIdToAverageMap.get(studentId));
     }
 
     public boolean updateAverage(StudentAverage studentAverage) {

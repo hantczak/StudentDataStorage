@@ -6,7 +6,7 @@ import hantczak.studentDataStorage.student.domain.StudentRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StudentLocalRepository implements StudentRepository {
+public class StudentRepositoryInMemory implements StudentRepository {
 
     private final Map<Long, Student> studentsMap = new HashMap<>();
 

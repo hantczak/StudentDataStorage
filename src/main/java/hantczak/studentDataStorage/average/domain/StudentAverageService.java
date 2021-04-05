@@ -23,13 +23,17 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
     }
 
     public Optional<StudentAverage> getStudentAverage(long studentId) {
-        Optional<StudentAverage> studentAverageOptional;
-        studentAverageOptional = Optional.ofNullable(studentAverageRepository.getStudentAverage(studentId));
-        return studentAverageOptional;
+        return studentAverageRepository.getStudentAverage(studentId);
     }
 
     private boolean updateAverage(long studentId) {
-        return studentAverageRepository.updateAverage(createAverage(gradeFacade.getStudentGrades(studentId)));
+        StudentAverage average = createAverage(gradeFacade.getStudentGrades(studentId));
+        if (average == null) {
+            deleteAverage(studentId);
+            return false;
+        } else {
+            return studentAverageRepository.updateAverage(average);
+        }
     }
 
     boolean deleteAverage(long studentId) {
@@ -57,11 +61,14 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
     }
 
     private static StudentAverage createAverage(List<Grade> gradeList) {
+        if (gradeList.isEmpty()) {
+            return null;
+        }
         double gradeSum = gradeList.stream()
                 .mapToDouble(grade -> grade.getGradeWeight() * grade.getGradeScale().getGradeValue())
                 .sum();
         double gradeWeightsSum = gradeList.stream()
-                .mapToDouble(grade->grade.getGradeWeight())
+                .mapToDouble(grade -> grade.getGradeWeight())
                 .sum();
         return new StudentAverage(gradeSum / gradeWeightsSum, gradeList.get(0).getStudentId());
     }

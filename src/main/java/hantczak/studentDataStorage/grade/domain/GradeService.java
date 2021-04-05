@@ -47,6 +47,7 @@ public class GradeService implements StudentDeletedListener {
 
     private void deleteStudentGrades(long studentId) {
         gradeRepository.deleteStudentGrades(studentId);
+        listeners.forEach(listener -> listener.onDelete(studentId));
     }
 
     @Override
