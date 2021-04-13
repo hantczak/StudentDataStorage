@@ -13,7 +13,7 @@ App enables not only adding and searching for students and their grades, but als
 ## ⚙️ Technologies used ⚙️
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-* [PostgreSQL](https://spring.io/projects/spring-data-jpa)
+* [PostgreSQL](https://www.postgresql.org/)
 * [JUnit 5](https://junit.org/junit5/)
 * [Mockito](https://site.mockito.org/)
 * [Lombok](https://projectlombok.org/)
