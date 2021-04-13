@@ -29,4 +29,4 @@ In current state of the app, all endpoints are accessible via HTTP requests on l
 <!-- STATUS -->
 ## 🏗️ Status 🏗️
 As the application is built mainly in educational purposes, it grows alongside my programming skills. Im trying to incorporate new technologies, techniques and design patterns into this application as I'm learning them.
-Project is still in development phase, implementation of additional functionalities is planned. Next step in development of this app will probably introduction of integration tests, as only unit test are provided.
+Project is still in development phase, implementation of additional functionalities is planned. Next step in development of this app will probably be an introduction of integration tests, as only unit test are provided.
