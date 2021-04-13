@@ -2,11 +2,16 @@ package hantczak.studentDataStorage.grade.infrastructure.database;
 
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeRepository;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
+@Repository
+@Primary
 public class GradePostgreSQLRepository implements GradeRepository {
     GradePostgreSQLRepositoryInterface database;
 
@@ -31,9 +36,22 @@ public class GradePostgreSQLRepository implements GradeRepository {
 
     @Override
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
-        if (database.existsById(oldGradeId)) {
-            database.deleteById(oldGradeId);
-            database.save(updatedGrade);
+        if (updatedGrade.getGradeId() != oldGradeId) {
+            if (database.existsById(oldGradeId)) {
+                database.deleteById(oldGradeId);
+                database.save(updatedGrade);
+                return true;
+            }
+        } else {
+            Optional<Grade> persistedGrade = database.findById(oldGradeId);
+            if (persistedGrade.isPresent()) {
+                persistedGrade.get().setGradeId(updatedGrade.getGradeId());
+                persistedGrade.get().setGradeScale(updatedGrade.getGradeScale());
+                persistedGrade.get().setGradeWeight(updatedGrade.getGradeWeight());
+                persistedGrade.get().setInsertionDate(updatedGrade.getInsertionDate());
+                persistedGrade.get().setStudentId(updatedGrade.getStudentId());
+                return true;
+            }
         }
         return false;
     }
