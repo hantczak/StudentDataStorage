@@ -1,7 +1,7 @@
 # Student Data Storage
 <!-- ABOUT THE PROJECT -->
 ## 🎓 About The Project 🎓
-Student Data Storage, which is a REST API with hexagonal architecture, developed using Spring Framework. During creation of the application I did my best to follow both Clean Code and SOLID principles, and have used design patterns and technologies that constitute the backbone of modern web development. These are: Spring Boot, Spring Data JPA, Lombok.JUnit and Mockito were used for testing. Application is connected to the PostgreSQL, serving as a database.
+Student Data Storage, which is a REST API with hexagonal architecture, developed using Spring Framework. During creation of the application I did my best to follow both Clean Code and SOLID principles, and have used design patterns and technologies that constitute the backbone of modern web development. These are: Spring Boot, Spring Data JPA, Lombok. JUnit and Mockito were used for testing. Application is connected to the PostgreSQL, serving as a database.
 App enables not only adding and searching for students and their grades, but also calculating their averages, sorting results and many more. 
 
 ### 🔨 Built With 🔨
