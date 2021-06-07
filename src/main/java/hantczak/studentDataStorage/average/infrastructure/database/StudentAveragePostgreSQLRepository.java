@@ -38,7 +38,8 @@ public class StudentAveragePostgreSQLRepository implements StudentAverageReposit
             studentAverageOptional.get().setStudentId(updatedStudentAverage.getStudentId());
             return true;
         }else {
-            return false;
+            database.save(updatedStudentAverage);
+            return true;
         }
     }
 

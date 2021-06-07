@@ -14,7 +14,6 @@ public class GradeController {
 
     private final GradeFacade gradeFacade;
 
-    @Lazy
     public GradeController(GradeFacade gradeFacade) {
         this.gradeFacade = gradeFacade;
     }
