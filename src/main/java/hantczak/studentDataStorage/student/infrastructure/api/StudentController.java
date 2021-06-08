@@ -17,7 +17,6 @@ public class StudentController {
 
     private final StudentFacade studentFacade;
 
-    @Lazy
     public StudentController(StudentFacade studentFacade) {
         this.studentFacade = studentFacade;
     }

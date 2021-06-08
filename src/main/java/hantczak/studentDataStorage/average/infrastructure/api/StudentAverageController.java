@@ -16,7 +16,6 @@ import java.util.Optional;
 public class StudentAverageController {
     private final StudentAverageFacade studentAverageFacade;
 
-    @Lazy
     public StudentAverageController(StudentAverageFacade studentAverageFacade) {
         this.studentAverageFacade = studentAverageFacade;
     }
