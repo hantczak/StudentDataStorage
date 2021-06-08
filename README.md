@@ -5,8 +5,8 @@ Student Data Storage, which is a REST API with hexagonal architecture, developed
 App enables not only adding and searching for students and their grades, but also calculating their averages, sorting results and many more. 
 
 ### 🔨 Built With 🔨
-* Java 8
-* Maven
+* Java 15
+* Gradle
 * PostgreSQL Database *(although not necessarily, since repositories are also implemented as in-memory databases, which enables fast unit testing )*
 
 <!-- TECHNOLOGIES USED -->
