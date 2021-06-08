@@ -2,7 +2,9 @@ package hantczak.studentDataStorage.grade.infrastructure.api;
 
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeFacade;
-import org.springframework.context.annotation.Lazy;
+import hantczak.studentDataStorage.grade.domain.InvalidGradeException;
+import hantczak.studentDataStorage.grade.domain.InvalidGradeSortTypeException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,5 +77,15 @@ public class GradeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ExceptionHandler(InvalidGradeException.class)
+    public ResponseEntity<String> handleInvalidGradeException(InvalidGradeException exception){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidGradeSortTypeException.class)
+    public ResponseEntity<String> handleInvalidGradeSortTypeException(InvalidGradeSortTypeException exception){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }
