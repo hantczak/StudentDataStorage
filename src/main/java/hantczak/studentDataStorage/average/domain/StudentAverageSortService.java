@@ -12,10 +12,12 @@ public class StudentAverageSortService {
         this.studentAverageRepository = studentAverageRepository;
     }
 
-    public List<StudentAverage> getAllAveragesSorted(String sortType) {
+    public List<StudentAverage> getAllAveragesSorted(String sortType,long offset,long limit) {
         StudentAverageSortType studentAverageSortType = parseStudentAverageSortType(sortType);
         return studentAverageRepository.getAllAverages().stream()
                 .sorted(getComparator(studentAverageSortType))
+                .skip(offset)
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
