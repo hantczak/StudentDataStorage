@@ -1,13 +1,12 @@
 package hantczak.studentDataStorage.average.infrastructure.api;
 
+import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacade;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -21,8 +20,8 @@ public class StudentAverageController {
     }
 
     @GetMapping("/averages")
-    public ResponseEntity<StudentAverageResponse> getAllAverages() {
-        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAverages())));
+    public ResponseEntity<StudentAverageResponse> getAllAverages(@RequestParam(value = "sortType", required = false, defaultValue = "STUDENT_ID_ASC") String studentAverageSortType) {
+        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType))));
     }
 
     @GetMapping("/averages/{studentId}")
@@ -34,5 +33,10 @@ public class StudentAverageController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ExceptionHandler(InvalidStudentAverageSortTypeException.class)
+    public ResponseEntity<String> handleInvalidStudentAverageSortTypeException(InvalidStudentAverageSortTypeException exception){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }
