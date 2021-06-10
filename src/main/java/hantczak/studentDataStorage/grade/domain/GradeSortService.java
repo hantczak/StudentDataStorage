@@ -12,17 +12,21 @@ public class GradeSortService {
         this.gradeRepository = gradeRepository;
     }
 
-    public List<Grade> getAllGradesSorted(String gradeSortType) {
+    public List<Grade> getAllGradesSorted(String gradeSortType,long offset,long limit) {
         GradeSortType parseGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getAllGrades().stream()
                 .sorted(getComparator(parseGradeSortType))
+                .skip(offset)
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
-    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType) {
+    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType,long offset,long limit) {
         GradeSortType parseGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getStudentGrades(studentId).stream()
                 .sorted(getComparator(parseGradeSortType))
+                .skip(offset)
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 
