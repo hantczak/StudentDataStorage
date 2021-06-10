@@ -12,8 +12,8 @@ public class StudentAverageFacade {
         this.studentAverageSortService = studentAverageSortService;
     }
 
-    public List<StudentAverage> getAllAveragesSorted(String sortType) {
-        return studentAverageSortService.getAllAveragesSorted(sortType);
+    public List<StudentAverage> getAllAveragesSorted(String sortType,long offset, long limit) {
+        return studentAverageSortService.getAllAveragesSorted(sortType,offset,limit);
     }
 
     public List<StudentAverage> getAllAverages() {

@@ -36,8 +36,10 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String studentSortType) {
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType));
+    public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String studentSortType,
+                                                          @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
+                                                          @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType,offset,limit));
         return new ResponseEntity<>(new StudentResponse(studentDtoList), HttpStatus.OK);
     }
 
@@ -78,12 +80,12 @@ public class StudentController {
     }
 
     @ExceptionHandler(InvalidStudentException.class)
-    public ResponseEntity<String> handleInvalidStudentException(InvalidGradeException exception){
+    public ResponseEntity<String> handleInvalidStudentException(InvalidGradeException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
     @ExceptionHandler(InvalidStudentSortTypeException.class)
-    public ResponseEntity<String> handleInvalidStudentSortTypeException(InvalidStudentSortTypeException exception){
+    public ResponseEntity<String> handleInvalidStudentSortTypeException(InvalidStudentSortTypeException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }

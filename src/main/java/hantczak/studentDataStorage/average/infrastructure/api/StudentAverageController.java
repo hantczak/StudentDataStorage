@@ -20,13 +20,15 @@ public class StudentAverageController {
     }
 
     @GetMapping("/averages")
-    public ResponseEntity<StudentAverageResponse> getAllAverages(@RequestParam(value = "sortType", required = false, defaultValue = "STUDENT_ID_ASC") String studentAverageSortType) {
-        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType))));
+    public ResponseEntity<StudentAverageResponse> getAllAverages(@RequestParam(value = "sortType", required = false, defaultValue = "STUDENT_ID_ASC") String studentAverageSortType,
+                                                                 @RequestParam(value = "offset", defaultValue = "0", required = false) long offset,
+                                                                 @RequestParam(value = "limit", defaultValue = "20", required = false) long limit) {
+        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType,offset,limit))));
     }
 
     @GetMapping("/averages/{studentId}")
     public ResponseEntity<StudentAverageDto> getStudentAverageById(@PathVariable long studentId) {
-        Optional<StudentAverage> averageOptional= studentAverageFacade.getStudentAverage(studentId);
+        Optional<StudentAverage> averageOptional = studentAverageFacade.getStudentAverage(studentId);
         if (averageOptional.isPresent()) {
             StudentAverageDto studentAverageDto = StudentAverageMapper.toDto(averageOptional.get());
             return ResponseEntity.ok(studentAverageDto);
@@ -36,7 +38,7 @@ public class StudentAverageController {
     }
 
     @ExceptionHandler(InvalidStudentAverageSortTypeException.class)
-    public ResponseEntity<String> handleInvalidStudentAverageSortTypeException(InvalidStudentAverageSortTypeException exception){
+    public ResponseEntity<String> handleInvalidStudentAverageSortTypeException(InvalidStudentAverageSortTypeException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }
