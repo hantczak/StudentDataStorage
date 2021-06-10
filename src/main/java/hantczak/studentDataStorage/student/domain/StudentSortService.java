@@ -12,10 +12,12 @@ public class StudentSortService {
         this.studentRepository = studentRepository;
     }
 
-    public List<Student> getSortedStudents(String studentSortType) {
+    public List<Student> getSortedStudents(String studentSortType,long offset, long limit) {
         StudentSortType parsedStudentSortType = parseStudentSortType(studentSortType);
         return studentRepository.getAllStudents().stream()
                 .sorted(getComparator(parsedStudentSortType))
+                .skip(offset)
+                .limit(limit)
                 .collect(Collectors.toList());
     }
 

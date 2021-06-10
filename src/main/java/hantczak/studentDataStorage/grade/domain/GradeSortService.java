@@ -13,18 +13,18 @@ public class GradeSortService {
     }
 
     public List<Grade> getAllGradesSorted(String gradeSortType,long offset,long limit) {
-        GradeSortType parseGradeSortType = parseGradeSortType(gradeSortType);
+        GradeSortType parsedGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getAllGrades().stream()
-                .sorted(getComparator(parseGradeSortType))
+                .sorted(getComparator(parsedGradeSortType))
                 .skip(offset)
                 .limit(limit)
                 .collect(Collectors.toList());
     }
 
     public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType,long offset,long limit) {
-        GradeSortType parseGradeSortType = parseGradeSortType(gradeSortType);
+        GradeSortType parsedGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getStudentGrades(studentId).stream()
-                .sorted(getComparator(parseGradeSortType))
+                .sorted(getComparator(parsedGradeSortType))
                 .skip(offset)
                 .limit(limit)
                 .collect(Collectors.toList());

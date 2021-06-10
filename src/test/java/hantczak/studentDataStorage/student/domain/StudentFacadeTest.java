@@ -50,7 +50,7 @@ class StudentFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC"));
+            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC",0,20));
         }
 
         @Test
@@ -75,7 +75,7 @@ class StudentFacadeTest {
             sortedStudents.add(student3);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_ASC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_ASC",0,20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -91,7 +91,7 @@ class StudentFacadeTest {
             sortedStudents.add(student2);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_DSC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_DSC",0,20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -108,7 +108,7 @@ class StudentFacadeTest {
             sortedStudents.add(student1);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_ASC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_ASC",0,20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -124,7 +124,7 @@ class StudentFacadeTest {
             sortedStudents.add(student3);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_DSC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_DSC",0,20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);

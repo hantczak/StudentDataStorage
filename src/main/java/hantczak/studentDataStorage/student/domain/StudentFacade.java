@@ -13,8 +13,8 @@ public class StudentFacade {
 
     }
 
-    public List<Student> getSortedStudents(String studentSortType) {
-        return studentSortService.getSortedStudents(studentSortType);
+    public List<Student> getSortedStudents(String studentSortType,long offset, long limit) {
+        return studentSortService.getSortedStudents(studentSortType,offset,limit);
     }
 
     public List<Student> getAllStudents() {

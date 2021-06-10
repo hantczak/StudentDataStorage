@@ -13,9 +13,9 @@ public class StudentAverageSortService {
     }
 
     public List<StudentAverage> getAllAveragesSorted(String sortType,long offset,long limit) {
-        StudentAverageSortType studentAverageSortType = parseStudentAverageSortType(sortType);
+        StudentAverageSortType parsedStudentAverageSortType = parseStudentAverageSortType(sortType);
         return studentAverageRepository.getAllAverages().stream()
-                .sorted(getComparator(studentAverageSortType))
+                .sorted(getComparator(parsedStudentAverageSortType))
                 .skip(offset)
                 .limit(limit)
                 .collect(Collectors.toList());
