@@ -135,6 +135,22 @@ class GradeFacadeTest {
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
         }
+
+        @Test
+        @DisplayName("Should return middle grade sorted by insertion date with offset 1 and limit 1.")
+        void shouldReturnMiddleGradeSortedByInsertionDateWithOffset1AndLimit1() {
+            //given
+            List<Grade> sortedGrades = new ArrayList<>();
+            sortedGrades.add(grade2);
+            sortedGrades.add(grade1);
+            sortedGrades.add(grade3);
+
+            //when
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC",1,1);
+
+            //then
+            assertEquals(4,sortedGradesOutput.get(0).getGradeValue());
+        }
     }
 
     @Nested
