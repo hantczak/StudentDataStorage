@@ -33,7 +33,7 @@ class StudentFacadeTest {
         private Student student3;
 
         @BeforeEach
-        void init(){
+        void init() {
             student1 = new Student(1L, "b", "b@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);
             student2 = new Student(2L, "a", "a@examplemail.com", LocalDate.parse("2008-01-01"), 13, Gender.MALE);
@@ -50,7 +50,7 @@ class StudentFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC"));
+            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC", 0, 20));
         }
 
         @Test
@@ -75,7 +75,7 @@ class StudentFacadeTest {
             sortedStudents.add(student3);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_ASC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -91,7 +91,7 @@ class StudentFacadeTest {
             sortedStudents.add(student2);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_DSC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("NAME_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -108,7 +108,7 @@ class StudentFacadeTest {
             sortedStudents.add(student1);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_ASC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
@@ -124,10 +124,22 @@ class StudentFacadeTest {
             sortedStudents.add(student3);
 
             //when
-            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_DSC");
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedStudents, sortedStudentsOutput);
+        }
+
+        @Test
+        @DisplayName("Should return middle student sorted descending by age, with ")
+        void shouldReturnMiddleStudentDescendingByAge() {
+            //given
+
+            //when
+            List<Student> sortedStudentsOutput = studentFacade.getSortedStudents("AGE_DSC", 1, 1);
+
+            //then
+            assertEquals(student2, sortedStudentsOutput.get(0));
         }
     }
 

@@ -5,9 +5,15 @@ import java.util.Optional;
 
 public class StudentAverageFacade {
     private final StudentAverageService studentAverageService;
+    private final StudentAverageSortService studentAverageSortService;
 
-   public StudentAverageFacade(StudentAverageService studentAverageService) {
-       this.studentAverageService = studentAverageService;
+    public StudentAverageFacade(StudentAverageService studentAverageService, StudentAverageSortService studentAverageSortService) {
+        this.studentAverageService = studentAverageService;
+        this.studentAverageSortService = studentAverageSortService;
+    }
+
+    public List<StudentAverage> getAllAveragesSorted(String sortType,long offset, long limit) {
+        return studentAverageSortService.getAllAveragesSorted(sortType,offset,limit);
     }
 
     public List<StudentAverage> getAllAverages() {

@@ -11,6 +11,7 @@ import hantczak.studentDataStorage.student.domain.StudentFacadeConfiguration;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,8 +29,8 @@ class StudentAverageFacadeTest {
     }
 
     @Nested
-    @DisplayName("getAllAverages tests")
-    class getAllAveragesTests {
+    @DisplayName("getAllAveragesSorted tests")
+    class getAllAveragesSortedTests {
 
         @Test
         @DisplayName("Should return empty list")
@@ -39,12 +40,12 @@ class StudentAverageFacadeTest {
             //when
 
             //then
-            assertEquals(0, studentAverageFacade.getAllAverages().size());
+            assertEquals(0, studentAverageFacade.getAllAveragesSorted("STUDENT_ID_ASC", 0, 20).size());
         }
 
         @Test
-        @DisplayName("Should return two averages")
-        void shouldReturnTwoAverages() {
+        @DisplayName("Should return two averages sorted by student ID")
+        void shouldReturnTwoAveragesSortedByStudentId() {
             //given
             Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
             studentFacade.addStudent(student1);
@@ -62,10 +63,66 @@ class StudentAverageFacadeTest {
 
             //then
             assertAll(
-                    () -> assertEquals(2, studentAverageFacade.getAllAverages().size()),
-                    () -> assertEquals(2.2, studentAverageFacade.getAllAverages().get(0).getAverage()),
-                    () -> assertEquals(6, studentAverageFacade.getAllAverages().get(1).getAverage())
+                    () -> assertEquals(2, studentAverageFacade.getAllAveragesSorted("STUDENT_ID_ASC", 0, 20).size()),
+                    () -> assertEquals(2.2, studentAverageFacade.getAllAveragesSorted("STUDENT_ID_ASC", 0, 20).get(0).getAverage()),
+                    () -> assertEquals(6, studentAverageFacade.getAllAveragesSorted("STUDENT_ID_ASC", 0, 20).get(1).getAverage())
             );
+        }
+
+        @Test
+        @DisplayName("Should return two averages sorted by value descending")
+        void shouldReturnTwoAveragesSortedByValueDSC() {
+            //given
+            Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
+            studentFacade.addStudent(student1);
+            Student student2 = new Student(2L, "b", "b@examplemail.com", LocalDate.parse("2008-01-01"), 13, Gender.MALE);
+            studentFacade.addStudent(student2);
+
+            Grade grade1 = new Grade(1, GradeScale.GOOD, 1L, LocalDate.parse("2020-01-01"), 2);
+            gradeFacade.addGrade(grade1);
+            Grade grade2 = new Grade(2, GradeScale.EXCELLENT, 2L, LocalDate.parse("2021-01-01"), 1);
+            gradeFacade.addGrade(grade2);
+            Grade grade3 = new Grade(3, GradeScale.FAIL, 1L, LocalDate.parse("2019-01-01"), 3);
+            gradeFacade.addGrade(grade3);
+
+            //when
+
+            //then
+            List<StudentAverage> outcomeList = studentAverageFacade.getAllAveragesSorted("VALUE_DSC", 0, 20);
+            assertAll(
+                    () -> assertEquals(2, outcomeList.size()),
+                    () -> assertEquals(2.2, outcomeList.get(1).getAverage()),
+                    () -> assertEquals(6, outcomeList.get(0).getAverage())
+            );
+        }
+
+        @Test
+        @DisplayName("Should return one, middle average for offset 1 and limit 1")
+        void shouldReturnOneMiddleAverageWithOffset1AndLimit1() {
+            //given
+            Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
+            studentFacade.addStudent(student1);
+            Student student2 = new Student(2L, "b", "b@examplemail.com", LocalDate.parse("2008-01-01"), 13, Gender.MALE);
+            studentFacade.addStudent(student2);
+            Student student3 = new Student(3L, "c", "c@examplemail.com", LocalDate.parse("2009-01-01"), 12, Gender.MALE);
+            studentFacade.addStudent(student3);
+
+            Grade grade1 = new Grade(1, GradeScale.GOOD, 1L, LocalDate.parse("2020-01-01"), 2);
+            gradeFacade.addGrade(grade1);
+            Grade grade2 = new Grade(2, GradeScale.EXCELLENT, 2L, LocalDate.parse("2021-01-01"), 1);
+            gradeFacade.addGrade(grade2);
+            Grade grade3 = new Grade(3, GradeScale.FAIL, 3L, LocalDate.parse("2019-01-01"), 3);
+            gradeFacade.addGrade(grade3);
+
+            //when
+
+            //then
+            List<StudentAverage> outcomeList = studentAverageFacade.getAllAveragesSorted("STUDENT_ID_ASC", 1, 1);
+            assertAll(
+                    () -> assertEquals(1, outcomeList.size()),
+                    () -> assertEquals(6, outcomeList.get(0).getAverage())
+            );
+
         }
     }
 
@@ -129,7 +186,7 @@ class StudentAverageFacadeTest {
         studentAverageFacade.deleteAverage(1);
         Optional<StudentAverage> outputAverage = studentAverageFacade.getStudentAverage(1L);
         //then
-        if(outputAverage.isPresent()){
+        if (outputAverage.isPresent()) {
             fail();
         }
     }
