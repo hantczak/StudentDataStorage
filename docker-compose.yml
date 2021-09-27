@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+ postgresdb:
+  image: postgres:13.2-alpine
+  restart: unless-stopped
+  environment:
+   POSTGRES_USER: hubert
+   POSTGRES_PASSWORD: superuser
+   POSTGRES_DB: studentdatastorage
+  container_name: postgresdb
+  expose:
+    - "5433"
+  command: -p 5433
+  ports:
+    - "5433:5433"
+ 
+ student-data-storage:
+  build: .
+  container_name: student-data-storage-compose
+  ports:
+   - 8080:8080
+ 
+
