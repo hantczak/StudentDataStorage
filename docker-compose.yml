@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
  postgresdb:
-  image: postgres:13.2-alpine
+  build: ./databaseConfig
   restart: unless-stopped
   environment:
    POSTGRES_USER: hubert
@@ -14,11 +14,16 @@ services:
   command: -p 5433
   ports:
     - "5433:5433"
+  volumes:
+   - database:/var/lib/postgresql/data
  
  student-data-storage:
   build: .
   container_name: student-data-storage-compose
   ports:
    - 8080:8080
+   
+volumes:
+  database:
  
 
