@@ -42,6 +42,14 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 }
 
+tasks.withType(Test) {
+	testLogging {
+		exceptionFormat "full"
+		events "started", "skipped", "passed", "failed"
+		showStandardStreams true
+	}
+}
+
 test {
 	useJUnitPlatform()
 }

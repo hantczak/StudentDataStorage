@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Tag("integration")
@@ -45,6 +43,6 @@ public class GetStudentByIdTests extends StudentDataStorageApplicationTests {
 
         //then
         Optional<Student> databaseResponse = studentRepositoryProvider.getStudent(1L);
-        Assertions.assertEquals(expectedResponse,databaseResponse.get());
+        Assertions.assertEquals(expectedResponse, databaseResponse.get());
     }
 }

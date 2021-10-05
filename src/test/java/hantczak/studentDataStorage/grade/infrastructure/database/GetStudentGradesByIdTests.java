@@ -3,9 +3,7 @@ package hantczak.studentDataStorage.grade.infrastructure.database;
 import hantczak.studentDataStorage.StudentDataStorageApplicationTests;
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeRepository;
-import hantczak.studentDataStorage.student.domain.Student;
 import hantczak.studentDataStorage.utils.GradeBuilder;
-import hantczak.studentDataStorage.utils.StudentBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag("integration")
 public class GetStudentGradesByIdTests extends StudentDataStorageApplicationTests {
@@ -46,6 +43,6 @@ public class GetStudentGradesByIdTests extends StudentDataStorageApplicationTest
 
         //then
         List<Grade> databaseResponse = gradeRepositoryProvider.getStudentGrades(1L);
-        Assertions.assertEquals(List.of(expectedResponse),databaseResponse);
+        Assertions.assertEquals(List.of(expectedResponse), databaseResponse);
     }
 }

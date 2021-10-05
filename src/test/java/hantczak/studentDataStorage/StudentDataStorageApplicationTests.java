@@ -22,14 +22,14 @@ public class StudentDataStorageApplicationTests {
         return wholeUrl;
     }
 
-    protected String buildUrl(String endpointName,String parameterName, String parameterValue) {
+    protected String buildUrl(String endpointName, String parameterName, String parameterValue) {
         String urlBase = "http://localhost:" + port;
         String wholeUrl = urlBase + "/" + endpointName;
         wholeUrl = wholeUrl + "?" + parameterName + "=" + parameterValue;
         return wholeUrl;
     }
 
-    protected String buildUrl(String endpointName,String parameterName, String parameterValue,String parameter2Name,String parameter2Value) {
+    protected String buildUrl(String endpointName, String parameterName, String parameterValue, String parameter2Name, String parameter2Value) {
         String urlBase = "http://localhost:" + port;
         String wholeUrl = urlBase + "/" + endpointName;
         wholeUrl = wholeUrl + "?" + parameterName + "=" + parameterValue + "&" + parameter2Name + "=" + parameter2Value;

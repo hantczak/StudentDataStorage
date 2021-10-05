@@ -19,14 +19,14 @@ public class UpdateAverageTests extends StudentDataStorageApplicationTests {
     @DisplayName("Should update Average")
     void shouldUpdateAverage() {
         //given
-        StudentAverage studentAverage = new StudentAverage(4.0,1L);
-        StudentAverage updatedStudentAverage = new StudentAverage(5.0,1L);
+        StudentAverage studentAverage = new StudentAverage(4.0, 1L);
+        StudentAverage updatedStudentAverage = new StudentAverage(5.0, 1L);
 
         //when
         studentAverageProvider.updateAverage(studentAverage);
         studentAverageProvider.updateAverage(updatedStudentAverage);
 
         //then
-        Assertions.assertEquals(updatedStudentAverage.getAverage(),studentAverageProvider.getStudentAverage(1L).get().getAverage());
+        Assertions.assertEquals(updatedStudentAverage.getAverage(), studentAverageProvider.getStudentAverage(1L).get().getAverage());
     }
 }

@@ -42,7 +42,7 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
     @DisplayName("Should return registered students in alphabetical order")
     void shouldReturnStudentsInAlphabeticalOrder() {
         //given
-        String url = buildUrl("students","sortType", "NAME_ASC");
+        String url = buildUrl("students", "sortType", "NAME_ASC");
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
         studentBuilder.setName("bca");
@@ -53,7 +53,7 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //when
         restTemplate.postForEntity(url, student, String.class);
         restTemplate.postForEntity(url, student1, String.class);
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student,student1));
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student, student1));
         StudentResponse expectedResponse = new StudentResponse(studentDtoList);
         ResponseEntity<StudentResponse> responseEntity = restTemplate.getForEntity(url, StudentResponse.class);
         StudentResponse studentResponseFromController = responseEntity.getBody();
@@ -67,7 +67,7 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
     @DisplayName("Should return registered students ordered by age")
     void shouldReturnStudentsOrderedByAge() {
         //given
-        String url = buildUrl("students","sortType", "AGE_DSC");
+        String url = buildUrl("students", "sortType", "AGE_DSC");
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
         studentBuilder.setDateOfBirth(LocalDate.of(2010, 06, 05));
@@ -79,7 +79,7 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //when
         restTemplate.postForEntity(url, student, String.class);
         restTemplate.postForEntity(url, student1, String.class);
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student,student1));
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student, student1));
         StudentResponse expectedResponse = new StudentResponse(studentDtoList);
         ResponseEntity<StudentResponse> responseEntity = restTemplate.getForEntity(url, StudentResponse.class);
         StudentResponse studentResponseFromController = responseEntity.getBody();
@@ -93,7 +93,7 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
     @DisplayName("Should return status code 422 for duplicate email")
     void shouldReturn422ForDuplicateEmail() {
         //given
-        String url = buildUrl("students","sortType", "NAME_ASC");
+        String url = buildUrl("students", "sortType", "NAME_ASC");
         StudentBuilder studentBuilder = StudentBuilder.create();
         studentBuilder.setEmail("abc@gmail.com");
         Student student = studentBuilder.build();
@@ -104,6 +104,6 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         restTemplate.postForEntity(url, student, String.class);
 
         //then
-        Assertions.assertThrows(HttpClientErrorException.UnprocessableEntity.class,()->restTemplate.postForEntity(url, student1, String.class));
+        Assertions.assertThrows(HttpClientErrorException.UnprocessableEntity.class, () -> restTemplate.postForEntity(url, student1, String.class));
     }
 }

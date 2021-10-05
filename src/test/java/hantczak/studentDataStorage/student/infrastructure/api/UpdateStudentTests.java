@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 
 @Tag("integration")
 public class UpdateStudentTests extends StudentDataStorageApplicationTests {
+
     @Test
     @DisplayName("Should update student by Id")
     void shouldUpdateStudentById() {
         //given
-        String url = buildUrl("students","studentId", "1");
-        System.out.println(url);
+        String url = buildUrlWithPathArgumentForStudent(1L);
         StudentBuilder studentBuilder = StudentBuilder.create();
 
         //when
@@ -29,7 +29,7 @@ public class UpdateStudentTests extends StudentDataStorageApplicationTests {
         Assertions.assertEquals(expectedStudent, studentDtoResponseFromController);
 
         //then
-        restTemplate.put(buildUrl("students","studentId", "1"), updatedStudent, Student.class);
-        Assertions.assertEquals(StudentMapper.toDto(updatedStudent), restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(1L), StudentDto.class).getBody());
+        restTemplate.put(buildUrl("students", "studentId", "1"), updatedStudent, Student.class);
+        Assertions.assertEquals(StudentMapper.toDto(updatedStudent), restTemplate.getForEntity(url, StudentDto.class).getBody());
     }
 }

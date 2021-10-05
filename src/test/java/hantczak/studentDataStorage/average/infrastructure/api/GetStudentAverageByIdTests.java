@@ -4,8 +4,6 @@ import hantczak.studentDataStorage.StudentDataStorageApplicationTests;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.student.domain.Student;
-import hantczak.studentDataStorage.student.infrastructure.api.StudentDto;
-import hantczak.studentDataStorage.student.infrastructure.api.StudentMapper;
 import hantczak.studentDataStorage.utils.GradeBuilder;
 import hantczak.studentDataStorage.utils.StudentBuilder;
 import org.junit.jupiter.api.Assertions;

@@ -3,8 +3,6 @@ package hantczak.studentDataStorage.grade.infrastructure.api;
 import hantczak.studentDataStorage.StudentDataStorageApplicationTests;
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.student.domain.Student;
-import hantczak.studentDataStorage.student.infrastructure.api.StudentDto;
-import hantczak.studentDataStorage.student.infrastructure.api.StudentMapper;
 import hantczak.studentDataStorage.utils.GradeBuilder;
 import hantczak.studentDataStorage.utils.StudentBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +18,7 @@ public class DeleteGradeTests extends StudentDataStorageApplicationTests {
     @DisplayName("Should delete grade by Id")
     void shouldDeleteGradeByID() {
         //given
-        String url = buildUrl("students", "studentId", "1","gradeId","1");
+        String url = buildUrl("students", "studentId", "1", "gradeId", "1");
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
         StudentBuilder studentBuilder = StudentBuilder.create();

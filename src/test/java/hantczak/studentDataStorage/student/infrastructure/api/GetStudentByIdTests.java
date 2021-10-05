@@ -23,7 +23,7 @@ public class GetStudentByIdTests extends StudentDataStorageApplicationTests {
 
         //when
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
-        ResponseEntity responseFromController = restTemplate.getForEntity(url,StudentDto.class);
+        ResponseEntity responseFromController = restTemplate.getForEntity(url, StudentDto.class);
         StudentDto expectedResponse = StudentMapper.toDto(student);
 
         //then
