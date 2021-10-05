@@ -3,6 +3,7 @@ package hantczak.studentDataStorage.average.infrastructure.database;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.average.domain.StudentAverageRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -11,11 +12,12 @@ import java.util.Optional;
 
 @Transactional
 @Repository
+@PropertySource("application.properties")
 @Primary
-public class StudentAveragePostgreSQLRepository implements StudentAverageRepository {
-    private final StudentAveragePostgreSQLRepositoryInterface database;
+public class StudentAverageSQLRepository implements StudentAverageRepository {
+    private final StudentAverageSQLRepositoryInterface database;
 
-    public StudentAveragePostgreSQLRepository(StudentAveragePostgreSQLRepositoryInterface database) {
+    public StudentAverageSQLRepository(StudentAverageSQLRepositoryInterface database) {
         this.database = database;
     }
 

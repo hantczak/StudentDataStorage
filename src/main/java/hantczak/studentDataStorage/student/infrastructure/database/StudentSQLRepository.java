@@ -3,6 +3,7 @@ package hantczak.studentDataStorage.student.infrastructure.database;
 import hantczak.studentDataStorage.student.domain.Student;
 import hantczak.studentDataStorage.student.domain.StudentRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -11,12 +12,13 @@ import java.util.Optional;
 
 @Transactional
 @Repository
+@PropertySource("application.properties")
 @Primary
-public class StudentPostgreSQLRepository implements StudentRepository {
+public class StudentSQLRepository implements StudentRepository {
 
-    private final StudentPostgreSQLRepositoryInterface database;
+    private final StudentRepositoryInterface database;
 
-    public StudentPostgreSQLRepository(StudentPostgreSQLRepositoryInterface database) {
+    public StudentSQLRepository(StudentRepositoryInterface database) {
         this.database = database;
     }
 

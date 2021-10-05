@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-public interface StudentAveragePostgreSQLRepositoryInterface extends JpaRepository<StudentAverage, Long> {
+public interface StudentAverageSQLRepositoryInterface extends JpaRepository<StudentAverage, Long> {
     @Transactional
     Optional<StudentAverage> findByStudentId(Long studentId);
 

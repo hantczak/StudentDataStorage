@@ -147,5 +147,5 @@ EXCELLENT;
 
 <!-- STATUS -->
 ## 🏗️ Status 🏗️
-As the application is built mainly in educational purposes, it grows alongside my programming skills. Im trying to incorporate new technologies, techniques and design patterns into this application as I'm learning them.
-Project is still in development phase, implementation of additional functionalities is planned. Next step in development of this app will probably be an introduction of integration tests, as only unit test are provided.
+As the application is built mainly in educational purposes, it grows alongside my programming skills. I'm trying to incorporate new technologies, techniques and design patterns into this application as I'm learning them.
+Project is still in development phase, implementation of additional functionalities is planned.
