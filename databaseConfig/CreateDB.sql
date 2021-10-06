@@ -10,7 +10,8 @@ CREATE TABLE student (
 CREATE TABLE average (
     id BIGSERIAL NOT NULL PRIMARY KEY,
     average DOUBLE PRECISION NOT NULL,
-    student_id BIGSERIAL NOT NULL
+    student_id BIGSERIAL NOT NULL UNIQUE,
+    FOREIGN KEY (student_id) REFERENCES student(id)
 );
 
 CREATE SEQUENCE average_sequence
@@ -21,6 +22,12 @@ CREATE TABLE grade (
     grade_scale TEXT NOT NULL,
     grade_weight INTEGER NOT NULL,
     insertion_date DATE NOT NULL,
-    student_id BIGSERIAL NOT NULL
+    student_id BIGSERIAL NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES student(id)
 );
 
+CREATE INDEX student_id_average
+ON average (student_id); 
+
+CREATE INDEX student_id_grade
+ON grade (student_id); 

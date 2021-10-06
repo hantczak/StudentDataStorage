@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Setter
@@ -49,5 +50,27 @@ public class StudentAverage {
     public StudentAverage(double average, long studentId) {
         this.average = average;
         this.studentId = studentId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentAverage that = (StudentAverage) o;
+        return Double.compare(that.average, average) == 0 && studentId == that.studentId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, average, studentId);
+    }
+
+    @Override
+    public String toString() {
+        return "StudentAverage{" +
+                "id=" + id +
+                ", average=" + average +
+                ", studentId=" + studentId +
+                '}';
     }
 }

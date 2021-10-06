@@ -3,6 +3,7 @@ package hantczak.studentDataStorage.grade.infrastructure.database;
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
+@PropertySource("application.properties")
 @Primary
 public class GradePostgreSQLRepository implements GradeRepository {
     GradePostgreSQLRepositoryInterface database;
