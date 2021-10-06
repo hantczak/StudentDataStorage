@@ -1,3 +1,4 @@
+![CI](https://github.com/hantczak/StudentDataStorage/actions/workflows/gradle.yml/badge.svg)
 # Student Data Storage
 <!-- ABOUT THE PROJECT -->
 ## 🎓 About The Project 🎓
