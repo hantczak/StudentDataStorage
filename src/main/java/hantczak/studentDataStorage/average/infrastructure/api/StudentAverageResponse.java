@@ -1,16 +1,20 @@
 package hantczak.studentDataStorage.average.infrastructure.api;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 public class StudentAverageResponse {
-    private final List<StudentAverageDto> studentAverageDtoList;
-    private final int count;
+    private List<StudentAverageDto> studentAverageDtoList;
+    private int count;
 
     public StudentAverageResponse(List<StudentAverageDto> studentAverageDtoList){
         this.studentAverageDtoList=studentAverageDtoList;
         this.count = studentAverageDtoList.size();
+    }
+
+    public StudentAverageResponse() {
     }
 }

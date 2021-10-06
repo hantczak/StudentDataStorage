@@ -1,9 +1,14 @@
 package hantczak.studentDataStorage.average.infrastructure.api;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@Getter
+@AllArgsConstructor
 public class StudentAverageDto {
     double average;
     long studentId;
+
+    public StudentAverageDto() {
+    }
 }
