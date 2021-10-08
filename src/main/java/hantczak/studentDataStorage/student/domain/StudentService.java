@@ -1,8 +1,10 @@
 package hantczak.studentDataStorage.student.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -17,6 +19,11 @@ public class StudentService {
 
     public List<Student> getAllStudents() {
         return studentRepository.getAllStudents();
+    }
+
+    public List<Student> getAllStudentsSortedWithPagination(String studentSortType, int offset, int limit) {
+        StudentSortType parsedStudentSortType = parseStudentSortType(studentSortType);
+        return studentRepository.getAllStudentsSortedWithPagination(parsedStudentSortType,offset,limit);
     }
 
     public Optional<Student> getStudent(long id) {
@@ -43,5 +50,27 @@ public class StudentService {
 
     public void addListener(StudentDeletedListener studentDeletedListener) {
         listeners.add(studentDeletedListener);
+    }
+
+    private StudentSortType parseStudentSortType(String studentSortTypes) {
+        switch (studentSortTypes) {
+            case "NAME_ASC":
+                return StudentSortType.NAME_ASC;
+            case "NAME_DSC":
+                return StudentSortType.NAME_DSC;
+            case "AGE_ASC":
+                return StudentSortType.AGE_ASC;
+            case "AGE_DSC":
+                return StudentSortType.AGE_DSC;
+            default:
+                StringBuilder availableSortTypes = new StringBuilder();
+                Arrays.stream(StudentSortType.values())
+                        .forEach(type -> {
+                            availableSortTypes.append(type);
+                            availableSortTypes.append(", ");
+                        });
+
+                throw new InvalidStudentSortTypeException("Available values: " + availableSortTypes);
+        }
     }
 }
