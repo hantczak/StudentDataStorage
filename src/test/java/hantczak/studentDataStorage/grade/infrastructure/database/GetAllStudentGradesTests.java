@@ -51,7 +51,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         gradeRepositoryProvider.addGrade(grade1);
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.VALUE_ASC, 0, 5);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllGradesSorted(GradeSortType.VALUE_ASC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -71,7 +71,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         gradeRepositoryProvider.addGrade(grade1);
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.VALUE_DSC, 0, 5);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllGradesSorted(GradeSortType.VALUE_DSC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -91,7 +91,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         gradeRepositoryProvider.addGrade(grade1);
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.INSERTION_DATE_ASC, 0, 5);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllGradesSorted(GradeSortType.INSERTION_DATE_ASC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -111,7 +111,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         gradeRepositoryProvider.addGrade(grade1);
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.INSERTION_DATE_DSC, 0, 5);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllGradesSorted(GradeSortType.INSERTION_DATE_DSC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -135,7 +135,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         gradeRepositoryProvider.addGrade(grade2);
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.VALUE_ASC, 1, 1);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllGradesSorted(GradeSortType.VALUE_ASC, 1, 1);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 }

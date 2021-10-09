@@ -358,4 +358,21 @@ class StudentFacadeTest {
         //then
         assertEquals(updatedStudent, studentFacade.getStudent(1).get());
     }
+
+    @Test
+    @DisplayName("updateStudent should update student with different Id.")
+    void shouldUpdateStudentWithDifferentId() {
+        //given
+        Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
+        studentFacade.addStudent(student1);
+
+        Student updatedStudent = new Student(2L, "b", "b@examplemail.com", LocalDate.parse("2010-01-01"), 11, Gender.MALE);
+        Assumptions.assumeFalse(student1.equals(updatedStudent));
+
+        //when
+        studentFacade.updateStudentData(1L, updatedStudent);
+
+        //then
+        assertEquals(updatedStudent, studentFacade.getStudent(2).get());
+    }
 }

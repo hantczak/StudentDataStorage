@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 public class GetStudentAverageByIdTests extends StudentDataStorageApplicationTests {
 
     @Test
-    @DisplayName("Should return registered student")
-    void shouldReturnStudents() {
+    @DisplayName("Should return one student average")
+    void shouldReturnOneStudentAverage() {
         //given
         String url = buildUrlWithPathArgumentForAverage(1L);
         GradeBuilder gradeBuilder = GradeBuilder.create();

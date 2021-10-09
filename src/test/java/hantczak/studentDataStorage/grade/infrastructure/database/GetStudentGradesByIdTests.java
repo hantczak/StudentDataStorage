@@ -29,7 +29,7 @@ public class GetStudentGradesByIdTests extends StudentDataStorageApplicationTest
         //when
 
         //then
-        List<Grade> databaseResponse = gradeRepositoryProvider.getStudentGrades(1L);
+        List<Grade> databaseResponse = gradeRepositoryProvider.getAllStudentGradesSorted(1L, GradeSortType.VALUE_ASC, 0, 5);
         Assertions.assertTrue(databaseResponse.isEmpty());
     }
 

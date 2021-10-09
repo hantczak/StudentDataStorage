@@ -45,6 +45,6 @@ public class StudentDataStorageApplicationTests {
     }
 
     protected String buildUrlWithPathArgumentForAverage(Long id) {
-        return buildUrl("averages") + "/" + String.valueOf(id);
+        return buildUrl("students") + "/" + String.valueOf(id) + "/average";
     }
 }

@@ -17,14 +17,14 @@ public interface StudentAverageSQLRepositoryInterface extends JpaRepository<Stud
     void deleteByStudentId(Long studentId);
 
     @Query(value="SELECT * FROM average ORDER BY average ASC LIMIT ?2 OFFSET ?1", nativeQuery = true)
-    public List<StudentAverage> findAllAveragesSortByValueAscendingWithPagination(long offset, long limit);
+    List<StudentAverage> findAllAveragesSortByValueAscendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM average ORDER BY average DESC LIMIT ?2 OFFSET ?1", nativeQuery = true)
-    public List<StudentAverage> findAllAveragesSortByValueDescendingWithPagination(long offset, long limit);
+    List<StudentAverage> findAllAveragesSortByValueDescendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM average ORDER BY student_id ASC LIMIT ?2 OFFSET ?1", nativeQuery = true)
-    public List<StudentAverage> findAllAveragesSortByStudentIdAscendingWithPagination(long offset, long limit);
+    List<StudentAverage> findAllAveragesSortByStudentIdAscendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM average ORDER BY student_id DESC LIMIT ?2 OFFSET ?1", nativeQuery = true)
-    public List<StudentAverage> findAllAveragesSortByStudentIdDescendingWithPagination(long offset, long limit);
+    List<StudentAverage> findAllAveragesSortByStudentIdDescendingWithPagination(long offset, long limit);
 }

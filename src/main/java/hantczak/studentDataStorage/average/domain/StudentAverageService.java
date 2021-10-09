@@ -19,11 +19,11 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
         this.gradeFacade = gradeFacade;
     }
 
-    public List<StudentAverage> getAllAveragesSorted(String sortType,long offset,long limit) {
+    List<StudentAverage> getAllAveragesSorted(String sortType,long offset,long limit) {
         return studentAverageRepository.getAllAveragesSorted(parseStudentAverageSortType(sortType),offset,limit);
     }
 
-    public Optional<StudentAverage> getStudentAverage(long studentId) {
+    Optional<StudentAverage> getStudentAverage(long studentId) {
         return studentAverageRepository.getStudentAverage(studentId);
     }
 

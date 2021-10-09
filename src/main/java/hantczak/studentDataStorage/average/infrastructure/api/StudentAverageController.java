@@ -26,7 +26,7 @@ public class StudentAverageController {
         return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType,offset,limit))));
     }
 
-    @GetMapping("/averages/{studentId}")
+    @GetMapping("/students/{studentId}/average")
     public ResponseEntity<StudentAverageDto> getStudentAverageById(@PathVariable long studentId) {
         Optional<StudentAverage> averageOptional = studentAverageFacade.getStudentAverage(studentId);
         if (averageOptional.isPresent()) {

@@ -43,20 +43,6 @@ public class GradeController {
         }
     }
 
-    @GetMapping(path = "/grades/byId")
-    public ResponseEntity<GradeResponse> getStudentGrades(@RequestParam long studentId,
-                                                          @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
-                                                          @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
-                                                          @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
-        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
-        if (!studentGradeList.isEmpty()) {
-            List<GradeDto> studentGradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
-            return ResponseEntity.ok(new GradeResponse(studentGradeDtoList));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @PostMapping("/grades")
     public ResponseEntity<Boolean> addGrade(@RequestBody Grade grade) {
         gradeFacade.addGrade(grade);

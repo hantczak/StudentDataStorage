@@ -11,15 +11,14 @@ import java.util.List;
 public interface StudentRepositoryInterface extends JpaRepository<Student,Long> {
 
     @Query(value="SELECT * FROM student ORDER BY name ASC limit ?2 offset ?1", nativeQuery = true)
-    public List<Student> findByNameAscendingWithPagination(long offset, long limit);
+    List<Student> findByNameAscendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM student ORDER BY name DESC limit ?2 offset ?1", nativeQuery = true)
-    public List<Student> findByNameDescendingWithPagination(long offset, long limit);
+    List<Student> findByNameDescendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM student ORDER BY age ASC limit ?2 offset ?1", nativeQuery = true)
-    public List<Student> findByAgeAscendingWithPagination(long offset, long limit);
+    List<Student> findByAgeAscendingWithPagination(long offset, long limit);
 
     @Query(value="SELECT * FROM student ORDER BY age DESC limit ?2 offset ?1", nativeQuery = true)
-    public List<Student> findByAgeDescendingWithPagination(long offset, long limit);
-
+    List<Student> findByAgeDescendingWithPagination(long offset, long limit);
 }
