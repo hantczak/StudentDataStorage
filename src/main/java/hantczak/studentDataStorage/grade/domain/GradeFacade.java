@@ -4,19 +4,17 @@ import java.util.List;
 
 public class GradeFacade {
     private final GradeService gradeService;
-    private final GradeSortService gradeSortService;
 
-    public GradeFacade(GradeService gradeService, GradeSortService gradeSortService) {
+    public GradeFacade(GradeService gradeService) {
         this.gradeService = gradeService;
-        this.gradeSortService = gradeSortService;
     }
 
-    public List<Grade> getAllGradesSorted(String gradeSortType,long offset, long limit) {
-        return gradeSortService.getAllGradesSorted(gradeSortType,offset,limit);
+    public List<Grade> getAllGradesSorted(String gradeSortType,int offset, int limit) {
+        return gradeService.getAllGradesSorted(gradeSortType,offset,limit);
     }
 
-    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, long offset, long limit) {
-        return gradeSortService.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
+    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, int offset, int limit) {
+        return gradeService.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
     }
 
     public List<Grade> getStudentGrades(long studentId){
