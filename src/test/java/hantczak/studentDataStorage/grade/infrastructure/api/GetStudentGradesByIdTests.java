@@ -24,15 +24,24 @@ public class GetStudentGradesByIdTests extends StudentDataStorageApplicationTest
         //given
         String url = buildUrlWithPathArgumentForGrade(1L);
         GradeBuilder gradeBuilder = GradeBuilder.create();
+
         Grade clientSentGrade = gradeBuilder.build();
-        gradeBuilder.setStudentId(1L);
-        gradeBuilder.setGradeScale(GradeScale.SUFFICIENT);
-        Grade clientSentGrade1 = gradeBuilder.build();
+
+        Grade clientSentGrade1 = gradeBuilder
+                .setStudentId(1L)
+                .setGradeScale(GradeScale.SUFFICIENT)
+                .build();
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
-        Grade expectedGrade = gradeBuilder.setId(1L).setGradeScale(GradeScale.GOOD).build();
-        Grade expectedGrade1 = gradeBuilder.setId(2L).setGradeScale(GradeScale.SUFFICIENT).build();
+        Grade expectedGrade = gradeBuilder
+                .setId(1L)
+                .setGradeScale(GradeScale.GOOD)
+                .build();
+        Grade expectedGrade1 = gradeBuilder
+                .setId(2L)
+                .setGradeScale(GradeScale.SUFFICIENT)
+                .build();
 
         //when
         restTemplate.postForEntity(buildUrl("students"), student, String.class);

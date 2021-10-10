@@ -41,9 +41,11 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setGradeScale(GradeScale.EXCELLENT);
-        Grade grade1 = gradeBuilder.build();
+
+        Grade grade1 = gradeBuilder
+                .setId(2L)
+                .setGradeScale(GradeScale.EXCELLENT)
+                .build();
 
         //when
         List<Grade> expectedResponse = List.of(grade, grade1);
@@ -61,9 +63,10 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setGradeScale(GradeScale.EXCELLENT);
-        Grade grade1 = gradeBuilder.build();
+        Grade grade1 = gradeBuilder
+                .setId(2L)
+                .setGradeScale(GradeScale.EXCELLENT)
+                .build();
 
         //when
         List<Grade> expectedResponse = List.of(grade1, grade);
@@ -81,9 +84,11 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setInsertionDate(LocalDate.of(2021, 01, 01));
-        Grade grade1 = gradeBuilder.build();
+
+        Grade grade1 = gradeBuilder
+                .setId(2L)
+                .setInsertionDate(LocalDate.of(2021, 01, 01))
+                .build();
 
         //when
         List<Grade> expectedResponse = List.of(grade, grade1);
@@ -101,9 +106,10 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setInsertionDate(LocalDate.of(2021, 01, 01));
-        Grade grade1 = gradeBuilder.build();
+        Grade grade1 = gradeBuilder
+                .setId(2L)
+                .setInsertionDate(LocalDate.of(2021, 01, 01))
+                .build();
 
         //when
         List<Grade> expectedResponse = List.of(grade1, grade);
@@ -121,12 +127,14 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setGradeScale(GradeScale.EXCELLENT);
-        Grade grade1 = gradeBuilder.build();
-        gradeBuilder.setId(3L);
-        gradeBuilder.setGradeScale(GradeScale.FAIL);
-        Grade grade2 = gradeBuilder.build();
+        Grade grade1 = gradeBuilder
+                .setId(2L)
+                .setGradeScale(GradeScale.EXCELLENT)
+                .build();
+        Grade grade2 = gradeBuilder
+                .setId(3L)
+                .setGradeScale(GradeScale.FAIL)
+                .build();
 
         //when
         List<Grade> expectedResponse = List.of(grade);

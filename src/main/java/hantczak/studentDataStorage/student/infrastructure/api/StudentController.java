@@ -1,10 +1,7 @@
 package hantczak.studentDataStorage.student.infrastructure.api;
 
 import hantczak.studentDataStorage.grade.domain.InvalidGradeException;
-import hantczak.studentDataStorage.student.domain.InvalidStudentException;
-import hantczak.studentDataStorage.student.domain.InvalidStudentSortTypeException;
-import hantczak.studentDataStorage.student.domain.Student;
-import hantczak.studentDataStorage.student.domain.StudentFacade;
+import hantczak.studentDataStorage.student.domain.*;
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -31,7 +28,6 @@ public class StudentController {
         Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
             return ResponseEntity.ok(StudentMapper.toDto(student.get()));
-            //new ResponseEntity<>(student.get(), HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -39,8 +35,8 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String studentSortType,
-                                                          @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
-                                                          @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
+                                                          @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
+                                                          @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
         List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType, offset, limit));
         return new ResponseEntity<>(new StudentResponse(studentDtoList), HttpStatus.OK);
     }
@@ -48,7 +44,7 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentDto> addStudent(@RequestBody Student student) {
         StudentDto savedStudent = StudentMapper.toDto(studentFacade.addStudent(student));
-        return ResponseEntity.created(URI.create("/students/"+student.getId())).body(savedStudent);
+        return ResponseEntity.created(URI.create("/students/" + student.getId())).body(savedStudent);
     }
 
     @PutMapping
@@ -81,13 +77,13 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
-    @ExceptionHandler(PSQLException.class)
-    public ResponseEntity<String> handlePSQLException(PSQLException exception) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityException(DataIntegrityViolationException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityException(DataIntegrityViolationException exception) {
+    @ExceptionHandler(InvalidPaginationParametersException.class)
+    public ResponseEntity<String> handleInvalidStudentPaginationParametersException(InvalidPaginationParametersException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }

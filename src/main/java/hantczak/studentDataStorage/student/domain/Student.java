@@ -1,10 +1,10 @@
 package hantczak.studentDataStorage.student.domain;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class Student {
             generator = "student_sequence"
     )
     @Column(
-            name="id",
+            name = "id",
             nullable = false,
             updatable = false
     )

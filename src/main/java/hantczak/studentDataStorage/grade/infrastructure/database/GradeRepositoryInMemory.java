@@ -30,7 +30,7 @@ public class GradeRepositoryInMemory implements GradeRepository {
     }
 
     @Override
-    public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, int offset, int limit) {
+    public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, long offset, long limit) {
         return gradeMap.values().stream()
                 .sorted(getComparator(gradeSortType))
                 .skip(offset)
@@ -39,7 +39,7 @@ public class GradeRepositoryInMemory implements GradeRepository {
     }
 
     @Override
-    public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, int offset, int limit) {
+    public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, long offset, long limit) {
         return gradeMap.values().stream()
                 .sorted(getComparator(gradeSortType))
                 .filter(grade -> grade.getStudentId() == studentId)

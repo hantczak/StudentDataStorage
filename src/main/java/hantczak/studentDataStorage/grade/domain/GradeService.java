@@ -1,5 +1,6 @@
 package hantczak.studentDataStorage.grade.domain;
 
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import hantczak.studentDataStorage.student.domain.StudentDeletedListener;
 
 import java.util.ArrayList;
@@ -25,12 +26,14 @@ public class GradeService implements StudentDeletedListener {
         return gradeRepository.getStudentGrades(studentId);
     }
 
-    public List<Grade> getAllGradesSorted(String gradeSortType, int offset, int limit) {
+    public List<Grade> getAllGradesSorted(String gradeSortType, long offset, long limit) {
+        validatePaginationParameters(offset,limit);
         GradeSortType parsedGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getAllGradesSorted(parsedGradeSortType, offset, limit);
     }
 
-    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, int offset, int limit) {
+    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, long offset, long limit) {
+        validatePaginationParameters(offset,limit);
         GradeSortType parsedGradeSortType = parseGradeSortType(gradeSortType);
         return gradeRepository.getAllStudentGradesSorted(studentId, parsedGradeSortType, offset, limit);
     }
@@ -39,7 +42,7 @@ public class GradeService implements StudentDeletedListener {
         gradeValidator.validateGrade(grade);
         Grade createdGrade = gradeRepository.addGrade(grade);
         listeners.forEach(listener -> listener.onAdd(grade));
-       return createdGrade;
+        return createdGrade;
     }
 
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
@@ -86,6 +89,26 @@ public class GradeService implements StudentDeletedListener {
                             sortTypes.append(", ");
                         });
                 throw new InvalidGradeSortTypeException(",available sort types: " + sortTypes);
+        }
+    }
+
+    private void validatePaginationParameters(long offset, long limit){
+        List<String> errors = new ArrayList<>();
+
+        if(limit>100){
+            errors.add("Limit cannot be higher than 100");
+        }
+
+        if(limit<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if(offset<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new InvalidPaginationParametersException(errors.toString());
         }
     }
 }

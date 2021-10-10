@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -17,13 +16,10 @@ public class StudentService {
         this.studentValidator = studentValidator;
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.getAllStudents();
-    }
-
-    public List<Student> getAllStudentsSortedWithPagination(String studentSortType, int offset, int limit) {
+    public List<Student> getAllStudentsSortedWithPagination(String studentSortType, long offset, long limit) {
+        validatePaginationParameters(offset,limit);
         StudentSortType parsedStudentSortType = parseStudentSortType(studentSortType);
-        return studentRepository.getAllStudentsSortedWithPagination(parsedStudentSortType,offset,limit);
+        return studentRepository.getAllStudentsSortedWithPagination(parsedStudentSortType, offset, limit);
     }
 
     public Optional<Student> getStudent(long id) {
@@ -32,7 +28,7 @@ public class StudentService {
 
     public Student addStudent(Student student) {
         studentValidator.validateStudent(student);
-       return studentRepository.addStudent(student);
+        return studentRepository.addStudent(student);
     }
 
     public boolean updateStudentData(long studentId, Student student) {
@@ -71,6 +67,26 @@ public class StudentService {
                         });
 
                 throw new InvalidStudentSortTypeException("Available values: " + availableSortTypes);
+        }
+    }
+
+    private void validatePaginationParameters(long offset, long limit){
+        List<String> errors = new ArrayList<>();
+
+        if(limit>100){
+            errors.add("Limit cannot be higher than 100");
+        }
+
+        if(limit<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if(offset<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new InvalidPaginationParametersException(errors.toString());
         }
     }
 }

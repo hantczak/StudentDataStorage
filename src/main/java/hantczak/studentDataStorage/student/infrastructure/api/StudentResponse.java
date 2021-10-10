@@ -7,9 +7,9 @@ public class StudentResponse {
     private List<StudentDto> students;
     private int studentCount;
 
-    public StudentResponse(List<StudentDto> students){
+    public StudentResponse(List<StudentDto> students) {
         this.students = students;
-        this.studentCount= students.size();
+        this.studentCount = students.size();
     }
 
     public StudentResponse() {

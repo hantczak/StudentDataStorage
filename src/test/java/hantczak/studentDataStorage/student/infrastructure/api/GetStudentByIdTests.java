@@ -21,7 +21,9 @@ public class GetStudentByIdTests extends StudentDataStorageApplicationTests {
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student clientSentStudent = studentBuilder.build();
 
-        Student expectedStudent = studentBuilder.setId(1L).build();
+        Student expectedStudent = studentBuilder
+                .setId(1L)
+                .build();
         StudentDto expectedResponse = StudentMapper.toDto(expectedStudent);
 
         //when

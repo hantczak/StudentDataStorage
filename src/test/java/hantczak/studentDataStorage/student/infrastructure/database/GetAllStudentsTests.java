@@ -30,7 +30,7 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         List<Student> expectedResponse = new ArrayList<>();
 
         //then
-        List<Student> databaseResponse = studentRepositoryProvider.getAllStudents();
+        List<Student> databaseResponse = studentRepositoryProvider.getAllStudentsSortedWithPagination(StudentSortType.NAME_ASC,0,10);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -40,10 +40,11 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
-        studentBuilder.setName("bca");
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        Student student1 = studentBuilder.build();
+        Student student1 = studentBuilder
+                .setName("bca")
+                .setId(2L)
+                .setEmail("bca@gmail.com")
+                .build();
 
         //when
         studentRepositoryProvider.addStudent(student);
@@ -62,10 +63,11 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
-        studentBuilder.setName("bca");
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        Student student1 = studentBuilder.build();
+        Student student1 = studentBuilder
+                .setName("bca")
+                .setId(2L)
+                .setEmail("bca@gmail.com")
+                .build();
 
         //when
         studentRepositoryProvider.addStudent(student);
@@ -84,10 +86,11 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        studentBuilder.setAge(14);
-        Student student1 = studentBuilder.build();
+        Student student1 = studentBuilder
+                .setId(2L)
+                .setEmail("bca@gmail.com")
+                .setAge(14)
+                .build();
 
         //when
         studentRepositoryProvider.addStudent(student);
@@ -106,10 +109,11 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        studentBuilder.setAge(14);
-        Student student1 = studentBuilder.build();
+        Student student1 = studentBuilder
+                .setId(2L)
+                .setEmail("bca@gmail.com")
+                .setAge(14)
+                .build();
 
         //when
         studentRepositoryProvider.addStudent(student);
@@ -128,14 +132,17 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bbb@gmail.com");
-        studentBuilder.setName("bbb");
-        Student student1 = studentBuilder.build();
-        studentBuilder.setId(3L);
-        studentBuilder.setEmail("ccc@gmail.com");
-        studentBuilder.setName("ccc");
-        Student student2 = studentBuilder.build();
+        Student student1 = studentBuilder
+                .setId(2L)
+                .setEmail("bbb@gmail.com")
+                .setName("bbb")
+                .build();
+
+        Student student2 = studentBuilder
+                .setId(3L)
+                .setEmail("ccc@gmail.com")
+                .setName("ccc")
+                .build();
 
         //when
         studentRepositoryProvider.addStudent(student);

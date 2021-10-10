@@ -4,10 +4,8 @@ import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeFacade;
 import hantczak.studentDataStorage.grade.domain.GradeFacadeConfiguration;
 import hantczak.studentDataStorage.grade.domain.GradeScale;
-import hantczak.studentDataStorage.student.domain.Gender;
-import hantczak.studentDataStorage.student.domain.Student;
-import hantczak.studentDataStorage.student.domain.StudentFacade;
-import hantczak.studentDataStorage.student.domain.StudentFacadeConfiguration;
+import hantczak.studentDataStorage.student.domain.*;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -161,8 +159,8 @@ class StudentAverageFacadeTest {
 
             //then
             assertAll(
-                    () -> assertEquals(1, studentAverageFacade.getAllAveragesSorted("VALUE_ASC",0,5).size()),
-                    () -> assertEquals(3.6, studentAverageFacade.getAllAveragesSorted("VALUE_ASC",0,5).get(0).getAverage())
+                    () -> assertEquals(1, studentAverageFacade.getAllAveragesSorted("VALUE_ASC", 0, 5).size()),
+                    () -> assertEquals(3.6, studentAverageFacade.getAllAveragesSorted("VALUE_ASC", 0, 5).get(0).getAverage())
             );
         }
     }
@@ -188,6 +186,47 @@ class StudentAverageFacadeTest {
         //then
         if (outputAverage.isPresent()) {
             fail();
+        }
+    }
+
+    @Nested
+    @DisplayName("Exception should be thrown when")
+    class InvalidStudentExceptionTest {
+
+        @Test
+        @DisplayName("Limit value is set to over 100.")
+        void shouldThrowExceptionWhenLimitIsOver100() {
+            //given
+            //when
+            //then
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> studentAverageFacade.getAllAveragesSorted("NAME_ASC", 0L, 150L));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to below 0.")
+        void shouldThrowExceptionWhenLimitIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> studentAverageFacade.getAllAveragesSorted("NAME_ASC", 0L, -5L));
+        }
+
+        @Test
+        @DisplayName("Offset value is set to below 0.")
+        void shouldThrowExceptionWhenOffsetIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class, () -> studentAverageFacade.getAllAveragesSorted("NAME_ASC", -5L, 10L));
+        }
+
+        @Test
+        @DisplayName("Sort type does not exist.")
+        void shouldThrowExceptionWhenSortTypeDoesNotExist() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidStudentAverageSortTypeException.class, () -> studentAverageFacade.getAllAveragesSorted("ABC", 0L, 10L));
         }
     }
 }

@@ -21,8 +21,6 @@ public class UpdateStudentTests extends StudentDataStorageApplicationTests {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.setId(1L).build();
-        studentBuilder.setName("cba");
-        studentBuilder.setEmail("cba@gmail.com");
         Student newStudent = studentBuilder
                 .setName("cba")
                 .setEmail("cba@gmail.com")

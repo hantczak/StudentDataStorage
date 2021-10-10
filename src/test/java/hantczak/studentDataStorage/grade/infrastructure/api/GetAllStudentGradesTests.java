@@ -23,15 +23,15 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
     void shouldReturnGrades() {
         //given
         String url = buildUrl("grades");
+
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade clientSentGrade = gradeBuilder.build();
+        Grade expectedGrade = gradeBuilder.setId(1L).build();
+
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
-        Grade expectedGrade = gradeBuilder.setId(1L).build();
-
         //when
-        System.out.println(url);
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
         restTemplate.postForEntity(buildUrl("grades"), clientSentGrade, String.class);
         List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(List.of(expectedGrade));
@@ -49,11 +49,15 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
     void shouldReturnGradesOrderedByValue() {
         //given
         String url = buildUrl("grades", "sortType", "VALUE_DSC");
+
         GradeBuilder gradeBuilder = GradeBuilder.create();
+
         Grade clientSentGrade = gradeBuilder.build();
-        gradeBuilder.setStudentId(1L)
-                .setGradeScale(GradeScale.SUFFICIENT);
-        Grade grade1 = gradeBuilder.build();
+
+        Grade clientSentGrade1 = gradeBuilder
+                .setStudentId(1L)
+                .setGradeScale(GradeScale.SUFFICIENT)
+                .build();
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
@@ -63,7 +67,7 @@ public class GetAllStudentGradesTests extends StudentDataStorageApplicationTests
         //when
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
         restTemplate.postForEntity(buildUrl("grades"), clientSentGrade, String.class);
-        restTemplate.postForEntity(buildUrl("grades"), grade1, String.class);
+        restTemplate.postForEntity(buildUrl("grades"), clientSentGrade1, String.class);
 
         List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(List.of(expectedGrade, expectedGrade1));
         GradeResponse expectedResponse = new GradeResponse(gradeDtoList);

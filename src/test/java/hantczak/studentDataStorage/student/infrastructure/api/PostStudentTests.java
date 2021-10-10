@@ -22,24 +22,23 @@ public class PostStudentTests extends StudentDataStorageApplicationTests {
         Student clientSentStudent = studentBuilder
                 .setEmail("abc@gmail.com")
                 .build();
-        StudentDto expectedStudent= StudentMapper.toDto(studentBuilder.setId(1L).build());
+        StudentDto expectedStudent = StudentMapper.toDto(studentBuilder.setId(1L).build());
 
         Student clientSentStudent1 = studentBuilder
                 .setId(null)
                 .setEmail("bcd@gmail.com")
                 .build();
-        StudentDto expectedStudent1= StudentMapper.toDto(studentBuilder.setId(2L).build());
-
+        StudentDto expectedStudent1 = StudentMapper.toDto(studentBuilder.setId(2L).build());
 
         //when
         restTemplate.postForEntity(url, clientSentStudent, String.class);
         restTemplate.postForEntity(url, clientSentStudent1, String.class);
-        StudentDto studentDtoFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(1L),StudentDto.class).getBody();
-        StudentDto studentDtoFromController1 = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(2L),StudentDto.class).getBody();
+        StudentDto studentDtoFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(1L), StudentDto.class).getBody();
+        StudentDto studentDtoFromController1 = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(2L), StudentDto.class).getBody();
 
         //then
-        Assertions.assertEquals(expectedStudent,studentDtoFromController);
-        Assertions.assertEquals(expectedStudent1,studentDtoFromController1);
+        Assertions.assertEquals(expectedStudent, studentDtoFromController);
+        Assertions.assertEquals(expectedStudent1, studentDtoFromController1);
     }
 
     @Test

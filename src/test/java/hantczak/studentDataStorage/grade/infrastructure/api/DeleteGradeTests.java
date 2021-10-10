@@ -24,13 +24,9 @@ public class DeleteGradeTests extends StudentDataStorageApplicationTests {
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
-
         //when
-        GradeDto expectedGrade = GradeMapper.toDto(grade);
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
         restTemplate.postForEntity(buildUrl("grades"), grade, String.class);
-//        GradeDto gradeDtoResponseFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForGrade(1L), GradeDto.class).getBody();
-//        Assertions.assertEquals(expectedGrade, gradeDtoResponseFromController);
 
         //then
         restTemplate.delete(url);

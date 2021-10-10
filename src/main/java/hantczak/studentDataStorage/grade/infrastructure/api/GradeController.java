@@ -4,6 +4,7 @@ import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeFacade;
 import hantczak.studentDataStorage.grade.domain.InvalidGradeException;
 import hantczak.studentDataStorage.grade.domain.InvalidGradeSortTypeException;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +48,12 @@ public class GradeController {
     @PostMapping("/grades")
     public ResponseEntity<GradeDto> addGrade(@RequestBody Grade grade) {
         GradeDto savedGrade = GradeMapper.toDto(gradeFacade.addGrade(grade));
-        return ResponseEntity.created(URI.create("/students/"+grade.getStudentId()+"/grades")).body(savedGrade);
+        return ResponseEntity.created(URI.create("/students/" + grade.getStudentId() + "/grades")).body(savedGrade);
     }
 
     @PutMapping("/grades")
     public ResponseEntity<String> updateGrade(@RequestBody Grade updatedGrade,
-                                               @RequestParam(value = "gradeId") long oldGradeId) {
+                                              @RequestParam(value = "gradeId") long oldGradeId) {
         boolean ifUpdated = gradeFacade.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
             return ResponseEntity.noContent().build();
@@ -79,6 +80,11 @@ public class GradeController {
 
     @ExceptionHandler(InvalidGradeSortTypeException.class)
     public ResponseEntity<String> handleInvalidGradeSortTypeException(InvalidGradeSortTypeException exception) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPaginationParametersException.class)
+    public ResponseEntity<String> handleInvalidStudentPaginationParametersException(InvalidPaginationParametersException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }
