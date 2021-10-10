@@ -1,7 +1,7 @@
 package hantczak.studentDataStorage.grade.domain;
 
-import lombok.AllArgsConstructor;
 import com.sun.istack.Nullable;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @Table(
         name = "grade"
 )
-public class Grade{
+public class Grade {
 
     @Id
     @SequenceGenerator(
@@ -31,7 +31,7 @@ public class Grade{
             generator = "grade_sequence"
     )
     @Column(
-            name="id",
+            name = "id",
             nullable = false,
             updatable = false
     )
@@ -62,7 +62,7 @@ public class Grade{
     )
     private int gradeWeight;
 
-    public int getGradeValue(){
+    public int getGradeValue() {
         return gradeScale.getGradeValue();
     }
 

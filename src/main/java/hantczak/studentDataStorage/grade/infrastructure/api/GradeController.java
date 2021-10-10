@@ -47,12 +47,12 @@ public class GradeController {
     @PostMapping("/grades")
     public ResponseEntity<GradeDto> addGrade(@RequestBody Grade grade) {
         GradeDto savedGrade = GradeMapper.toDto(gradeFacade.addGrade(grade));
-        return ResponseEntity.created(URI.create("/students/"+grade.getStudentId()+"/grades")).body(savedGrade);
+        return ResponseEntity.created(URI.create("/students/" + grade.getStudentId() + "/grades")).body(savedGrade);
     }
 
     @PutMapping("/grades")
     public ResponseEntity<String> updateGrade(@RequestBody Grade updatedGrade,
-                                               @RequestParam(value = "gradeId") long oldGradeId) {
+                                              @RequestParam(value = "gradeId") long oldGradeId) {
         boolean ifUpdated = gradeFacade.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
             return ResponseEntity.noContent().build();

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class GradeMapper {
 
-    public static List<GradeDto> gradeListToGradeDtoList(List<Grade> gradeList){
+    public static List<GradeDto> gradeListToGradeDtoList(List<Grade> gradeList) {
         List<GradeDto> gradeDtoList = gradeList.stream()
                 .map(GradeMapper::toDto)
                 .collect(Collectors.toList());

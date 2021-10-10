@@ -16,7 +16,7 @@ public class StudentBuilder {
     public StudentBuilder() {
     }
 
-    public static StudentBuilder create(){
+    public static StudentBuilder create() {
         return new StudentBuilder();
     }
 
@@ -50,9 +50,9 @@ public class StudentBuilder {
         return this;
     }
 
-    public Student build(){
+    public Student build() {
         Student student = new Student();
-        if(this.id!=null){
+        if (this.id != null) {
             student.setId(id);
         }
         student.setName(name);

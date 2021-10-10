@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class StudentService {
     private final StudentRepository studentRepository;
@@ -23,7 +22,7 @@ public class StudentService {
 
     public List<Student> getAllStudentsSortedWithPagination(String studentSortType, int offset, int limit) {
         StudentSortType parsedStudentSortType = parseStudentSortType(studentSortType);
-        return studentRepository.getAllStudentsSortedWithPagination(parsedStudentSortType,offset,limit);
+        return studentRepository.getAllStudentsSortedWithPagination(parsedStudentSortType, offset, limit);
     }
 
     public Optional<Student> getStudent(long id) {
@@ -32,7 +31,7 @@ public class StudentService {
 
     public Student addStudent(Student student) {
         studentValidator.validateStudent(student);
-       return studentRepository.addStudent(student);
+        return studentRepository.addStudent(student);
     }
 
     public boolean updateStudentData(long studentId, Student student) {

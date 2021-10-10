@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 @Tag("integration")
 public class GetAllAveragesTests extends StudentDataStorageApplicationTests {
@@ -27,7 +26,7 @@ public class GetAllAveragesTests extends StudentDataStorageApplicationTests {
         //when
 
         //then
-        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_ASC,0,5);
+        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_ASC, 0, 5);
         Assertions.assertTrue(databaseResponse.isEmpty());
     }
 
@@ -44,7 +43,7 @@ public class GetAllAveragesTests extends StudentDataStorageApplicationTests {
         studentAverageProvider.updateAverage(studentAverage1);
 
         //then
-        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_ASC,0,5);
+        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_ASC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 
@@ -61,7 +60,7 @@ public class GetAllAveragesTests extends StudentDataStorageApplicationTests {
         studentAverageProvider.updateAverage(studentAverage1);
 
         //then
-        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_DSC,0,5);
+        List<StudentAverage> databaseResponse = studentAverageProvider.getAllAveragesSorted(StudentAverageSortType.VALUE_DSC, 0, 5);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 

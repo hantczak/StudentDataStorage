@@ -39,7 +39,7 @@ public class GradeService implements StudentDeletedListener {
         gradeValidator.validateGrade(grade);
         Grade createdGrade = gradeRepository.addGrade(grade);
         listeners.forEach(listener -> listener.onAdd(grade));
-       return createdGrade;
+        return createdGrade;
     }
 
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {

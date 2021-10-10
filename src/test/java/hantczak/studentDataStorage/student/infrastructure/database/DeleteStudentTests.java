@@ -21,9 +21,9 @@ public class DeleteStudentTests extends StudentDataStorageApplicationTests {
     void shouldDeleteStudentByID() {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
+        Student student = studentBuilder.build();
 
         //when
-        Student student = studentBuilder.build();
         studentRepositoryProvider.addStudent(student);
         studentRepositoryProvider.deleteStudent(1L);
 

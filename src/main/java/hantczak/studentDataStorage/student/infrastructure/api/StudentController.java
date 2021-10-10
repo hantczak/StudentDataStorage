@@ -48,7 +48,7 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<StudentDto> addStudent(@RequestBody Student student) {
         StudentDto savedStudent = StudentMapper.toDto(studentFacade.addStudent(student));
-        return ResponseEntity.created(URI.create("/students/"+student.getId())).body(savedStudent);
+        return ResponseEntity.created(URI.create("/students/" + student.getId())).body(savedStudent);
     }
 
     @PutMapping

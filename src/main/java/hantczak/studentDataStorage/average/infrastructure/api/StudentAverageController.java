@@ -3,7 +3,6 @@ package hantczak.studentDataStorage.average.infrastructure.api;
 import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacade;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class StudentAverageController {
     public ResponseEntity<StudentAverageResponse> getAllAverages(@RequestParam(value = "sortType", required = false, defaultValue = "STUDENT_ID_ASC") String studentAverageSortType,
                                                                  @RequestParam(value = "offset", defaultValue = "0", required = false) long offset,
                                                                  @RequestParam(value = "limit", defaultValue = "20", required = false) long limit) {
-        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType,offset,limit))));
+        return ResponseEntity.ok(new StudentAverageResponse(StudentAverageMapper.StudentAverageListToStudentAverageDtoList(studentAverageFacade.getAllAveragesSorted(studentAverageSortType, offset, limit))));
     }
 
     @GetMapping("/students/{studentId}/average")

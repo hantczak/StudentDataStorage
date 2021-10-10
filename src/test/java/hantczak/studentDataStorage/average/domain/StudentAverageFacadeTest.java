@@ -161,8 +161,8 @@ class StudentAverageFacadeTest {
 
             //then
             assertAll(
-                    () -> assertEquals(1, studentAverageFacade.getAllAveragesSorted("VALUE_ASC",0,5).size()),
-                    () -> assertEquals(3.6, studentAverageFacade.getAllAveragesSorted("VALUE_ASC",0,5).get(0).getAverage())
+                    () -> assertEquals(1, studentAverageFacade.getAllAveragesSorted("VALUE_ASC", 0, 5).size()),
+                    () -> assertEquals(3.6, studentAverageFacade.getAllAveragesSorted("VALUE_ASC", 0, 5).get(0).getAverage())
             );
         }
     }

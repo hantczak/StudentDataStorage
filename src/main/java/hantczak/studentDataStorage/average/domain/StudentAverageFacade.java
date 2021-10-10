@@ -10,8 +10,8 @@ public class StudentAverageFacade {
         this.studentAverageService = studentAverageService;
     }
 
-    public List<StudentAverage> getAllAveragesSorted(String sortType,long offset, long limit) {
-        return studentAverageService.getAllAveragesSorted(sortType,offset,limit);
+    public List<StudentAverage> getAllAveragesSorted(String sortType, long offset, long limit) {
+        return studentAverageService.getAllAveragesSorted(sortType, offset, limit);
     }
 
     public Optional<StudentAverage> getStudentAverage(long studentId) {

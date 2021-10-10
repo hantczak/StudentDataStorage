@@ -28,11 +28,11 @@ public class StudentValidator {
             errors.add("Students cannot be over 18 years old.");
         }
 
-        if (calendar.get(Calendar.YEAR)-student.getDateOfBirth().getYear() != student.getAge()) {
+        if (calendar.get(Calendar.YEAR) - student.getDateOfBirth().getYear() != student.getAge()) {
             errors.add("Student age does not match his date of birth. Please input correct age value.");
         }
 
-        if(student.getGender()==null){
+        if (student.getGender() == null) {
             errors.add("Please set the gender.");
         }
 

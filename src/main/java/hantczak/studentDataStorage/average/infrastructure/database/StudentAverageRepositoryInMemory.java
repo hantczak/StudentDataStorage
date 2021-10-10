@@ -28,14 +28,14 @@ public class StudentAverageRepositoryInMemory implements StudentAverageRepositor
     }
 
     public boolean updateAverage(StudentAverage studentAverage) {
-       StudentAverage updatedAverage =  studentIdToAverageMap.put(studentAverage.getStudentId(), studentAverage);
-        return updatedAverage!=null;
+        StudentAverage updatedAverage = studentIdToAverageMap.put(studentAverage.getStudentId(), studentAverage);
+        return updatedAverage != null;
     }
 
     public boolean deleteAverage(long studentId) {
         StudentAverage removedAverage = studentIdToAverageMap.remove(studentId);
 
-        return removedAverage!=null;
+        return removedAverage != null;
     }
 
     private Comparator<StudentAverage> getComparator(StudentAverageSortType studentAverageSortType) {

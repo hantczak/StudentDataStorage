@@ -2,7 +2,6 @@ package hantczak.studentDataStorage.utils;
 
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeScale;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -10,13 +9,13 @@ public class GradeBuilder {
     private Long id = null;
     private GradeScale gradeScale = GradeScale.GOOD;
     private long studentId = 1L;
-    private LocalDate insertionDate = LocalDate.of(2020,01,01);
+    private LocalDate insertionDate = LocalDate.of(2020, 01, 01);
     private int gradeWeight = 2;
 
     public GradeBuilder() {
     }
 
-    public static GradeBuilder create(){
+    public static GradeBuilder create() {
         return new GradeBuilder();
     }
 
@@ -46,9 +45,9 @@ public class GradeBuilder {
         return this;
     }
 
-    public Grade build(){
+    public Grade build() {
         Grade grade = new Grade();
-        if(this.id != null){
+        if (this.id != null) {
             grade.setGradeId(id);
         }
         grade.setGradeScale(gradeScale);

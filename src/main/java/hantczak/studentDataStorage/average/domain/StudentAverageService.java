@@ -19,8 +19,8 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
         this.gradeFacade = gradeFacade;
     }
 
-    List<StudentAverage> getAllAveragesSorted(String sortType,long offset,long limit) {
-        return studentAverageRepository.getAllAveragesSorted(parseStudentAverageSortType(sortType),offset,limit);
+    List<StudentAverage> getAllAveragesSorted(String sortType, long offset, long limit) {
+        return studentAverageRepository.getAllAveragesSorted(parseStudentAverageSortType(sortType), offset, limit);
     }
 
     Optional<StudentAverage> getStudentAverage(long studentId) {
