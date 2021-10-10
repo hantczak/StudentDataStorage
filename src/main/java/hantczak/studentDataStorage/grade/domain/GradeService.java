@@ -35,10 +35,11 @@ public class GradeService implements StudentDeletedListener {
         return gradeRepository.getAllStudentGradesSorted(studentId, parsedGradeSortType, offset, limit);
     }
 
-    public void addGrade(Grade grade) {
+    public Grade addGrade(Grade grade) {
         gradeValidator.validateGrade(grade);
-        gradeRepository.addGrade(grade);
+        Grade createdGrade = gradeRepository.addGrade(grade);
         listeners.forEach(listener -> listener.onAdd(grade));
+       return createdGrade;
     }
 
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {

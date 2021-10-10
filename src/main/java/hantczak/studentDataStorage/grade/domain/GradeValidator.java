@@ -25,11 +25,6 @@ public class GradeValidator {
         if(grade.getInsertionDate().getYear()<2015){
             errors.add("School exists since 2015 year. Grade cannot be introduced with lower year value.");
         }
-
-        if(grade.getGradeId()<=0){
-            errors.add("Grade ID has to be bigger than 0. Please input a valid ID.");
-        }
-
         if(!errors.isEmpty()){
             throw new InvalidGradeException(errors);
         }

@@ -26,16 +26,20 @@ public class UpdateGradeTests extends StudentDataStorageApplicationTests {
         //given
         GradeBuilder gradeBuilder = GradeBuilder.create();
         Grade grade = gradeBuilder.build();
-        gradeBuilder.setGradeScale(GradeScale.EXCELLENT);
-        gradeBuilder.setGradeWeight(3);
-        gradeBuilder.setInsertionDate(LocalDate.of(2021, 01, 01));
-        Grade updatedGrade = gradeBuilder.build();
+
+        Grade updatedGrade = gradeBuilder
+                .setGradeScale(GradeScale.EXCELLENT)
+                .setGradeWeight(3)
+                .setInsertionDate(LocalDate.of(2021, 01, 01))
+                .build();
+
+        Grade expectedGrade = gradeBuilder.setId(1L).build();
 
         //when
         gradeRepositoryProvider.addGrade(grade);
         gradeRepositoryProvider.updateGrade(updatedGrade, 1L);
 
         //then
-        Assertions.assertEquals(List.of(updatedGrade), gradeRepositoryProvider.getStudentGrades(1L));
+        Assertions.assertEquals(List.of(expectedGrade), gradeRepositoryProvider.getStudentGrades(1L));
     }
 }

@@ -20,15 +20,16 @@ public class UpdateStudentTests extends StudentDataStorageApplicationTests {
     void shouldUpdateStudentById() {
         //given
         StudentBuilder studentBuilder = StudentBuilder.create();
-
-        //when
-        Student student = studentBuilder.build();
-        studentRepositoryProvider.addStudent(student);
-
+        Student student = studentBuilder.setId(1L).build();
         studentBuilder.setName("cba");
         studentBuilder.setEmail("cba@gmail.com");
-        Student newStudent = studentBuilder.build();
+        Student newStudent = studentBuilder
+                .setName("cba")
+                .setEmail("cba@gmail.com")
+                .build();
 
+        //when
+        studentRepositoryProvider.addStudent(student);
         studentRepositoryProvider.updateStudentData(1L, newStudent);
 
         //then

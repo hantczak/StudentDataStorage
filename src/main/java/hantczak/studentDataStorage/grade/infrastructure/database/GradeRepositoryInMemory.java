@@ -49,8 +49,8 @@ public class GradeRepositoryInMemory implements GradeRepository {
     }
 
     @Override
-    public void addGrade(Grade grade) {
-        gradeMap.put(grade.getGradeId(), grade);
+    public Grade addGrade(Grade grade) {
+        return gradeMap.put(grade.getGradeId(), grade);
     }
 
     @Override

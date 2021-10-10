@@ -28,7 +28,6 @@ public class StudentRepositoryInMemory implements StudentRepository {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public Optional<Student> getStudent(long studentId) {
         Optional<Student> studentOptional;
@@ -37,8 +36,8 @@ public class StudentRepositoryInMemory implements StudentRepository {
     }
 
     @Override
-    public void addStudent(Student student) {
-        studentsMap.put(student.getId(), student);
+    public Student addStudent(Student student) {
+        return studentsMap.put(student.getId(), student);
     }
 
     @Override
