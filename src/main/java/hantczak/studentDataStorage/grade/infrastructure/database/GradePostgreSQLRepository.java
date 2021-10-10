@@ -17,54 +17,37 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Repository
 @PropertySource("application.properties")
 @Primary
 public class GradePostgreSQLRepository implements GradeRepository {
-    GradePostgreSQLRepositoryInterface database;
+    GradePostgreSQLRepositoryInterface databaseAccessor;
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public GradePostgreSQLRepository(GradePostgreSQLRepositoryInterface database) {
-        this.database = database;
+    public GradePostgreSQLRepository(GradePostgreSQLRepositoryInterface databaseAccessor) {
+        this.databaseAccessor = databaseAccessor;
     }
 
     @Override
     public List<Grade> getAllGrades() {
-        return database.findAll();
+        return databaseAccessor.findAll();
     }
 
     @Override
     public List<Grade> getStudentGrades(long studentId) {
-        return database.findByStudentId(studentId);
+        return databaseAccessor.findByStudentId(studentId);
     }
 
     @Override
     public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, int offset, int limit) {
-//        switch (gradeSortType) {
-//            case VALUE_ASC:
-//                return database.findAllOrderedByValueAscendingWithPagination(offset, limit);
-//            case VALUE_DSC:
-//                return database.findAllOrderedByValueDescendingWithPagination(offset, limit);
-//            case INSERTION_DATE_ASC:
-//                return database.findAllOrderedByInsertionDateAscendingWithPagination(offset, limit);
-//            case INSERTION_DATE_DSC:
-//                return database.findAllOrderedByInsertionDateDescendingWithPagination(offset, limit);
-//            default:
-//                StringBuilder sortTypes = new StringBuilder();
-//                Arrays.stream(GradeSortType.values())
-//                        .forEach(value -> {
-//                            sortTypes.append(value);
-//                            sortTypes.append(", ");
-//                        });
-//                throw new InvalidGradeSortTypeException(",available sort types: " + sortTypes);
-//        }
 
         TypedQuery<Grade> limitedCriteriaQuery = entityManager.createQuery(getCriteriaQuery(gradeSortType))
-                .setMaxResults(limit).setFirstResult(offset); // this is the important part
+                .setMaxResults(limit).setFirstResult(offset);
         return limitedCriteriaQuery.getResultList();
     }
 
@@ -72,13 +55,13 @@ public class GradePostgreSQLRepository implements GradeRepository {
     public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, int offset, int limit) {
         switch (gradeSortType) {
             case VALUE_ASC:
-                return database.findForStudentOrderedByValueAscendingWithPagination(studentId,offset, limit);
+                return databaseAccessor.findForStudentOrderedByValueAscendingWithPagination(studentId, offset, limit);
             case VALUE_DSC:
-                return database.findForStudentOrderedByValueDescendingWithPagination(studentId,offset, limit);
+                return databaseAccessor.findForStudentOrderedByValueDescendingWithPagination(studentId, offset, limit);
             case INSERTION_DATE_ASC:
-                return database.findForStudentOrderedByInsertionDateAscendingWithPagination(studentId,offset, limit);
+                return databaseAccessor.findForStudentOrderedByInsertionDateAscendingWithPagination(studentId, offset, limit);
             case INSERTION_DATE_DSC:
-                return database.findForStudentOrderedByInsertionDateDescendingWithPagination(studentId,offset, limit);
+                return databaseAccessor.findForStudentOrderedByInsertionDateDescendingWithPagination(studentId, offset, limit);
             default:
                 StringBuilder sortTypes = new StringBuilder();
                 Arrays.stream(GradeSortType.values())
@@ -92,23 +75,35 @@ public class GradePostgreSQLRepository implements GradeRepository {
 
     @Override
     public void addGrade(Grade grade) {
-        database.save(grade);
+        databaseAccessor.save(grade);
     }
 
     @Override
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
-        if (database.existsById(oldGradeId)) {
-            database.deleteById(oldGradeId);
-            database.save(updatedGrade);
-            return true;
+        if (updatedGrade.getGradeId() != oldGradeId) {
+            if (databaseAccessor.existsById(oldGradeId)) {
+                databaseAccessor.deleteById(oldGradeId);
+                databaseAccessor.save(updatedGrade);
+                return true;
+            }
+        } else {
+            Optional<Grade> persistedGrade = databaseAccessor.findById(oldGradeId);
+            if (persistedGrade.isPresent()) {
+                persistedGrade.get().setGradeId(updatedGrade.getGradeId());
+                persistedGrade.get().setGradeScale(updatedGrade.getGradeScale());
+                persistedGrade.get().setGradeWeight(updatedGrade.getGradeWeight());
+                persistedGrade.get().setInsertionDate(updatedGrade.getInsertionDate());
+                persistedGrade.get().setStudentId(updatedGrade.getStudentId());
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public boolean deleteGrade(long gradeToBeDeletedId) {
-        if (database.existsById(gradeToBeDeletedId)) {
-            database.deleteById(gradeToBeDeletedId);
+        if (databaseAccessor.existsById(gradeToBeDeletedId)) {
+            databaseAccessor.deleteById(gradeToBeDeletedId);
             return true;
         }
         return false;
@@ -116,7 +111,7 @@ public class GradePostgreSQLRepository implements GradeRepository {
 
     @Override
     public void deleteStudentGrades(long studentId) {
-        database.deleteByStudentId(studentId);
+        databaseAccessor.deleteByStudentId(studentId);
     }
 
     private CriteriaQuery<Grade> getCriteriaQuery(GradeSortType gradeSortType) {

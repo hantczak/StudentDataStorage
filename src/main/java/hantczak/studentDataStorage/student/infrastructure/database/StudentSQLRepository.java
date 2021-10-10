@@ -19,23 +19,23 @@ import java.util.Optional;
 @Primary
 public class StudentSQLRepository implements StudentRepository {
 
-    private final StudentRepositoryInterface database;
+    private final StudentRepositoryInterface databaseAccessor;
 
-    public StudentSQLRepository(StudentRepositoryInterface database) {
-        this.database = database;
+    public StudentSQLRepository(StudentRepositoryInterface databaseAccessor) {
+        this.databaseAccessor = databaseAccessor;
     }
 
     @Override
     public List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortTypes, int offset, int limit) {
         switch (studentSortTypes) {
             case AGE_ASC:
-                return database.findByAgeAscendingWithPagination(offset,limit);
+                return databaseAccessor.findByAgeAscendingWithPagination(offset, limit);
             case AGE_DSC:
-                return database.findByAgeDescendingWithPagination(offset,limit);
+                return databaseAccessor.findByAgeDescendingWithPagination(offset, limit);
             case NAME_ASC:
-                return database.findByNameAscendingWithPagination(offset,limit);
+                return databaseAccessor.findByNameAscendingWithPagination(offset, limit);
             case NAME_DSC:
-                return database.findByNameDescendingWithPagination(offset,limit);
+                return databaseAccessor.findByNameDescendingWithPagination(offset, limit);
             default:
                 StringBuilder availableSortTypes = new StringBuilder();
                 Arrays.stream(StudentSortType.values())
@@ -50,44 +50,48 @@ public class StudentSQLRepository implements StudentRepository {
 
     @Override
     public List<Student> getAllStudents() {
-        return database.findAll();
+        return databaseAccessor.findAll();
     }
 
     @Override
     public Optional<Student> getStudent(long studentId) {
-        return database.findById(studentId);
+        return databaseAccessor.findById(studentId);
     }
 
     @Override
     public void addStudent(Student student) {
-        database.save(student);
+        databaseAccessor.save(student);
     }
 
     @Override
     public boolean updateStudentData(long oldStudentId, Student updatedStudent) {
-        if (updatedStudent.getId() == oldStudentId) {
-            if (database.existsById(oldStudentId)) {
-                database.deleteById(oldStudentId);
-                database.save(updatedStudent);
+        if (updatedStudent.getId() != oldStudentId) {
+            if (databaseAccessor.existsById(oldStudentId)) {
+                databaseAccessor.deleteById(oldStudentId);
+                databaseAccessor.flush();
+                databaseAccessor.save(updatedStudent);
+                return true;
+            }
+        } else {
+            Optional<Student> persistedStudent = databaseAccessor.findById(oldStudentId);
+            if (persistedStudent.isPresent()) {
+                persistedStudent.get().setAge(updatedStudent.getAge());
+                persistedStudent.get().setDateOfBirth(updatedStudent.getDateOfBirth());
+                persistedStudent.get().setEmail(updatedStudent.getEmail());
+                persistedStudent.get().setGender(updatedStudent.getGender());
+                persistedStudent.get().setName(updatedStudent.getName());
                 return true;
             } else {
-                Optional<Student> persistedStudent = database.findById(oldStudentId);
-                if(persistedStudent.isPresent()){
-                    persistedStudent.get().setAge(updatedStudent.getAge());
-                    persistedStudent.get().setDateOfBirth(updatedStudent.getDateOfBirth());
-                    persistedStudent.get().setEmail(updatedStudent.getEmail());
-                    persistedStudent.get().setGender(updatedStudent.getGender());
-                    persistedStudent.get().setName(updatedStudent.getName());
-                }
+                return false;
             }
         }
         return false;
     }
-    
+
     @Override
     public boolean deleteStudent(long studentId) {
-        if (database.existsById(studentId)) {
-            database.deleteById(studentId);
+        if (databaseAccessor.existsById(studentId)) {
+            databaseAccessor.deleteById(studentId);
             return true;
         } else {
             return false;
