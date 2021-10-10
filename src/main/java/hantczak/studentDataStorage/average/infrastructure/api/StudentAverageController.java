@@ -3,6 +3,7 @@ package hantczak.studentDataStorage.average.infrastructure.api;
 import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacade;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,11 @@ public class StudentAverageController {
 
     @ExceptionHandler(InvalidStudentAverageSortTypeException.class)
     public ResponseEntity<String> handleInvalidStudentAverageSortTypeException(InvalidStudentAverageSortTypeException exception) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPaginationParametersException.class)
+    public ResponseEntity<String> handleInvalidStudentPaginationParametersException(InvalidPaginationParametersException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }

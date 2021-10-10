@@ -13,14 +13,7 @@ public class StudentRepositoryInMemory implements StudentRepository {
     private final Map<Long, Student> studentsMap = new HashMap<>();
 
     @Override
-    public List<Student> getAllStudents() {
-        List<Student> studentList = studentsMap.values().stream()
-                .collect(Collectors.toCollection(ArrayList::new));
-        return studentList;
-    }
-
-    @Override
-    public List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortType, int offset, int limit) {
+    public List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortType, long offset, long limit) {
         return studentsMap.values().stream()
                 .sorted(getComparator(studentSortType))
                 .skip(offset)

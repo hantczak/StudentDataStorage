@@ -44,15 +44,16 @@ public class GradePostgreSQLRepository implements GradeRepository {
     }
 
     @Override
-    public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, int offset, int limit) {
+    public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, long offset, long limit) {
 
-        TypedQuery<Grade> limitedCriteriaQuery = entityManager.createQuery(getCriteriaQuery(gradeSortType))
-                .setMaxResults(limit).setFirstResult(offset);
+        TypedQuery<Grade> limitedCriteriaQuery = entityManager
+                .createQuery(getCriteriaQuery(gradeSortType))
+                .setMaxResults((int)limit).setFirstResult((int)offset);
         return limitedCriteriaQuery.getResultList();
     }
 
     @Override
-    public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, int offset, int limit) {
+    public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, long offset, long limit) {
         switch (gradeSortType) {
             case VALUE_ASC:
                 return databaseAccessor.findForStudentOrderedByValueAscendingWithPagination(studentId, offset, limit);

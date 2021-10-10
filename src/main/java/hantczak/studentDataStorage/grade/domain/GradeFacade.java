@@ -9,11 +9,11 @@ public class GradeFacade {
         this.gradeService = gradeService;
     }
 
-    public List<Grade> getAllGradesSorted(String gradeSortType, int offset, int limit) {
+    public List<Grade> getAllGradesSorted(String gradeSortType, long offset, long limit) {
         return gradeService.getAllGradesSorted(gradeSortType, offset, limit);
     }
 
-    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, int offset, int limit) {
+    public List<Grade> getSortedGradesForOneStudent(long studentId, String gradeSortType, long offset, long limit) {
         return gradeService.getSortedGradesForOneStudent(studentId, gradeSortType, offset, limit);
     }
 

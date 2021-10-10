@@ -10,11 +10,7 @@ public class StudentFacade {
         this.studentService = studentService;
     }
 
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
-    }
-
-    public List<Student> getSortedStudents(String studentSortType, int offset, int limit) {
+    public List<Student> getSortedStudents(String studentSortType, long offset, long limit) {
         return studentService.getAllStudentsSortedWithPagination(studentSortType, offset, limit);
     }
 

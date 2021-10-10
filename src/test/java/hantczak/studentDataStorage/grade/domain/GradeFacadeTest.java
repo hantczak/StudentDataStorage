@@ -1,6 +1,8 @@
 package hantczak.studentDataStorage.grade.domain;
 
+import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.student.domain.Gender;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import hantczak.studentDataStorage.student.domain.Student;
 import hantczak.studentDataStorage.student.domain.StudentFacade;
 import hantczak.studentDataStorage.student.domain.StudentFacadeConfiguration;
@@ -382,6 +384,42 @@ class GradeFacadeTest {
 
             //then
             assertThrows(InvalidGradeException.class, () -> gradeFacade.addGrade(grade1));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to over 100.")
+        void shouldThrowExceptionWhenLimitIsOver100() {
+            //given
+            //when
+            //then
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", 0L, 150L));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to below 0.")
+        void shouldThrowExceptionWhenLimitIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", 0L, -5L));
+        }
+
+        @Test
+        @DisplayName("Offset value is set to below 0.")
+        void shouldThrowExceptionWhenOffsetIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", -5L, 10L));
+        }
+
+        @Test
+        @DisplayName("Sort type does not exist.")
+        void shouldThrowExceptionWhenSortTypeDoesNotExist() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getAllGradesSorted("ABC", 0L, 10L));
         }
     }
 

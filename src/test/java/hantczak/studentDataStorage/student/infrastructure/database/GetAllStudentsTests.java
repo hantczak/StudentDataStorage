@@ -30,7 +30,7 @@ public class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         List<Student> expectedResponse = new ArrayList<>();
 
         //then
-        List<Student> databaseResponse = studentRepositoryProvider.getAllStudents();
+        List<Student> databaseResponse = studentRepositoryProvider.getAllStudentsSortedWithPagination(StudentSortType.NAME_ASC,0,10);
         Assertions.assertEquals(expectedResponse, databaseResponse);
     }
 

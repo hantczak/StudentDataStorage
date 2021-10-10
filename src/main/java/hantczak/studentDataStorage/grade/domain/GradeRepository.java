@@ -7,9 +7,9 @@ public interface GradeRepository {
 
     List<Grade> getStudentGrades(long studentId);
 
-    List<Grade> getAllGradesSorted(GradeSortType gradeSortType, int offset, int limit);
+    List<Grade> getAllGradesSorted(GradeSortType gradeSortType, long offset, long limit);
 
-    List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, int offset, int limit);
+    List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, long offset, long limit);
 
     Grade addGrade(Grade grade);
 

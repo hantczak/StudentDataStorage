@@ -1,5 +1,6 @@
 package hantczak.studentDataStorage.student.domain;
 
+import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacade;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacadeConfiguration;
 import hantczak.studentDataStorage.grade.domain.Grade;
@@ -62,7 +63,7 @@ class StudentFacadeTest {
             //when
 
             //then
-            assertEquals(0, studentFacade.getAllStudents().size());
+            assertEquals(List.of(), studentFacade.getSortedStudents("NAME_ASC", 0, 20));
         }
 
         @Test
@@ -217,6 +218,33 @@ class StudentFacadeTest {
     class InvalidStudentExceptionTest {
 
         @Test
+        @DisplayName("Limit value is set to over 100.")
+        void shouldThrowExceptionWhenLimitIsOver100(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",0L,150L));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to below 0.")
+        void shouldThrowExceptionWhenLimitIsBelow0(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",0L,-5L));
+        }
+
+        @Test
+        @DisplayName("Offset value is set to below 0.")
+        void shouldThrowExceptionWhenOffsetIsBelow0(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",-5L,10L));
+        }
+
+        @Test
         @DisplayName("Email field does not contain '@' sign.")
         void shouldThrowExceptionWhenEmailHasNoAt() {
             //given
@@ -269,6 +297,15 @@ class StudentFacadeTest {
             //when
             //then
             assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
+        }
+
+        @Test
+        @DisplayName("Sort type does not exist.")
+        void shouldThrowExceptionWhenSortTypeDoesNotExist() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC", 0L, 10L));
         }
     }
 

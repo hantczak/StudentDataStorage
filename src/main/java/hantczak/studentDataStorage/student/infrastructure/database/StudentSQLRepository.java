@@ -26,7 +26,7 @@ public class StudentSQLRepository implements StudentRepository {
     }
 
     @Override
-    public List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortTypes, int offset, int limit) {
+    public List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortTypes, long offset, long limit) {
         switch (studentSortTypes) {
             case AGE_ASC:
                 return databaseAccessor.findByAgeAscendingWithPagination(offset, limit);
@@ -46,11 +46,6 @@ public class StudentSQLRepository implements StudentRepository {
 
                 throw new InvalidStudentSortTypeException("Available values: " + availableSortTypes);
         }
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return databaseAccessor.findAll();
     }
 
     @Override
