@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class GradeController {
     public ResponseEntity<GradeResponse> getAllGrades(@RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
                                                       @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
                                                       @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
-        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(gradeFacade.getAllGradesSorted(gradeSortType,offset,limit));
+        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(gradeFacade.getAllGradesSorted(gradeSortType, offset, limit));
         return ResponseEntity.ok(new GradeResponse(gradeDtoList));
     }
 
@@ -34,7 +35,7 @@ public class GradeController {
                                                                   @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
                                                                   @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
                                                                   @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
-        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
+        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType, offset, limit);
         if (!studentGradeList.isEmpty()) {
             List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
             return ResponseEntity.ok(new GradeResponse(gradeDtoList));
@@ -44,9 +45,9 @@ public class GradeController {
     }
 
     @PostMapping("/grades")
-    public ResponseEntity<Boolean> addGrade(@RequestBody Grade grade) {
-        gradeFacade.addGrade(grade);
-        return ResponseEntity.ok(true);
+    public ResponseEntity<GradeDto> addGrade(@RequestBody Grade grade) {
+        GradeDto savedGrade = GradeMapper.toDto(gradeFacade.addGrade(grade));
+        return ResponseEntity.created(URI.create("/students/"+grade.getStudentId()+"/grades")).body(savedGrade);
     }
 
     @PutMapping("/grades")

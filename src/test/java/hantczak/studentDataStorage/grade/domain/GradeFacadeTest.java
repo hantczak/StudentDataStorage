@@ -383,20 +383,6 @@ class GradeFacadeTest {
             //then
             assertThrows(InvalidGradeException.class, () -> gradeFacade.addGrade(grade1));
         }
-
-        @Test
-        @DisplayName("Grade ID is lower than 0.")
-        void shouldThrowExceptionWhenGradeIdIsLowerThanZero() {
-            //given
-            Grade grade1 = new Grade(-3, GradeScale.GOOD, 1L, LocalDate.parse("2018-01-01"), 2);
-            Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-            studentFacade.addStudent(student1);
-
-            //when
-
-            //then
-            assertThrows(InvalidGradeException.class, () -> gradeFacade.addGrade(grade1));
-        }
     }
 
     @Test

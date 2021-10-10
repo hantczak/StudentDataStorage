@@ -74,30 +74,24 @@ public class GradePostgreSQLRepository implements GradeRepository {
     }
 
     @Override
-    public void addGrade(Grade grade) {
-        databaseAccessor.save(grade);
+    public Grade addGrade(Grade grade) {
+        return databaseAccessor.save(grade);
     }
 
     @Override
     public boolean updateGrade(Grade updatedGrade, long oldGradeId) {
-        if (updatedGrade.getGradeId() != oldGradeId) {
-            if (databaseAccessor.existsById(oldGradeId)) {
-                databaseAccessor.deleteById(oldGradeId);
-                databaseAccessor.save(updatedGrade);
-                return true;
-            }
+
+        Optional<Grade> persistedGrade = databaseAccessor.findById(oldGradeId);
+        if (persistedGrade.isPresent()) {
+            persistedGrade.get().setGradeScale(updatedGrade.getGradeScale());
+            persistedGrade.get().setGradeWeight(updatedGrade.getGradeWeight());
+            persistedGrade.get().setInsertionDate(updatedGrade.getInsertionDate());
+            persistedGrade.get().setStudentId(updatedGrade.getStudentId());
+            return true;
         } else {
-            Optional<Grade> persistedGrade = databaseAccessor.findById(oldGradeId);
-            if (persistedGrade.isPresent()) {
-                persistedGrade.get().setGradeId(updatedGrade.getGradeId());
-                persistedGrade.get().setGradeScale(updatedGrade.getGradeScale());
-                persistedGrade.get().setGradeWeight(updatedGrade.getGradeWeight());
-                persistedGrade.get().setInsertionDate(updatedGrade.getInsertionDate());
-                persistedGrade.get().setStudentId(updatedGrade.getStudentId());
-                return true;
-            }
+
+            return false;
         }
-        return false;
     }
 
     @Override

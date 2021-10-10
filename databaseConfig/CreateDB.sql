@@ -17,6 +17,9 @@ CREATE TABLE average (
 CREATE SEQUENCE average_sequence
 INCREMENT 1;
 
+CREATE SEQUENCE grade_sequence
+INCREMENT 1;
+
 CREATE TABLE grade (
     id BIGSERIAL NOT NULL PRIMARY KEY,
     grade_scale TEXT NOT NULL,
