@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,12 +22,13 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrl("students");
         StudentBuilder studentBuilder = StudentBuilder.create();
-        Student student = studentBuilder.build();
+        Student clientSentStudent = studentBuilder.build();
+
+        Student expectedStudent = studentBuilder.setId(1L).build();
 
         //when
-        System.out.println(url);
-        restTemplate.postForEntity(url, student, String.class);
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student));
+        restTemplate.postForEntity(url, clientSentStudent, String.class);
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(expectedStudent));
         StudentResponse expectedResponse = new StudentResponse(studentDtoList);
         ResponseEntity<StudentResponse> responseEntity = restTemplate.getForEntity(url, StudentResponse.class);
         StudentResponse studentResponseFromController = responseEntity.getBody();
@@ -44,16 +44,22 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrl("students", "sortType", "NAME_ASC");
         StudentBuilder studentBuilder = StudentBuilder.create();
-        Student student = studentBuilder.build();
-        studentBuilder.setName("bca");
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        Student student1 = studentBuilder.build();
+        Student clientSentStudent = studentBuilder.build();
+        Student expectedStudent = studentBuilder
+                .setId(1L)
+                .build();
+
+        Student clientSentStudent1 = studentBuilder.setName("bca")
+                .setEmail("bca@gmail.com")
+                .setId(null)
+                .build();
+
+        Student expectedStudent1 = studentBuilder.setId(2L).build();
 
         //when
-        restTemplate.postForEntity(url, student, String.class);
-        restTemplate.postForEntity(url, student1, String.class);
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student, student1));
+        restTemplate.postForEntity(url, clientSentStudent, String.class);
+        restTemplate.postForEntity(url, clientSentStudent1, String.class);
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(expectedStudent, expectedStudent1));
         StudentResponse expectedResponse = new StudentResponse(studentDtoList);
         ResponseEntity<StudentResponse> responseEntity = restTemplate.getForEntity(url, StudentResponse.class);
         StudentResponse studentResponseFromController = responseEntity.getBody();
@@ -69,17 +75,24 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrl("students", "sortType", "AGE_DSC");
         StudentBuilder studentBuilder = StudentBuilder.create();
-        Student student = studentBuilder.build();
-        studentBuilder.setDateOfBirth(LocalDate.of(2010, 06, 05));
-        studentBuilder.setAge(11);
-        studentBuilder.setId(2L);
-        studentBuilder.setEmail("bca@gmail.com");
-        Student student1 = studentBuilder.build();
+        Student clientSentStudent = studentBuilder.build();
+        Student expectedStudent = studentBuilder
+                .setId(1L)
+                .build();
+
+        Student clientSentStudent1 = studentBuilder
+                .setDateOfBirth(LocalDate.of(2008, 06, 05))
+                .setAge(13)
+                .setEmail("bca@gmail.com")
+                .setId(null)
+                .build();
+
+        Student expectedStudent1 = studentBuilder.setId(2L).build();
 
         //when
-        restTemplate.postForEntity(url, student, String.class);
-        restTemplate.postForEntity(url, student1, String.class);
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(student, student1));
+        restTemplate.postForEntity(url, clientSentStudent, String.class);
+        restTemplate.postForEntity(url, clientSentStudent1, String.class);
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(List.of(expectedStudent1, expectedStudent));
         StudentResponse expectedResponse = new StudentResponse(studentDtoList);
         ResponseEntity<StudentResponse> responseEntity = restTemplate.getForEntity(url, StudentResponse.class);
         StudentResponse studentResponseFromController = responseEntity.getBody();
@@ -87,23 +100,5 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         //then
         Assertions.assertEquals(expectedResponse, studentResponseFromController);
         Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-    }
-
-    @Test
-    @DisplayName("Should return status code 422 for duplicate email")
-    void shouldReturn422ForDuplicateEmail() {
-        //given
-        String url = buildUrl("students", "sortType", "NAME_ASC");
-        StudentBuilder studentBuilder = StudentBuilder.create();
-        studentBuilder.setEmail("abc@gmail.com");
-        Student student = studentBuilder.build();
-        studentBuilder.setId(2L);
-        Student student1 = studentBuilder.build();
-
-        //when
-        restTemplate.postForEntity(url, student, String.class);
-
-        //then
-        Assertions.assertThrows(HttpClientErrorException.UnprocessableEntity.class, () -> restTemplate.postForEntity(url, student1, String.class));
     }
 }

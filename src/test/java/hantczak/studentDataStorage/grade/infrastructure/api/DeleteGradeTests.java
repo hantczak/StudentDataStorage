@@ -24,16 +24,32 @@ public class DeleteGradeTests extends StudentDataStorageApplicationTests {
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
-
         //when
-        GradeDto expectedGrade = GradeMapper.toDto(grade);
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
         restTemplate.postForEntity(buildUrl("grades"), grade, String.class);
-//        GradeDto gradeDtoResponseFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForGrade(1L), GradeDto.class).getBody();
-//        Assertions.assertEquals(expectedGrade, gradeDtoResponseFromController);
 
         //then
         restTemplate.delete(url);
+        Assertions.assertThrows(HttpClientErrorException.NotFound.class, () -> restTemplate.getForEntity(buildUrlWithPathArgumentForGrade(1L), String.class));
+    }
+
+    @Test
+    @DisplayName("Should delete grade when student is deleted")
+    void shouldDeleteGradeWhenStudentIsDeleted() {
+        //given
+        String url = buildUrl("students", "studentId", "1", "gradeId", "1");
+        GradeBuilder gradeBuilder = GradeBuilder.create();
+        Grade grade = gradeBuilder.build();
+        StudentBuilder studentBuilder = StudentBuilder.create();
+        Student student = studentBuilder.build();
+
+        //when
+        restTemplate.postForEntity(buildUrl("students"), student, String.class);
+        restTemplate.postForEntity(buildUrl("grades"), grade, String.class);
+
+        //then
+        //delete student
+        restTemplate.delete(buildUrl("students", "studentId", "1"));
         Assertions.assertThrows(HttpClientErrorException.NotFound.class, () -> restTemplate.getForEntity(buildUrlWithPathArgumentForGrade(1L), String.class));
     }
 }

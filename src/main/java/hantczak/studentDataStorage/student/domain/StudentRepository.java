@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StudentRepository {
-    List<Student> getAllStudents();
+
+    List<Student> getAllStudentsSortedWithPagination(StudentSortType studentSortType, long offset, long limit);
+
     Optional<Student> getStudent(long studentId);
-    void addStudent(Student student);
-    boolean updateStudentData(long studentId,Student student);
+
+    Student addStudent(Student student);
+
+    boolean updateStudentData(long studentId, Student student);
+
     boolean deleteStudent(long studentId);
 }

@@ -1,5 +1,6 @@
 package hantczak.studentDataStorage.student.domain;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,11 +27,21 @@ import java.util.Objects;
 public class Student {
 
     @Id
+    @SequenceGenerator(
+            name = "student_sequence",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
     @Column(
-            name="id",
+            name = "id",
             nullable = false,
             updatable = false
     )
+    @Nullable
     private Long id;
     @Column(
             name = "name",
@@ -77,6 +88,18 @@ public class Student {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, email, dateOfBirth, age, gender);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", age=" + age +
+                ", gender=" + gender +
+                '}';
     }
 }
 

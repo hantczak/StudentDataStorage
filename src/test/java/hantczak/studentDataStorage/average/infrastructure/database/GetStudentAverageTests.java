@@ -18,10 +18,9 @@ public class GetStudentAverageTests extends StudentDataStorageApplicationTests {
     StudentAverageRepository studentAverageProvider;
 
     @Test
-    @DisplayName("Should return no averages if they do not exist")
-    void shouldReturnNoAveragesIfTheyDoNotExist() {
+    @DisplayName("Should return empty optional for not existing StudentAverage")
+    void shouldReturnEmptyEmptyOptionalForNotExistingStudentAverage() {
         //given
-        System.out.println(studentAverageProvider.getAllAverages());
 
         //when
 

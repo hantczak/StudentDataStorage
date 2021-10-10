@@ -1,5 +1,6 @@
 package hantczak.studentDataStorage.grade.domain;
 
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +18,24 @@ import java.util.Objects;
 @Table(
         name = "grade"
 )
-public class Grade{
+public class Grade {
 
     @Id
+    @SequenceGenerator(
+            name = "grade_sequence",
+            sequenceName = "grade_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "grade_sequence"
+    )
     @Column(
-            name="id",
+            name = "id",
             nullable = false,
             updatable = false
     )
+    @Nullable
     private long gradeId;
     @Column(
             name = "gradeScale",
@@ -51,7 +62,7 @@ public class Grade{
     )
     private int gradeWeight;
 
-    public int getGradeValue(){
+    public int getGradeValue() {
         return gradeScale.getGradeValue();
     }
 
@@ -70,5 +81,16 @@ public class Grade{
     @Override
     public int hashCode() {
         return Objects.hash(gradeId, gradeScale, studentId, insertionDate, gradeWeight);
+    }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "gradeId=" + gradeId +
+                ", gradeScale=" + gradeScale +
+                ", studentId=" + studentId +
+                ", insertionDate=" + insertionDate +
+                ", gradeWeight=" + gradeWeight +
+                '}';
     }
 }

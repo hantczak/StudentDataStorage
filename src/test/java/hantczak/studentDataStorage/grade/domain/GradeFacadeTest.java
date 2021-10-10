@@ -1,6 +1,8 @@
 package hantczak.studentDataStorage.grade.domain;
 
+import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.student.domain.Gender;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import hantczak.studentDataStorage.student.domain.Student;
 import hantczak.studentDataStorage.student.domain.StudentFacade;
 import hantczak.studentDataStorage.student.domain.StudentFacadeConfiguration;
@@ -54,7 +56,7 @@ class GradeFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC",0,20));
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC", 0, 20));
         }
 
         @Test
@@ -82,7 +84,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -98,7 +100,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -114,7 +116,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -130,7 +132,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -142,10 +144,10 @@ class GradeFacadeTest {
             //given
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC",1,1);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC", 1, 1);
 
             //then
-            assertEquals(4,sortedGradesOutput.get(0).getGradeValue());
+            assertEquals(4, sortedGradesOutput.get(0).getGradeValue());
         }
     }
 
@@ -178,7 +180,7 @@ class GradeFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC",0,20));
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC", 0, 20));
         }
 
         @Test
@@ -206,7 +208,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -222,7 +224,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -238,7 +240,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -254,7 +256,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -385,17 +387,39 @@ class GradeFacadeTest {
         }
 
         @Test
-        @DisplayName("Grade ID is lower than 0.")
-        void shouldThrowExceptionWhenGradeIdIsLowerThanZero() {
+        @DisplayName("Limit value is set to over 100.")
+        void shouldThrowExceptionWhenLimitIsOver100() {
             //given
-            Grade grade1 = new Grade(-3, GradeScale.GOOD, 1L, LocalDate.parse("2018-01-01"), 2);
-            Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-            studentFacade.addStudent(student1);
-
             //when
-
             //then
-            assertThrows(InvalidGradeException.class, () -> gradeFacade.addGrade(grade1));
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", 0L, 150L));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to below 0.")
+        void shouldThrowExceptionWhenLimitIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", 0L, -5L));
+        }
+
+        @Test
+        @DisplayName("Offset value is set to below 0.")
+        void shouldThrowExceptionWhenOffsetIsBelow0() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class, () -> gradeFacade.getAllGradesSorted("NAME_ASC", -5L, 10L));
+        }
+
+        @Test
+        @DisplayName("Sort type does not exist.")
+        void shouldThrowExceptionWhenSortTypeDoesNotExist() {
+            //given
+            //when
+            //then
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getAllGradesSorted("ABC", 0L, 10L));
         }
     }
 

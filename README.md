@@ -3,7 +3,7 @@
 <!-- ABOUT THE PROJECT -->
 ## 🎓 About The Project 🎓
 Student Data Storage, which is a REST API with hexagonal architecture, developed using Spring Framework. During creation of the application I did my best to follow both Clean Code and SOLID principles, and have used design patterns and technologies that constitute the backbone of modern web development. These are: Spring Boot, Spring Data JPA, Lombok. JUnit and Mockito were used for testing. Application is connected to the PostgreSQL, serving as a database.
-App enables not only adding and searching for students and their grades, but also calculating their averages, sorting results and many more. Newest version is containerised, saving precious time wasted for installation and configuration of the environment and database.
+App enables not only adding and searching for students and their grades, but also calculating their averages, sorting results and many more. Newest version is containerised, saving precious time wasted for installation and configuration of the environment and database. H2 Database is used for integration tests purpose. 
 
 ### 🔨 Built With 🔨
 * Java 15
@@ -21,8 +21,8 @@ not necessarily, since repositories are also implemented as in-memory databases,
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 * [PostgreSQL](https://www.postgresql.org/)
+* [H2 Database](https://www.h2database.com/html/main.html)
 * [JUnit 5](https://junit.org/junit5/)
-* [Mockito](https://site.mockito.org/)
 * [Lombok](https://projectlombok.org/)
 * [Docker](https://www.docker.com/)
 
@@ -50,7 +50,7 @@ In current state of the app, all endpoints are accessible via HTTP requests on l
 ### Student module:
 * GET all registered students
 
-  `http://localhost:8080/students`
+  `http://localhost:8080/students?sortType=NAME_DSC&offset=0&limit=10`
 
   this endpoint provides pagination with "limit" and "offset" parameters, along with sorting of the results by as following: NAME_ASC, NAME_DSC, AGE_ASC, AGE_DSC.
 
@@ -67,7 +67,6 @@ In current state of the app, all endpoints are accessible via HTTP requests on l
   endpoint accepts payload with information about the student in the following format:
   ```json
   {
-  "id": 1,
   "name": "abc",
   "email": "abc@gmail.com",
   "dateOfBirth": "2009-06-05",
@@ -89,14 +88,14 @@ In current state of the app, all endpoints are accessible via HTTP requests on l
 
 * GET all registered grades
 
-  `http://localhost:8080/grades`
+  `http://localhost:8080/grades?sortType=VALUE_ASC&offset=0&limit=10`
 
   this endpoint provides pagination with "limit" and "offset" parameters, along with sorting of the results by as following: VALUE_ASC, VALUE_DSC, INSERTION_DATE_ASC, INSERTION_DATE_DSC.
 
 
 * GET student grades by his ID
 
-  `http://localhost:8080/students/{studentID}/grades`
+  `http://localhost:8080/students/{studentID}/grades?sortType=VALUE_ASC&offset=0&limit=10`
 
 
 * POST allows adding student to the system
@@ -106,7 +105,6 @@ In current state of the app, all endpoints are accessible via HTTP requests on l
   endpoint accepts payload with information about the grade in the following format:
   ```json
   {
-  "gradeId":9,
   "gradeScale": "VERY_GOOD",
   "studentId": "3",
   "insertionDate":"2018-05-25",
@@ -137,14 +135,14 @@ EXCELLENT;
 
 * GET all registered grades
 
-  `http://localhost:8080/averages`
+  `http://localhost:8080/averages?sortType=STUDENT_ID_DSC&offset=0&limit=5`
 
   this endpoint provides pagination with "limit" and "offset" parameters, along with sorting of the results by as following: VALUE_ASC, VALUE_DSC, STUDENT_ID_ASC, STUDENT_ID_DSC.
 
 
 * GET student grades by his ID
 
-  `http://localhost:8080/averages/{studentID}`
+  `http://localhost:8080/students/{studentID}/averages`
 
 <!-- STATUS -->
 ## 🏗️ Status 🏗️

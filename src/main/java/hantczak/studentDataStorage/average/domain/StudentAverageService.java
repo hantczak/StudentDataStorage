@@ -3,8 +3,11 @@ package hantczak.studentDataStorage.average.domain;
 import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeFacade;
 import hantczak.studentDataStorage.grade.domain.GradeModifiedListener;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import hantczak.studentDataStorage.student.domain.StudentDeletedListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +21,12 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
         this.gradeFacade = gradeFacade;
     }
 
-    public List<StudentAverage> getAllAverages() {
-        return studentAverageRepository.getAllAverages();
+    List<StudentAverage> getAllAveragesSorted(String sortType, long offset, long limit) {
+        validatePaginationParameters(offset,limit);
+        return studentAverageRepository.getAllAveragesSorted(parseStudentAverageSortType(sortType), offset, limit);
     }
 
-    public Optional<StudentAverage> getStudentAverage(long studentId) {
+    Optional<StudentAverage> getStudentAverage(long studentId) {
         return studentAverageRepository.getStudentAverage(studentId);
     }
 
@@ -71,5 +75,46 @@ public class StudentAverageService implements GradeModifiedListener, StudentDele
                 .mapToDouble(grade -> grade.getGradeWeight())
                 .sum();
         return new StudentAverage(gradeSum / gradeWeightsSum, gradeList.get(0).getStudentId());
+    }
+
+    private StudentAverageSortType parseStudentAverageSortType(String sortType) {
+        switch (sortType) {
+            case "VALUE_ASC":
+                return StudentAverageSortType.VALUE_ASC;
+            case "VALUE_DSC":
+                return StudentAverageSortType.VALUE_DSC;
+            case "STUDENT_ID_ASC":
+                return StudentAverageSortType.STUDENT_ID_ASC;
+            case "STUDENT_ID_DSC":
+                return StudentAverageSortType.STUDENT_ID_DSC;
+            default:
+                StringBuilder sortTypes = new StringBuilder();
+                Arrays.stream(StudentAverageSortType.values())
+                        .forEach(value -> {
+                            sortTypes.append(value);
+                            sortTypes.append(",");
+                        });
+                throw new InvalidStudentAverageSortTypeException(",available sort types: " + sortTypes);
+        }
+    }
+
+    private void validatePaginationParameters(long offset, long limit){
+        List<String> errors = new ArrayList<>();
+
+        if(limit>100){
+            errors.add("Limit cannot be higher than 100");
+        }
+
+        if(limit<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if(offset<0){
+            errors.add("Offset cannot be lower than 0");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new InvalidPaginationParametersException(errors.toString());
+        }
     }
 }

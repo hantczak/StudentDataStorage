@@ -1,17 +1,14 @@
 package hantczak.studentDataStorage.student.infrastructure.api;
 
 import hantczak.studentDataStorage.grade.domain.InvalidGradeException;
-import hantczak.studentDataStorage.grade.domain.InvalidGradeSortTypeException;
-import hantczak.studentDataStorage.student.domain.InvalidStudentException;
-import hantczak.studentDataStorage.student.domain.InvalidStudentSortTypeException;
-import hantczak.studentDataStorage.student.domain.Student;
-import hantczak.studentDataStorage.student.domain.StudentFacade;
+import hantczak.studentDataStorage.student.domain.*;
 import org.postgresql.util.PSQLException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +28,6 @@ public class StudentController {
         Optional<Student> student = studentFacade.getStudent(studentId);
         if (student.isPresent()) {
             return ResponseEntity.ok(StudentMapper.toDto(student.get()));
-            //new ResponseEntity<>(student.get(), HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -41,32 +37,21 @@ public class StudentController {
     public ResponseEntity<StudentResponse> getAllStudents(@RequestParam(value = "sortType", required = false, defaultValue = "NAME_ASC") String studentSortType,
                                                           @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
                                                           @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
-        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType,offset,limit));
+        List<StudentDto> studentDtoList = StudentMapper.studentListToStudentDtoList(studentFacade.getSortedStudents(studentSortType, offset, limit));
         return new ResponseEntity<>(new StudentResponse(studentDtoList), HttpStatus.OK);
     }
 
-    @GetMapping("/byId")
-    public ResponseEntity<StudentDto> getStudent(@RequestParam(value = "ID") int studentId) {
-        Optional<Student> student = studentFacade.getStudent(studentId);
-        if (student.isPresent()) {
-            return ResponseEntity.ok(StudentMapper.toDto(student.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @PostMapping
-    public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
-        studentFacade.addStudent(student);
-        return ResponseEntity.ok(true);
+    public ResponseEntity<StudentDto> addStudent(@RequestBody Student student) {
+        StudentDto savedStudent = StudentMapper.toDto(studentFacade.addStudent(student));
+        return ResponseEntity.created(URI.create("/students/" + student.getId())).body(savedStudent);
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Boolean> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
+    public ResponseEntity<String> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
         boolean ifUpdated = studentFacade.updateStudentData(studentId, student);
         if (ifUpdated) {
-            return ResponseEntity.ok(true);
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -92,13 +77,13 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
-    @ExceptionHandler(PSQLException.class)
-    public ResponseEntity<String> handlePSQLException(PSQLException exception){
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityException(DataIntegrityViolationException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityException(DataIntegrityViolationException exception){
+    @ExceptionHandler(InvalidPaginationParametersException.class)
+    public ResponseEntity<String> handleInvalidStudentPaginationParametersException(InvalidPaginationParametersException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }

@@ -4,10 +4,12 @@ import hantczak.studentDataStorage.grade.domain.Grade;
 import hantczak.studentDataStorage.grade.domain.GradeFacade;
 import hantczak.studentDataStorage.grade.domain.InvalidGradeException;
 import hantczak.studentDataStorage.grade.domain.InvalidGradeSortTypeException;
+import hantczak.studentDataStorage.student.domain.InvalidPaginationParametersException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,18 +25,18 @@ public class GradeController {
 
     @GetMapping("/grades")
     public ResponseEntity<GradeResponse> getAllGrades(@RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
-                                                      @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
-                                                      @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
-        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(gradeFacade.getAllGradesSorted(gradeSortType,offset,limit));
+                                                      @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
+                                                      @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
+        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(gradeFacade.getAllGradesSorted(gradeSortType, offset, limit));
         return ResponseEntity.ok(new GradeResponse(gradeDtoList));
     }
 
     @GetMapping("/students/{studentId}/grades")
     public ResponseEntity<GradeResponse> getStudentGradesByIdPath(@PathVariable long studentId,
                                                                   @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
-                                                                  @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
-                                                                  @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
-        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
+                                                                  @RequestParam(value = "offset", required = false, defaultValue = "0") int offset,
+                                                                  @RequestParam(value = "limit", required = false, defaultValue = "20") int limit) {
+        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType, offset, limit);
         if (!studentGradeList.isEmpty()) {
             List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
             return ResponseEntity.ok(new GradeResponse(gradeDtoList));
@@ -43,32 +45,18 @@ public class GradeController {
         }
     }
 
-    @GetMapping(path = "/grades/byId")
-    public ResponseEntity<GradeResponse> getStudentGrades(@RequestParam long studentId,
-                                                          @RequestParam(value = "sortType", required = false, defaultValue = "INSERTION_DATE_ASC") String gradeSortType,
-                                                          @RequestParam(value = "offset", required = false, defaultValue = "0") long offset,
-                                                          @RequestParam(value = "limit", required = false, defaultValue = "20") long limit) {
-        List<Grade> studentGradeList = gradeFacade.getSortedGradesForOneStudent(studentId, gradeSortType,offset,limit);
-        if (!studentGradeList.isEmpty()) {
-            List<GradeDto> studentGradeDtoList = GradeMapper.gradeListToGradeDtoList(studentGradeList);
-            return ResponseEntity.ok(new GradeResponse(studentGradeDtoList));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @PostMapping("/grades")
-    public ResponseEntity<Boolean> addGrade(@RequestBody Grade grade) {
-        gradeFacade.addGrade(grade);
-        return ResponseEntity.ok(true);
+    public ResponseEntity<GradeDto> addGrade(@RequestBody Grade grade) {
+        GradeDto savedGrade = GradeMapper.toDto(gradeFacade.addGrade(grade));
+        return ResponseEntity.created(URI.create("/students/" + grade.getStudentId() + "/grades")).body(savedGrade);
     }
 
     @PutMapping("/grades")
-    public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade,
-                                               @RequestParam(value = "gradeId") long oldGradeId) {
+    public ResponseEntity<String> updateGrade(@RequestBody Grade updatedGrade,
+                                              @RequestParam(value = "gradeId") long oldGradeId) {
         boolean ifUpdated = gradeFacade.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
-            return ResponseEntity.ok(true);
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -92,6 +80,11 @@ public class GradeController {
 
     @ExceptionHandler(InvalidGradeSortTypeException.class)
     public ResponseEntity<String> handleInvalidGradeSortTypeException(InvalidGradeSortTypeException exception) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPaginationParametersException.class)
+    public ResponseEntity<String> handleInvalidStudentPaginationParametersException(InvalidPaginationParametersException exception) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 }

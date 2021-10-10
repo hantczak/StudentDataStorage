@@ -18,13 +18,10 @@ public class DeleteStudentTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrl("students", "studentId", "1");
         StudentBuilder studentBuilder = StudentBuilder.create();
+        Student clientSentStudent = studentBuilder.build();
 
         //when
-        Student student = studentBuilder.build();
-        StudentDto expectedStudent = StudentMapper.toDto(student);
-        restTemplate.postForEntity(buildUrl("students"), student, String.class);
-        StudentDto studentDtoResponseFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(1L), StudentDto.class).getBody();
-        Assertions.assertEquals(expectedStudent, studentDtoResponseFromController);
+        restTemplate.postForEntity(buildUrl("students"), clientSentStudent, String.class);
 
         //then
         restTemplate.delete(url);

@@ -1,5 +1,6 @@
 package hantczak.studentDataStorage.student.domain;
 
+import hantczak.studentDataStorage.average.domain.InvalidStudentAverageSortTypeException;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacade;
 import hantczak.studentDataStorage.average.domain.StudentAverageFacadeConfiguration;
 import hantczak.studentDataStorage.grade.domain.Grade;
@@ -62,7 +63,7 @@ class StudentFacadeTest {
             //when
 
             //then
-            assertEquals(0, studentFacade.getAllStudents().size());
+            assertEquals(List.of(), studentFacade.getSortedStudents("NAME_ASC", 0, 20));
         }
 
         @Test
@@ -217,6 +218,33 @@ class StudentFacadeTest {
     class InvalidStudentExceptionTest {
 
         @Test
+        @DisplayName("Limit value is set to over 100.")
+        void shouldThrowExceptionWhenLimitIsOver100(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",0L,150L));
+        }
+
+        @Test
+        @DisplayName("Limit value is set to below 0.")
+        void shouldThrowExceptionWhenLimitIsBelow0(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",0L,-5L));
+        }
+
+        @Test
+        @DisplayName("Offset value is set to below 0.")
+        void shouldThrowExceptionWhenOffsetIsBelow0(){
+            //given
+            //when
+            //then
+            assertThrows(InvalidPaginationParametersException.class,()->studentFacade.getSortedStudents("NAME_ASC",-5L,10L));
+        }
+
+        @Test
         @DisplayName("Email field does not contain '@' sign.")
         void shouldThrowExceptionWhenEmailHasNoAt() {
             //given
@@ -272,25 +300,12 @@ class StudentFacadeTest {
         }
 
         @Test
-        @DisplayName("Student ID is set to 0.")
-        void shouldThrowExceptionWhenStudentIdIsZero() {
+        @DisplayName("Sort type does not exist.")
+        void shouldThrowExceptionWhenSortTypeDoesNotExist() {
             //given
-            Student student1 = new Student(0L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-
             //when
             //then
-            assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
-        }
-
-        @Test
-        @DisplayName("Student ID is lower than 0.")
-        void shouldThrowExceptionWhenStudentIdIsLowerThanZero() {
-            //given
-            Student student1 = new Student(-5L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-
-            //when
-            //then
-            assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
+            assertThrows(InvalidStudentSortTypeException.class, () -> studentFacade.getSortedStudents("ABC", 0L, 10L));
         }
     }
 
@@ -307,7 +322,6 @@ class StudentFacadeTest {
 
             //when
             studentFacade.deleteStudentAndHisGrades(1);
-
             //then
             if (studentFacade.getStudent(1).isPresent()) {
                 fail();
@@ -357,5 +371,22 @@ class StudentFacadeTest {
 
         //then
         assertEquals(updatedStudent, studentFacade.getStudent(1).get());
+    }
+
+    @Test
+    @DisplayName("updateStudent should update student with different Id.")
+    void shouldUpdateStudentWithDifferentId() {
+        //given
+        Student student1 = new Student(1L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
+        studentFacade.addStudent(student1);
+
+        Student updatedStudent = new Student(2L, "b", "b@examplemail.com", LocalDate.parse("2010-01-01"), 11, Gender.MALE);
+        Assumptions.assumeFalse(student1.equals(updatedStudent));
+
+        //when
+        studentFacade.updateStudentData(1L, updatedStudent);
+
+        //then
+        assertEquals(updatedStudent, studentFacade.getStudent(2).get());
     }
 }

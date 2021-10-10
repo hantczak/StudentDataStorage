@@ -1,4 +1,4 @@
 package hantczak.studentDataStorage.grade.domain;
 
-public interface GradeModifiedListener extends GradeAddedListener, GradeUpdatedListener, GradeDeletedListener{
+public interface GradeModifiedListener extends GradeAddedListener, GradeUpdatedListener, GradeDeletedListener {
 }

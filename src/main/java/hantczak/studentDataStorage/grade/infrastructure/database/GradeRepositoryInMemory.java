@@ -1,8 +1,9 @@
 package hantczak.studentDataStorage.grade.infrastructure.database;
 
-import hantczak.studentDataStorage.grade.domain.GradeRepository;
 import hantczak.studentDataStorage.grade.domain.Grade;
-import hantczak.studentDataStorage.student.domain.Student;
+import hantczak.studentDataStorage.grade.domain.GradeRepository;
+import hantczak.studentDataStorage.grade.domain.GradeSortType;
+import hantczak.studentDataStorage.grade.domain.InvalidGradeSortTypeException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -29,8 +30,27 @@ public class GradeRepositoryInMemory implements GradeRepository {
     }
 
     @Override
-    public void addGrade(Grade grade) {
-        gradeMap.put(grade.getGradeId(), grade);
+    public List<Grade> getAllGradesSorted(GradeSortType gradeSortType, long offset, long limit) {
+        return gradeMap.values().stream()
+                .sorted(getComparator(gradeSortType))
+                .skip(offset)
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Grade> getAllStudentGradesSorted(long studentId, GradeSortType gradeSortType, long offset, long limit) {
+        return gradeMap.values().stream()
+                .sorted(getComparator(gradeSortType))
+                .filter(grade -> grade.getStudentId() == studentId)
+                .skip(offset)
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Grade addGrade(Grade grade) {
+        return gradeMap.put(grade.getGradeId(), grade);
     }
 
     @Override
@@ -60,5 +80,26 @@ public class GradeRepositoryInMemory implements GradeRepository {
                 });
         markedForRemoval.stream()
                 .forEach(grade -> gradeMap.remove(grade));
+    }
+
+    private Comparator<Grade> getComparator(GradeSortType gradeSortType) {
+        switch (gradeSortType) {
+            case VALUE_ASC:
+                return Comparator.comparing(Grade::getGradeValue);
+            case VALUE_DSC:
+                return Comparator.comparing(Grade::getGradeValue).reversed();
+            case INSERTION_DATE_ASC:
+                return Comparator.comparing(Grade::getInsertionDate);
+            case INSERTION_DATE_DSC:
+                return Comparator.comparing(Grade::getInsertionDate).reversed();
+            default:
+                StringBuilder sortTypes = new StringBuilder();
+                Arrays.stream(GradeSortType.values())
+                        .forEach(value -> {
+                            sortTypes.append(value);
+                            sortTypes.append(", ");
+                        });
+                throw new InvalidGradeSortTypeException(",available sort types: " + sortTypes);
+        }
     }
 }
