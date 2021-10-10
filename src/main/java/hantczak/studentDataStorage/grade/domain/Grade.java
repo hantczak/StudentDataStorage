@@ -82,4 +82,15 @@ public class Grade{
     public int hashCode() {
         return Objects.hash(gradeId, gradeScale, studentId, insertionDate, gradeWeight);
     }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "gradeId=" + gradeId +
+                ", gradeScale=" + gradeScale +
+                ", studentId=" + studentId +
+                ", insertionDate=" + insertionDate +
+                ", gradeWeight=" + gradeWeight +
+                '}';
+    }
 }

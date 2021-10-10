@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @Tag("integration")
 public class UpdateGradeTests extends StudentDataStorageApplicationTests {
 
@@ -21,23 +23,28 @@ public class UpdateGradeTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrlWithPathArgumentForGrade(1L);
         GradeBuilder gradeBuilder = GradeBuilder.create();
-        Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
-        gradeBuilder.setStudentId(1L);
-        gradeBuilder.setGradeScale(GradeScale.SUFFICIENT);
-        Grade updatedGrade = gradeBuilder.build();
+        Grade clientSentGrade = gradeBuilder.build();
+
+
+        Grade clientSentUpdatedGrade = gradeBuilder
+                .setStudentId(1L)
+                .setGradeScale(GradeScale.SUFFICIENT).build();
+
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
+        Grade expectedGrade = gradeBuilder.setId(1L).setGradeScale(GradeScale.SUFFICIENT).build();
+        GradeResponse expectedGradeResponse = new GradeResponse(List.of(GradeMapper.toDto(expectedGrade)));
+
         //when
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
-        restTemplate.postForEntity(buildUrl("grades"), grade, String.class);
+        restTemplate.postForEntity(buildUrl("grades"), clientSentGrade, String.class);
 
         //then
-        restTemplate.put(buildUrl("grades", "gradeId", "1"), updatedGrade, Grade.class);
+        restTemplate.put(buildUrl("grades", "gradeId", "1"), clientSentUpdatedGrade, Grade.class);
         ResponseEntity<GradeResponse> responseEntity = restTemplate.getForEntity(url, GradeResponse.class);
         GradeResponse gradeResponseFromController = responseEntity.getBody();
 
-        Assertions.assertEquals(gradeResponseFromController, restTemplate.getForEntity(url, GradeResponse.class).getBody());
+        Assertions.assertEquals(expectedGradeResponse, gradeResponseFromController);
     }
 }

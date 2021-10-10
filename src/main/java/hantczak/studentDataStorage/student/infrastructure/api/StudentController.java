@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,16 +46,16 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> addStudent(@RequestBody Student student) {
-        studentFacade.addStudent(student);
-        return ResponseEntity.ok(true);
+    public ResponseEntity<StudentDto> addStudent(@RequestBody Student student) {
+        StudentDto savedStudent = StudentMapper.toDto(studentFacade.addStudent(student));
+        return ResponseEntity.created(URI.create("/students/"+student.getId())).body(savedStudent);
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
+    public ResponseEntity<String> updateStudentData(@RequestParam long studentId, @RequestBody Student student) {
         boolean ifUpdated = studentFacade.updateStudentData(studentId, student);
         if (ifUpdated) {
-            return ResponseEntity.ok(true);
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }

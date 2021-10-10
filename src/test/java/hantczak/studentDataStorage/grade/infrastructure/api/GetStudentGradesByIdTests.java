@@ -24,20 +24,22 @@ public class GetStudentGradesByIdTests extends StudentDataStorageApplicationTest
         //given
         String url = buildUrlWithPathArgumentForGrade(1L);
         GradeBuilder gradeBuilder = GradeBuilder.create();
-        Grade grade = gradeBuilder.build();
-        gradeBuilder.setId(2L);
+        Grade clientSentGrade = gradeBuilder.build();
         gradeBuilder.setStudentId(1L);
         gradeBuilder.setGradeScale(GradeScale.SUFFICIENT);
-        Grade grade1 = gradeBuilder.build();
+        Grade clientSentGrade1 = gradeBuilder.build();
         StudentBuilder studentBuilder = StudentBuilder.create();
         Student student = studentBuilder.build();
 
+        Grade expectedGrade = gradeBuilder.setId(1L).setGradeScale(GradeScale.GOOD).build();
+        Grade expectedGrade1 = gradeBuilder.setId(2L).setGradeScale(GradeScale.SUFFICIENT).build();
+
         //when
         restTemplate.postForEntity(buildUrl("students"), student, String.class);
-        restTemplate.postForEntity(buildUrl("grades"), grade, String.class);
-        restTemplate.postForEntity(buildUrl("grades"), grade1, String.class);
+        restTemplate.postForEntity(buildUrl("grades"), clientSentGrade, String.class);
+        restTemplate.postForEntity(buildUrl("grades"), clientSentGrade1, String.class);
 
-        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(List.of(grade, grade1));
+        List<GradeDto> gradeDtoList = GradeMapper.gradeListToGradeDtoList(List.of(expectedGrade, expectedGrade1));
         GradeResponse expectedResponse = new GradeResponse(gradeDtoList);
         ResponseEntity<GradeResponse> responseEntity = restTemplate.getForEntity(url, GradeResponse.class);
         GradeResponse gradeResponseFromController = responseEntity.getBody();

@@ -6,7 +6,7 @@ import hantczak.studentDataStorage.student.domain.Student;
 import java.time.LocalDate;
 
 public class StudentBuilder {
-    private Long id = 1L;
+    private Long id = null;
     private String name = "abc";
     private String email = "abc@gmail.com";
     private LocalDate dateOfBirth = LocalDate.of(2009, 06, 05);
@@ -20,31 +20,46 @@ public class StudentBuilder {
         return new StudentBuilder();
     }
 
-    public void setId(Long id) {
+    public StudentBuilder setId(Long id) {
         this.id = id;
+        return this;
     }
 
-    public void setName(String name) {
+    public StudentBuilder setName(String name) {
         this.name = name;
+        return this;
     }
 
-    public void setEmail(String email) {
+    public StudentBuilder setEmail(String email) {
         this.email = email;
+        return this;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public StudentBuilder setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+        return this;
     }
 
-    public void setAge(Integer age) {
+    public StudentBuilder setAge(Integer age) {
         this.age = age;
+        return this;
     }
 
-    public void setGender(Gender gender) {
+    public StudentBuilder setGender(Gender gender) {
         this.gender = gender;
+        return this;
     }
 
     public Student build(){
-        return new Student(id,name,email,dateOfBirth,age,gender);
+        Student student = new Student();
+        if(this.id!=null){
+            student.setId(id);
+        }
+        student.setName(name);
+        student.setEmail(email);
+        student.setDateOfBirth(dateOfBirth);
+        student.setAge(age);
+        student.setGender(gender);
+        return student;
     }
 }

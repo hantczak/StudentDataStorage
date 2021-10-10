@@ -51,11 +51,11 @@ public class GradeController {
     }
 
     @PutMapping("/grades")
-    public ResponseEntity<Boolean> updateGrade(@RequestBody Grade updatedGrade,
+    public ResponseEntity<String> updateGrade(@RequestBody Grade updatedGrade,
                                                @RequestParam(value = "gradeId") long oldGradeId) {
         boolean ifUpdated = gradeFacade.updateGrade(updatedGrade, oldGradeId);
         if (ifUpdated) {
-            return ResponseEntity.ok(true);
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -30,9 +30,9 @@ public class StudentService {
         return studentRepository.getStudent(id);
     }
 
-    public void addStudent(Student student) {
+    public Student addStudent(Student student) {
         studentValidator.validateStudent(student);
-        studentRepository.addStudent(student);
+       return studentRepository.addStudent(student);
     }
 
     public boolean updateStudentData(long studentId, Student student) {

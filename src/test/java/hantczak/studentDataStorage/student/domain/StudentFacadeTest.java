@@ -270,28 +270,6 @@ class StudentFacadeTest {
             //then
             assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
         }
-
-        @Test
-        @DisplayName("Student ID is set to 0.")
-        void shouldThrowExceptionWhenStudentIdIsZero() {
-            //given
-            Student student1 = new Student(0L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-
-            //when
-            //then
-            assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
-        }
-
-        @Test
-        @DisplayName("Student ID is lower than 0.")
-        void shouldThrowExceptionWhenStudentIdIsLowerThanZero() {
-            //given
-            Student student1 = new Student(-5L, "a", "a@examplemail.com", LocalDate.parse("2005-01-01"), 16, Gender.FEMALE);
-
-            //when
-            //then
-            assertThrows(InvalidStudentException.class, () -> studentFacade.addStudent(student1));
-        }
     }
 
     @Nested
@@ -307,7 +285,6 @@ class StudentFacadeTest {
 
             //when
             studentFacade.deleteStudentAndHisGrades(1);
-
             //then
             if (studentFacade.getStudent(1).isPresent()) {
                 fail();

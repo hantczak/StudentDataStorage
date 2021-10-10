@@ -36,10 +36,6 @@ public class StudentValidator {
             errors.add("Please set the gender.");
         }
 
-        if(student.getId()<=0){
-            errors.add("Student ID has to be greater than 0.");
-        }
-
         if (!errors.isEmpty()) {
             throw new InvalidStudentException(errors);
         }

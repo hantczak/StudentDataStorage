@@ -17,19 +17,20 @@ public class UpdateStudentTests extends StudentDataStorageApplicationTests {
         //given
         String url = buildUrlWithPathArgumentForStudent(1L);
         StudentBuilder studentBuilder = StudentBuilder.create();
+        Student clientSentStudent = studentBuilder.build();
+        Student updatedStudent = studentBuilder
+                .setName("cba")
+                .setEmail("cba@gmail.com")
+                .build();
+
+        Student expectedStudent = studentBuilder.setId(1L).build();
+        StudentDto expectedStudentDto = StudentMapper.toDto(expectedStudent);
 
         //when
-        Student student = studentBuilder.build();
-        studentBuilder.setName("cba");
-        studentBuilder.setEmail("cba@gmail.com");
-        Student updatedStudent = studentBuilder.build();
-        StudentDto expectedStudent = StudentMapper.toDto(student);
-        restTemplate.postForEntity(buildUrl("students"), student, String.class);
-        StudentDto studentDtoResponseFromController = restTemplate.getForEntity(buildUrlWithPathArgumentForStudent(1L), StudentDto.class).getBody();
-        Assertions.assertEquals(expectedStudent, studentDtoResponseFromController);
+        restTemplate.postForEntity(buildUrl("students"), clientSentStudent, String.class);
 
         //then
         restTemplate.put(buildUrl("students", "studentId", "1"), updatedStudent, Student.class);
-        Assertions.assertEquals(StudentMapper.toDto(updatedStudent), restTemplate.getForEntity(url, StudentDto.class).getBody());
+        Assertions.assertEquals(expectedStudentDto, restTemplate.getForEntity(url, StudentDto.class).getBody());
     }
 }

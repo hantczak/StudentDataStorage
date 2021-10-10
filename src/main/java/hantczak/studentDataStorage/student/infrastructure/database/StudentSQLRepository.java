@@ -59,33 +59,23 @@ public class StudentSQLRepository implements StudentRepository {
     }
 
     @Override
-    public void addStudent(Student student) {
-        databaseAccessor.save(student);
+    public Student addStudent(Student student) {
+        return databaseAccessor.save(student);
     }
 
     @Override
     public boolean updateStudentData(long oldStudentId, Student updatedStudent) {
-        if (updatedStudent.getId() != oldStudentId) {
-            if (databaseAccessor.existsById(oldStudentId)) {
-                databaseAccessor.deleteById(oldStudentId);
-                databaseAccessor.flush();
-                databaseAccessor.save(updatedStudent);
-                return true;
-            }
+        Optional<Student> persistedStudent = databaseAccessor.findById(oldStudentId);
+        if (persistedStudent.isPresent()) {
+            persistedStudent.get().setAge(updatedStudent.getAge());
+            persistedStudent.get().setDateOfBirth(updatedStudent.getDateOfBirth());
+            persistedStudent.get().setEmail(updatedStudent.getEmail());
+            persistedStudent.get().setGender(updatedStudent.getGender());
+            persistedStudent.get().setName(updatedStudent.getName());
+            return true;
         } else {
-            Optional<Student> persistedStudent = databaseAccessor.findById(oldStudentId);
-            if (persistedStudent.isPresent()) {
-                persistedStudent.get().setAge(updatedStudent.getAge());
-                persistedStudent.get().setDateOfBirth(updatedStudent.getDateOfBirth());
-                persistedStudent.get().setEmail(updatedStudent.getEmail());
-                persistedStudent.get().setGender(updatedStudent.getGender());
-                persistedStudent.get().setName(updatedStudent.getName());
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
-        return false;
     }
 
     @Override

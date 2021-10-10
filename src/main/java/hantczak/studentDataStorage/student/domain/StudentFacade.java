@@ -14,8 +14,8 @@ public class StudentFacade {
         return studentService.getAllStudents();
     }
 
-    public List<Student> getSortedStudents(String studentSortType,int offset, int limit) {
-        return studentService.getAllStudentsSortedWithPagination(studentSortType,offset,limit);
+    public List<Student> getSortedStudents(String studentSortType, int offset, int limit) {
+        return studentService.getAllStudentsSortedWithPagination(studentSortType, offset, limit);
     }
 
     public Optional<Student> getStudent(long id) {
@@ -24,8 +24,8 @@ public class StudentFacade {
         return firstFoundByIndex;
     }
 
-    public void addStudent(Student student) {
-        studentService.addStudent(student);
+    public Student addStudent(Student student) {
+        return studentService.addStudent(student);
     }
 
     public boolean updateStudentData(long studentId, Student student) {
@@ -36,7 +36,7 @@ public class StudentFacade {
         return studentService.deleteStudentAndHisGrades(studentId);
     }
 
-    public void addListener(StudentDeletedListener studentDeletedListener){
+    public void addListener(StudentDeletedListener studentDeletedListener) {
         studentService.addListener(studentDeletedListener);
     }
 }
