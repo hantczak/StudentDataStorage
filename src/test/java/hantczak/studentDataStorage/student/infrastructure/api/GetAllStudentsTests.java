@@ -88,22 +88,4 @@ class GetAllStudentsTests extends StudentDataStorageApplicationTests {
         Assertions.assertEquals(expectedResponse, studentResponseFromController);
         Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
     }
-
-    @Test
-    @DisplayName("Should return status code 422 for duplicate email")
-    void shouldReturn422ForDuplicateEmail() {
-        //given
-        String url = buildUrl("students", "sortType", "NAME_ASC");
-        StudentBuilder studentBuilder = StudentBuilder.create();
-        studentBuilder.setEmail("abc@gmail.com");
-        Student student = studentBuilder.build();
-        studentBuilder.setId(2L);
-        Student student1 = studentBuilder.build();
-
-        //when
-        restTemplate.postForEntity(url, student, String.class);
-
-        //then
-        Assertions.assertThrows(HttpClientErrorException.UnprocessableEntity.class, () -> restTemplate.postForEntity(url, student1, String.class));
-    }
 }

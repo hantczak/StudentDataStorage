@@ -3,6 +3,7 @@ package hantczak.studentDataStorage.average.infrastructure.database;
 import hantczak.studentDataStorage.StudentDataStorageApplicationTests;
 import hantczak.studentDataStorage.average.domain.StudentAverage;
 import hantczak.studentDataStorage.average.domain.StudentAverageRepository;
+import hantczak.studentDataStorage.average.domain.StudentAverageSortType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -18,10 +19,9 @@ public class GetStudentAverageTests extends StudentDataStorageApplicationTests {
     StudentAverageRepository studentAverageProvider;
 
     @Test
-    @DisplayName("Should return no averages if they do not exist")
-    void shouldReturnNoAveragesIfTheyDoNotExist() {
+    @DisplayName("Should return empty optional for not existing StudentAverage")
+    void shouldReturnEmptyEmptyOptionalForNotExistingStudentAverage() {
         //given
-        System.out.println(studentAverageProvider.getAllAverages());
 
         //when
 

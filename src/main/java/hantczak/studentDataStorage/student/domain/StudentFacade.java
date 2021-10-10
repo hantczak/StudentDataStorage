@@ -4,21 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class StudentFacade {
-    private final StudentSortService studentSortService;
     private final StudentService studentService;
 
-    public StudentFacade(StudentService studentService, StudentSortService studentSortService) {
+    public StudentFacade(StudentService studentService) {
         this.studentService = studentService;
-        this.studentSortService = studentSortService;
-
-    }
-
-    public List<Student> getSortedStudents(String studentSortType,long offset, long limit) {
-        return studentSortService.getSortedStudents(studentSortType,offset,limit);
     }
 
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    public List<Student> getSortedStudents(String studentSortType,int offset, int limit) {
+        return studentService.getAllStudentsSortedWithPagination(studentSortType,offset,limit);
     }
 
     public Optional<Student> getStudent(long id) {

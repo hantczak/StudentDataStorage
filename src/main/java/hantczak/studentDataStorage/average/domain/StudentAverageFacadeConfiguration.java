@@ -12,18 +12,16 @@ public class StudentAverageFacadeConfiguration {
     @Bean
     public StudentAverageFacade studentAverageFacade(GradeFacade gradeFacade, StudentFacade studentFacade, StudentAverageRepository studentAverageRepository) {
         StudentAverageService studentAverageService = new StudentAverageService(studentAverageRepository, gradeFacade);
-        StudentAverageSortService studentAverageSortService = new StudentAverageSortService(studentAverageRepository);
         gradeFacade.addListener(studentAverageService);
         studentFacade.addListener(studentAverageService);
-        return new StudentAverageFacade(studentAverageService,studentAverageSortService);
+        return new StudentAverageFacade(studentAverageService);
     }
 
     public StudentAverageFacade studentAverageFacade(GradeFacade gradeFacade, StudentFacade studentFacade) {
         StudentAverageRepository studentAverageRepository = new StudentAverageRepositoryInMemory();
         StudentAverageService studentAverageService = new StudentAverageService(studentAverageRepository, gradeFacade);
-        StudentAverageSortService studentAverageSortService = new StudentAverageSortService(studentAverageRepository);
         studentFacade.addListener(studentAverageService);
         gradeFacade.addListener(studentAverageService);
-        return new StudentAverageFacade(studentAverageService,studentAverageSortService);
+        return new StudentAverageFacade(studentAverageService);
     }
 }

@@ -54,7 +54,7 @@ class GradeFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC",0,20));
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC", 0, 20));
         }
 
         @Test
@@ -82,7 +82,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -98,7 +98,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("VALUE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -114,7 +114,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -130,7 +130,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -142,10 +142,10 @@ class GradeFacadeTest {
             //given
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC",1,1);
+            List<Grade> sortedGradesOutput = gradeFacade.getAllGradesSorted("INSERTION_DATE_DSC", 1, 1);
 
             //then
-            assertEquals(4,sortedGradesOutput.get(0).getGradeValue());
+            assertEquals(4, sortedGradesOutput.get(0).getGradeValue());
         }
     }
 
@@ -178,7 +178,7 @@ class GradeFacadeTest {
             //when
 
             //then
-            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC",0,20));
+            assertThrows(InvalidGradeSortTypeException.class, () -> gradeFacade.getSortedGradesForOneStudent(1L, "ABC", 0, 20));
         }
 
         @Test
@@ -206,7 +206,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -222,7 +222,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "VALUE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -238,7 +238,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade2);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_ASC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_ASC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);
@@ -254,7 +254,7 @@ class GradeFacadeTest {
             sortedGrades.add(grade3);
 
             //when
-            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_DSC",0,20);
+            List<Grade> sortedGradesOutput = gradeFacade.getSortedGradesForOneStudent(1L, "INSERTION_DATE_DSC", 0, 20);
 
             //then
             assertIterableEquals(sortedGrades, sortedGradesOutput);

@@ -144,7 +144,7 @@ EXCELLENT;
 
 * GET student grades by his ID
 
-  `http://localhost:8080/averages/{studentID}`
+  `http://localhost:8080/students/{studentID}/averages`
 
 <!-- STATUS -->
 ## 🏗️ Status 🏗️
